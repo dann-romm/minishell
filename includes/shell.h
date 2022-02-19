@@ -40,24 +40,25 @@
 // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <term.h>
 
-typedef struct s_simple_command
+typedef struct s_simple_cmd
 {
-
 	char	*cmd;
+	int32_t	args_num;
 	char	**cmd_args;
-}	t_simple_command;
+}			t_simple_cmd;
 
 typedef struct s_command_table
 {
 	int32_t				commands_num;
-	t_simple_command	**commands;
-	char				*_stdin;
-	char				*_stdout;
-	char				*_stderr;
+	t_simple_cmd			**commands;
+	char 				**env;
+	// char				*_stdin;
+	// char				*_stdout;
+	// char				*_stderr;
+ 
+}						t_command_table;
 
-
-
-}	t_command_table;
-
+char	**ft_split(char const *s, char c);
+char	*ft_strjoin(char *s1, char *s2);
 
 #endif

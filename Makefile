@@ -8,7 +8,7 @@ SRCDIR		= ./src/
 OBJDIR		= ./obj/
 INCDIR		= ./includes/
 
-SRC			= shell.c
+SRC			= test_main.c ft_split.c utils.c
 OBJ			= $(addprefix $(OBJDIR), $(SRC:.c=.o))
 
 all: $(NAME)
