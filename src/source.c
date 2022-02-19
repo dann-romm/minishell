@@ -8,7 +8,7 @@ char	peek(t_source *src)
 		return (ERRCHAR);
 	}
 	if (src->pos + 1 >= src->bufsize)
-		return (EOF);
+		return (EOFCHAR);
 	return (src->buffer[src->pos + 1]);
 }
 
@@ -20,7 +20,7 @@ char	peek2(t_source *src)
 		return (ERRCHAR);
 	}
 	if (src->pos + 2 >= src->bufsize)
-		return (EOF);
+		return (EOFCHAR);
 	return (src->buffer[src->pos + 2]);
 }
 
@@ -34,7 +34,7 @@ char	next_char(t_source *src)
 	if (++src->pos >= src->bufsize)
 	{
 		src->pos = src->bufsize;
-		return (EOF);
+		return (EOFCHAR);
 	}
 	return (src->buffer[src->pos]);
 }
