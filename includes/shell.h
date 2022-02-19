@@ -1,6 +1,8 @@
 #ifndef SHELL_H
 # define SHELL_H
 
+# include <errno.h>
+
 // readline rl_clear_history rl_on_new_line rl_replace_line rl_redisplay add_history
 # include <readline/readline.h>
 
@@ -40,11 +42,25 @@
 // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <term.h>
 
+# define EOFCHAR -1
+# define ERRCHAR 0
+
+typedef struct s_source
+{
+	char	*buffer;
+	int32_t	bufsize;
+	int32_t	pos;
+}	t_source;
+
+
+
 typedef struct s_simple_command
 {
 
 	char	*cmd;
+	int32_t	args_num;
 	char	**cmd_args;
+	
 }	t_simple_command;
 
 typedef struct s_command_table
