@@ -8,7 +8,10 @@ SRCDIR		= ./src/
 OBJDIR		= ./obj/
 INCDIR		= ./includes/
 
-SRC			= shell.c lexer.c source.c
+SRC			=	main.c \
+				lexer.c \
+				source.c \
+				utils_ft.c
 OBJ			= $(addprefix $(OBJDIR), $(SRC:.c=.o))
 
 all: $(NAME)
