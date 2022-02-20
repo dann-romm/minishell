@@ -50,7 +50,7 @@ typedef struct s_simple_cmd
 typedef struct s_command_table
 {
 	int32_t				commands_num;
-	t_simple_cmd			**commands;
+	t_simple_cmd		**commands;
 	char 				**env;
 	// char				*_stdin;
 	// char				*_stdout;
