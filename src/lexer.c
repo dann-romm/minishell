@@ -216,12 +216,20 @@ t_token	*get_next_token(t_source *src)
 				}
 			}
 			else
-			{
 				save_char(src, next_char(src));
-			}
 		}
 	}
-
+	else if (peek(src) == '`')
+	{
+		next_char(src);
+		while (peek(src) != EOF && peek(src) != '`')
+			save_char(src, next_char(src));
+		token->type = T_TICK;
+		if (peek(src) == EOF)
+			token->type = T_ERROR;
+		else
+			next_char(src);
+	}
 
 
 	token->value = ft_strdup(src->str);
