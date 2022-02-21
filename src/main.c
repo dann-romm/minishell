@@ -96,10 +96,20 @@ void	print_token(t_token *token)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_source	*src = init_source("&& $? <> <<");
+	t_source	*src = init_source("&& $? <> << \"the string\\\"qwe <> q");
 	// t_source	*src = init_source("   \t &? << printf ; | pipe || `qwe` ;; 123");
 	t_token		*token;
 
+	token = get_next_token(src);
+	print_token(token);
+	token = get_next_token(src);
+	print_token(token);
+	token = get_next_token(src);
+	print_token(token);
+	token = get_next_token(src);
+	print_token(token);
+	token = get_next_token(src);
+	print_token(token);
 	token = get_next_token(src);
 	print_token(token);
 	token = get_next_token(src);

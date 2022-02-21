@@ -167,7 +167,60 @@ t_token	*get_next_token(t_source *src)
 			token->type = T_DOLLAR;
 		}
 	}
-
+	else if (peek(src) == '"')
+	{
+		token->type = T_STRING;
+		next_char(src);
+		while (peek(src) != EOF && peek(src) != '"')
+		{
+			if (peek(src) == ESCCHAR)
+			{
+				if (peek2(src) == ESCCHAR)
+				{
+					next_char(src);
+					save_char(src, next_char(src));
+				}
+				else if (peek2(src) == '"')
+				{
+					next_char(src);
+					save_char(src, next_char(src));
+				}
+				else if (peek2(src) == 'n')
+				{
+					next_char(src);
+					next_char(src);
+					save_char(src, '\n');
+				}
+				else if (peek2(src) == 'r')
+				{
+					next_char(src);
+					next_char(src);
+					save_char(src, '\r');
+				}
+				else if (peek2(src) == 't')
+				{
+					next_char(src);
+					next_char(src);
+					save_char(src, '\t');
+				}
+				else if (peek2(src) == 'b')
+				{
+					next_char(src);
+					next_char(src);
+					save_char(src, '\b');
+				}
+				else
+				{
+					save_char(src, next_char(src));
+					save_char(src, next_char(src));
+				}
+			}
+			else
+			{
+				save_char(src, next_char(src));
+			}
+		}
+	}
 
 
 
