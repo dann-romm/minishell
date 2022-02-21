@@ -6,128 +6,92 @@
 // 	printf("%c %c %c %c %c\n", peek(src), peek2(src), next_char(src), next_char(src), peek2(src));
 // }
 
-void	print_token(t_token *token)
+char	*token_type_to_str(t_token_type type)
 {
-	char	*str_token_type = malloc(100);
-	switch (token->type)
+	switch (type)
 	{
 		case T_EOF:
-			str_token_type = "T_EOF";
-			break;
+			return ("T_EOF");
 		case T_ERROR:
-			str_token_type = "T_ERROR";
-			break;
+			return ("T_ERROR");
 		case T_NUMBER:
-			str_token_type = "T_NUMBER";
-			break;
+			return ("T_NUMBER");
 		case T_ID:
-			str_token_type = "T_ID";
-			break;
+			return ("T_ID");
 		case T_DOLLAR:
-			str_token_type = "T_DOLLAR";
-			break;
+			return ("T_DOLLAR");
 		case T_STRING:
-			str_token_type = "T_STRING";
-			break;
+			return ("T_STRING");
 		case T_EXITSTATUS:
-			str_token_type = "T_EXITSTATUS";
-			break;
+			return ("T_EXITSTATUS");
 		case T_IF:
-			str_token_type = "T_IF";
-			break;
+			return ("T_IF");
 		case T_THEN:
-			str_token_type = "T_THEN";
-			break;
+			return ("T_THEN");
 		case T_ELSE:
-			str_token_type = "T_ELSE";
-			break;
+			return ("T_ELSE");
 		case T_ELIF:
-			str_token_type = "T_ELIF";
-			break;
+			return ("T_ELIF");
 		case T_FI:
-			str_token_type = "T_FI";
-			break;
+			return ("T_FI");
 		case T_FOR:
-			str_token_type = "T_FOR";
-			break;
+			return ("T_FOR");
 		case T_IN:
-			str_token_type = "T_IN";
-			break;
+			return ("T_IN");
 		case T_BREAK:
-			str_token_type = "T_BREAK";
-			break;
+			return ("T_BREAK");
 		case T_CONTINUE:
-			str_token_type = "T_CONTINUE";
-			break;
+			return ("T_CONTINUE");
 		case T_WHILE:
-			str_token_type = "T_WHILE";
-			break;
+			return ("T_WHILE");
 		case T_DO:
-			str_token_type = "T_DO";
-			break;
+			return ("T_DO");
 		case T_DONE:
-			str_token_type = "T_DONE";
-			break;
+			return ("T_DONE");
 		case T_AND:
-			str_token_type = "T_AND";
-			break;
+			return ("T_AND");
 		case T_ANDAND:
-			str_token_type = "T_ANDAND";
-			break;
+			return ("T_ANDAND");
 		case T_PIPE:
-			str_token_type = "T_PIPE";
-			break;
+			return ("T_PIPE");
 		case T_OROR:
-			str_token_type = "T_OROR";
-			break;
+			return ("T_OROR");
 		case T_LESS:
-			str_token_type = "T_LESS";
-			break;
+			return ("T_LESS");
 		case T_GREAT:
-			str_token_type = "T_GREAT";
-			break;
+			return ("T_GREAT");
 		case T_EQUALS:
-			str_token_type = "T_EQUALS";
-			break;
+			return ("T_EQUALS");
 		case T_DGREAT:
-			str_token_type = "T_DGREAT";
-			break;
+			return ("T_DGREAT");
 		case T_DLESS:
-			str_token_type = "T_DLESS";
-			break;
+			return ("T_DLESS");
 		case T_LESSAND:
-			str_token_type = "T_LESSAND";
-			break;
+			return ("T_LESSAND");
 		case T_GREATAND:
-			str_token_type = "T_GREATAND";
-			break;
+			return ("T_GREATAND");
 		case T_LESSGREAT:
-			str_token_type = "T_LESSGREAT";
-			break;
+			return ("T_LESSGREAT");
 		case T_DLESSDASH:
-			str_token_type = "T_DLESSDASH";
-			break;
+			return ("T_DLESSDASH");
 		case T_CLOBBER:
-			str_token_type = "T_CLOBBER";
-			break;
+			return ("T_CLOBBER");
 		case T_SEMI:
-			str_token_type = "T_SEMI";
-			break;
+			return ("T_SEMI");
 		case T_DSEMI:
-			str_token_type = "T_DSEMI";
-			break;
+			return ("T_DSEMI");
 		case T_TICK:
-			str_token_type = "T_TICK";
-			break;
+			return ("T_TICK");
 		case T_NEWLINE:
-			str_token_type = "T_NEWLINE";
-			break;
+			return ("T_NEWLINE");
 		default:
-			str_token_type = "(null)";
-			break;
+			return ("(null)");
 	}
+}
 
-	printf("token:\n   type:  %s\n   value: %s\n", str_token_type, token->value);
+void	print_token(t_token *token)
+{	
+	printf("token:\n   type:  %s\n   value: %s\n", token_type_to_str(token->type), token->value);
 }
 
 int	main(int argc, char **argv, char **env)
