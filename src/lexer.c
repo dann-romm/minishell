@@ -167,7 +167,7 @@ t_token	*get_next_token(t_source *src)
 			token->type = T_DOLLAR;
 		}
 	}
-	else if (peek(src) == '"')
+	else if (peek(src) == '"') // TODO: env variables handling
 	{
 		token->type = T_STRING;
 		next_char(src);
@@ -210,14 +210,15 @@ t_token	*get_next_token(t_source *src)
 					save_char(src, '\b');
 				}
 				else
-				{
 					save_char(src, next_char(src));
-					save_char(src, next_char(src));
-				}
 			}
 			else
 				save_char(src, next_char(src));
 		}
+		if (peek(src) == EOF)
+			token->type = T_ERROR;
+		else
+			next_char(src);
 	}
 	else if (peek(src) == '`')
 	{
@@ -230,7 +231,43 @@ t_token	*get_next_token(t_source *src)
 		else
 			next_char(src);
 	}
-
+	else if (peek(src) == '\'')
+	{
+		token->type = T_STRING;
+		next_char(src);
+		while (peek(src) != EOF && peek(src) != '\'')
+		{
+			if (peek(src) == ESCCHAR)
+			{
+				if (peek2(src) == ESCCHAR)
+				{
+					next_char(src);
+					save_char(src, next_char(src));
+				}
+				else if (peek2(src) == '\'')
+				{
+					next_char(src);
+					save_char(src, next_char(src));
+				}
+				else
+					save_char(src, next_char(src));
+			}
+			else
+				save_char(src, next_char(src));
+		}
+		if (peek(src) == EOF)
+			token->type = T_ERROR;
+		else // сюда мы попадаем при закрывающих кавычках
+			next_char(src);
+	}
+	else if (is_word_char(peek(src)))
+	{
+		token->type = T_ID;
+		scan_word(src);
+		// TODO: check if it is a keyword
+	}
+	else
+		token->type = T_ERROR;
 
 	token->value = ft_strdup(src->str);
 	clear_str(src);

@@ -6,7 +6,7 @@
 // 	printf("%c %c %c %c %c\n", peek(src), peek2(src), next_char(src), next_char(src), peek2(src));
 // }
 
-char	*token_type_to_str(t_token_type type)
+char	*_DEBUG_token_type_to_str(t_token_type type)
 {
 	switch (type)
 	{
@@ -89,31 +89,22 @@ char	*token_type_to_str(t_token_type type)
 	}
 }
 
-void	print_token(t_token *token)
+void	_DEBUG_print_token(t_token *token)
 {	
-	printf("token:\n   type:  %s\n   value: %s\n", token_type_to_str(token->type), token->value);
+	printf("token:\n   type:  %s\n   value: %s\n", _DEBUG_token_type_to_str(token->type), token->value);
 }
 
 int	main(int argc, char **argv, char **env)
 {
-	t_source	*src = init_source("&& $? <> << \"the string\\\"qwe <> q");
-	// t_source	*src = init_source("   \t &? << printf ; | pipe || `qwe` ;; 123");
+	t_source	*src = init_source("echo qwe");
+	// t_source	*src = init_source("l s - l a");
 	t_token		*token;
 
 	token = get_next_token(src);
-	print_token(token);
-	token = get_next_token(src);
-	print_token(token);
-	token = get_next_token(src);
-	print_token(token);
-	token = get_next_token(src);
-	print_token(token);
-	token = get_next_token(src);
-	print_token(token);
-	token = get_next_token(src);
-	print_token(token);
-	token = get_next_token(src);
-	print_token(token);
-	token = get_next_token(src);
-	print_token(token);
+	while (token->type != T_EOF)
+	{
+		_DEBUG_print_token(token);
+		token = get_next_token(src);
+	}
+	
 }
