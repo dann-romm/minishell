@@ -11,7 +11,8 @@ INCDIR		= ./includes/
 SRC			=	main.c \
 				lexer.c \
 				source.c \
-				utils_ft.c
+				utils_ft.c \
+				prompt.c
 OBJ			= $(addprefix $(OBJDIR), $(SRC:.c=.o))
 
 all: $(NAME)
@@ -20,7 +21,7 @@ $(OBJDIR)%.o : $(SRCDIR)%.c $(INCDIR)shell.h Makefile
 	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCDIR)
 
 $(NAME): $(OBJDIR) $(OBJ)
-	$(CC) $(OBJ) -o $(NAME)
+	$(CC) $(OBJ) -o $(NAME) -lreadline -lncurses
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)

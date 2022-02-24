@@ -152,9 +152,13 @@ int			ft_strlen(char *str);
 char		*ft_strdup(const char *str);
 char		*ft_strcat(char *dst, char *src);
 char		*ft_strncat(char *s1, const char *s2, unsigned int n);
+int			ft_strcmp(char *s1, char *s2);
 
 // lexer.c
 t_token		*get_next_token(t_source *src);
 t_token		*init_token(t_token_type type, char *str);
+
+// prompt.c
+char		*read_input(char *prompt);
 
 #endif

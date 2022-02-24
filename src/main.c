@@ -96,15 +96,44 @@ void	_DEBUG_print_token(t_token *token)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_source	*src = init_source("echo qwe");
-	// t_source	*src = init_source("l s - l a");
+	char		*input;
+	t_source	*src;
 	t_token		*token;
 
-	token = get_next_token(src);
-	while (token->type != T_EOF)
+	while (1)
 	{
-		_DEBUG_print_token(token);
+		input = read_input("");
+		src = init_source(input);
+
 		token = get_next_token(src);
+		while (token->type != T_EOF)
+		{
+			_DEBUG_print_token(token);
+			free(token->value);
+			free(token);
+			token = get_next_token(src);
+		}
+		free(token->value);
+		free(token);
+		free(src->buffer);
+		free(src->str);
+		free(src);
+		if (ft_strcmp(input, "exit") == 0)
+		{
+			free(input);
+			break;
+		}
+		free(input);
 	}
+	// t_source	*src = init_source("echo qwe << < 'qwe' `echo $PWD` $PWD ${PWD} >");
+	// // t_source	*src = init_source("l''s - l''''a");
+	// t_token		*token;
+
+	// token = get_next_token(src);
+	// while (token->type != T_EOF)
+	// {
+	// 	_DEBUG_print_token(token);
+	// 	token = get_next_token(src);
+	// }
 	
 }
