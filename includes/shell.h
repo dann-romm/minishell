@@ -58,7 +58,17 @@ typedef struct s_command_table
  
 }						t_command_table;
 
+typedef struct s_builtin
+{
+	char	*name; // command name
+	void	(*f)(int ac, char **av); // function to call to execute the command
+} 			t_builtin;
+
+//extern struct t_builtin all_builtins[];
+
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char *s1, char *s2);
+int		ft_strcmp(char *s1, char *s2);
+int		ft_strlen(char *s);
 
 #endif

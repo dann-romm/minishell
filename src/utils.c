@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "../includes/shell.h"
 
 int	ft_strlen(char *s)
 {
@@ -43,4 +43,14 @@ char	*ft_strjoin(char *s1, char *s2)
 	ft_strcat(arr, s1);
 	ft_strcat(arr, s2);
 	return (arr);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while ((s1[i] != s2[i]) || s1[i] == '\0' || s2[i] == '\0')
+		i++;
+	return ((int)((unsigned char)s1[i] - (unsigned char)s2[i]));
 }
