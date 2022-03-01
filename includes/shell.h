@@ -1,5 +1,6 @@
 #ifndef SHELL_H
 # define SHELL_H
+# define PATH_MAX        4096
 
 // readline rl_clear_history rl_on_new_line rl_replace_line rl_redisplay add_history
 # include <readline/readline.h>
@@ -58,6 +59,12 @@ typedef struct s_command_table
  
 }						t_command_table;
 
+typedef struct s_env
+{
+	char	*name;
+	int		next;
+} 			t_env;
+
 typedef struct s_builtin
 {
 	char	*name; // command name
@@ -66,9 +73,14 @@ typedef struct s_builtin
 
 //extern struct t_builtin all_builtins[];
 
+/////////////// libft
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_strlen(char *s);
+void	ft_putstr(char *s);
+void	ft_putendl(char *s);
+void	ft_putstr(char *s);
+char	*ft_strdup(const char *s1);
 
 #endif

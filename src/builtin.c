@@ -1,4 +1,4 @@
-#include "../includes/shell.h"
+#include "shell.h"
 
 //void ft_cd(char **path)
 //{
@@ -55,6 +55,7 @@ int	main(int argc, char **argv, char **env)
 	char **args[2];
 	args[0] = "-n";
 	args[1] = "hiii";
-	ft_echo(args);
+	//ft_echo(args);
+	go_to_path("HOME", env);
 	//ft_env(env);
 }
