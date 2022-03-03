@@ -22,6 +22,8 @@ char	*_DEBUG_token_type_to_str(t_token_type type)
 			return ("T_DOLLAR");
 		case T_STRING:
 			return ("T_STRING");
+		case T_BUILTIN:
+			return ("T_BUILTIN");
 		case T_EXITSTATUS:
 			return ("T_EXITSTATUS");
 		case T_IF:

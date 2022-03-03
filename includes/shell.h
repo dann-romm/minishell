@@ -62,6 +62,7 @@ typedef enum e_token_type
 	T_ERROR = 0,
 
 	T_NUMBER = 10,
+	T_BUILTIN,
 	T_ID,
 	T_DOLLAR,
 	T_STRING,

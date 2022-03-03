@@ -262,9 +262,18 @@ t_token	*get_next_token(t_source *src)
 	}
 	else if (is_word_char(peek(src)))
 	{
+		int			i;
+		const char	*builtins[7] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
 		token->type = T_ID;
 		scan_word(src);
-		// TODO: check if it is a keyword
+		
+		i = 0;
+		while (i < 7)
+		{
+			if (!ft_strcmp(src->str, (char *)builtins[i]))
+				token->type = T_BUILTIN;
+			i++;
+		}
 	}
 	else
 		token->type = T_ERROR;
