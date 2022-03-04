@@ -1,53 +1,59 @@
 #include "shell.h"
 
-void	back_to_root(char *path)
-{
-	const char	*abs_path = getenv(path);
-	if (chdir(abs_path))
-	{
-		ft_putstr("cd: ");
-		if (access(path, F_OK) == -1)
-			ft_putstr("no such file or directory: ");
-		else if (access(path, R_OK) == -1)
-			ft_putstr("permission denied: ");
-		else
-			ft_putstr("not a directory: ");
-		ft_putendl(path);
-	}
-}
+// TODO:
+// when you get a copy of env, change PWD and OLDPWD to be able
+// to change the state of the whole minishell, not just a single process
+// firstly change OLDPATH just copying PWD
+// 1. upd_oldpwd()
+// 2. upd_pwd()
+
 
 void	upd_oldpwd(char **env)
 {
-	char	*cwd[PATH_MAX];
+	char	cwd[PATH_MAX];
 	char	*oldpwd_upd;
 	getcwd(cwd, PATH_MAX);
 	oldpwd_upd = ft_strjoin("OLDPWD=", cwd);
-	add_env_var(oldpwd_upd, env); // not written yet
 }
 
-void	change_dir(char **args)
+void	upd_pwd(char **env)
 {
-	const char	*abs_path = getenv(path);
-	if (chdir(abs_path))
+	///
+}
+
+void	change_dir(t_command_table *cmd_table)
+{
+	t_simple_cmd *cmd1 = cmd_table->commands[0];
+	//char	abs_path[PATH_MAX];
+	//getcwd(abs_path, PATH_MAX);
+	//printf("%s\n", abs_path);
+	if (chdir(cmd1->cmd_args[0])) //chdir() gets an absolute path
 	{
 		ft_putstr("cd: ");
-		if (access(path, F_OK) == -1)
+		if (access(cmd1->cmd_args[0], F_OK) == -1)
 			ft_putstr("no such file or directory: ");
-		else if (access(path, R_OK) == -1)
+		else if (access(cmd1->cmd_args[0], R_OK) == -1)
 			ft_putstr("permission denied: ");
 		else
 			ft_putstr("not a directory: ");
-		ft_putendl(path);
+		ft_putendl(cmd1->cmd_args[0]);
 	}
+	upd_oldpwd(cmd_table->env); // not written yet
+	upd_pwd(cmd_table->env); // not written yet
 }
 
-int	cd_builtin(char **args, char **env)
+int	cd_builtin(t_command_table *cmd_table)
 {
-	if (args[1])
-		back_to_root("HOME");
+	t_simple_cmd *cmd1 = cmd_table->commands[0];
+	if (!cmd1->args_num)
+	{
+		const char	*path = getenv("HOME");
+		chdir(path);
+		upd_oldpwd(cmd_table->env); // not written yet
+		upd_pwd(cmd_table->env); // upd_pwd() not written yet
+	}
 	else
-		change_dir(args[1]);
-	upd_oldpwd(env);
+		change_dir(cmd_table);
 	return (0);
 }
 
@@ -56,18 +62,17 @@ int main()
 	t_command_table *cmd_table;
 	int i = 0;
 	cmd_table = (t_command_table *)malloc(sizeof(t_command_table));
-	cmd_table->commands = malloc(sizeof(t_simple_cmd));
+	cmd_table->commands_num = 1;
+	cmd_table->commands = (t_simple_cmd **)malloc(sizeof(t_simple_cmd *) * cmd_table->commands_num);
 	while (i < cmd_table->commands_num)
 	{
 		cmd_table->commands[i] = malloc(sizeof(t_simple_cmd));
 		i++;
 	}
-	t_simple_cmd *cmd1;
-	cmd1->cmd = malloc(sizeof(char) * ft_strlen(cmd1->cmd) + 1);
-	int j = 0;
-	cmd1->cmd_args = malloc(sizeof(char *));
-	while (j < cmd1->args_num)
-	{
-		cmd1->cmd_args[j] = malloc(sizeof(char) * ft_strlen())
-	}
+	t_simple_cmd *cmd1 = cmd_table->commands[0];
+	cmd1->cmd = ft_strdup("cd");
+	cmd1->args_num = 1;
+	cmd1->cmd_args = malloc(sizeof(char *) * 1);
+	cmd1->cmd_args[0] = ft_strdup("Desktop");
+	cd_builtin(cmd_table);
 }

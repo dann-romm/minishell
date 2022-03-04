@@ -59,12 +59,6 @@ typedef struct s_command_table
  
 }						t_command_table;
 
-typedef struct s_env
-{
-	char	*name;
-	int		next;
-} 			t_env;
-
 typedef struct s_builtin
 {
 	char	*name; // command name
