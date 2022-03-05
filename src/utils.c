@@ -76,3 +76,40 @@ char	*ft_strdup(const char *s1)
 	dup[i] = '\0';
 	return (dup);
 }
+
+void	ft_putstr(char *s)
+{
+	int	i;
+
+	if (s == 0)
+		return ;
+	i = 0;
+	while (s[i] != '\0')
+	{
+		write(1, &s[i], 1);
+		i++;
+	}
+}
+
+void	ft_putendl(char *s)
+{
+	if (s == 0)
+		return ;
+	ft_putstr(s);
+	write(1, "\n", 1);
+}
+
+int	ft_isdigit(int c)
+{
+	if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
+}
+
+int	ft_isalpha(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+		return (1);
+	return (0);
+}
+

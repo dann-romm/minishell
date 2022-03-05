@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void ft_pwd() // receives env variables via hash-table
+void ft_pwd()
 {
 	char *cur_dir;
 	cur_dir = (char *)malloc(sizeof(char) * 999);
