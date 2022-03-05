@@ -145,16 +145,6 @@ void		skip_whitespaces(t_source *src);
 void		save_char(t_source *src, char c);
 void		clear_str(t_source *src);
 
-// utils_ft.c
-int			is_alnum(char c);
-int			is_space(char c);
-char		*ft_strcpy(char *dest, char *src);
-int			ft_strlen(char *str);
-char		*ft_strdup(const char *str);
-char		*ft_strcat(char *dst, char *src);
-char		*ft_strncat(char *s1, const char *s2, unsigned int n);
-int			ft_strcmp(char *s1, char *s2);
-
 // lexer.c
 t_token		*get_next_token(t_source *src);
 t_token		*init_token(t_token_type type, char *str);

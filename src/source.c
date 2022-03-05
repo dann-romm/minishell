@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "libft_funcs.h"
 
 t_source	*init_source(char *str)
 {

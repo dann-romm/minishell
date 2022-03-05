@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include "libft_funcs.h"
 
 int	is_alnum(char c)
 {

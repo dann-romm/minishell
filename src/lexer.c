@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "libft_funcs.h"
 
 void	skip_comments(t_source *src)
 {

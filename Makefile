@@ -8,7 +8,7 @@ LIBS					= -lreadline -lncurses
 SRCDIR					= ./src
 HASHTABLE_SRCDIR		= $(SRCDIR)/hashtable
 
-OBJDIR					= ./obj
+OBJDIR					= ./build
 HASHTABLE_OBJDIR		= $(OBJDIR)/hashtable
 
 INCDIR					= ./includes

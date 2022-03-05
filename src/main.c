@@ -1,4 +1,6 @@
 #include "shell.h"
+#include "hashtable.h"
+#include "libft_funcs.h"
 
 // void	test_init_source()
 // {
@@ -96,46 +98,83 @@ void	_DEBUG_print_token(t_token *token)
 	printf("token:\n   type:  %s\n   value: %s\n", _DEBUG_token_type_to_str(token->type), token->value);
 }
 
+int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
+{
+	uint32_t	index;
+	t_pair		*pair;
+
+	index = -1;
+	while (++index < ht->size)
+	{
+		pair = ht->table[index];
+		while (pair)
+		{
+			if (ht->hash(pair->key, ht->size) != index)
+			{
+				printf("ERROR: (%u) hash at index %u\n", ht->hash(pair->key, ht->size), index);
+				exit(1);
+			}
+			pair = pair->next;
+		}
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv, char **env)
 {
-	char		*input;
-	t_source	*src;
-	t_token		*token;
-
-	while (1)
-	{
-		input = read_input("");
-		src = init_source(input);
-
-		token = get_next_token(src);
-		while (token->type != T_EOF)
-		{
-			_DEBUG_print_token(token);
-			free(token->value);
-			free(token);
-			token = get_next_token(src);
-		}
-		free(token->value);
-		free(token);
-		free(src->buffer);
-		free(src->str);
-		free(src);
-		if (ft_strcmp(input, "exit") == 0)
-		{
-			free(input);
-			break;
-		}
-		free(input);
-	}
-	// t_source	*src = init_source("echo qwe << < 'qwe' `echo $PWD` $PWD ${PWD} >");
-	// // t_source	*src = init_source("l''s - l''''a");
+	// char		*input;
+	// t_source	*src;
 	// t_token		*token;
 
-	// token = get_next_token(src);
-	// while (token->type != T_EOF)
+	// while (1)
 	// {
-	// 	_DEBUG_print_token(token);
+	// 	input = read_input("");
+	// 	src = init_source(input);
+
 	// 	token = get_next_token(src);
+	// 	while (token->type != T_EOF)
+	// 	{
+	// 		_DEBUG_print_token(token);
+	// 		free(token->value);
+	// 		free(token);
+	// 		token = get_next_token(src);
+	// 	}
+	// 	free(token->value);
+	// 	free(token);
+	// 	free(src->buffer);
+	// 	free(src->str);
+	// 	free(src);
+	// 	if (ft_strcmp(input, "exit") == 0)
+	// 	{
+	// 		free(input);
+	// 		break;
+	// 	}
+	// 	free(input);
 	// }
-	
+
+	t_hashtable *ht = init_hashtable(1);
+	insert_hashtable(ht, "PATH", "/some/path");
+	insert_hashtable(ht, "qwe", "qwe");
+	insert_hashtable(ht, "HOME", "/home");
+	insert_hashtable(ht, "NUMBER_1", "1");
+	print_hashtable(ht);
+	insert_hashtable(ht, "NUMBER_2", "2");
+	print_hashtable(ht);
+
+	_DEBUG_assert_right_hashtable(ht);
+
+	// insert_hashtable(ht, "NUMBER_3", "3");
+	// insert_hashtable(ht, "NUMBER_4", "4");
+	// insert_hashtable(ht, "NUMBER_5", "5");
+	// insert_hashtable(ht, "NUMBER_5!!", "120!");
+	// print_hashtable(ht);
+	// insert_hashtable(ht, "PATH", "/second/path");
+	// insert_hashtable(ht, "PATH", "/new/path");
+	// printf("found value = %s\n", find_hashtable(ht, "NUMBER_2"));
+	// printf("found value = %s\n", find_hashtable(ht, "NUMBER_3"));
+	// remove_hashtable(ht, "NUMBER_2");
+	// remove_hashtable(ht, "NUMBER_3");
+	// print_hashtable(ht);
+
+	delete_hashtable(&ht);
 }
