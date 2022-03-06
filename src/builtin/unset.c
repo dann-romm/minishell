@@ -1,5 +1,6 @@
 #include "shell.h"
 #include "hashtable.h"
+#include "libft_funcs.h"
 
 void	ft_unset(t_hashtable *ht, t_simple_cmd *unset_cmd)
 {

@@ -1,4 +1,6 @@
 #include "shell.h"
+#include "hashtable.h"
+#include "libft_funcs.h"
 
 // s = getenv("PATH"); // покажет значение переменной РАТН
 
@@ -31,5 +33,5 @@ void	execute(t_simple_cmd *cmd, t_hashtable *ht)
 {
 	if (!cmd)
 		return ;
-	else if ()
+	// else if ()
 }

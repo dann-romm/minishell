@@ -1,4 +1,6 @@
-#include "shell.h"
+#include <stdlib.h>
+#include <unistd.h>
+#include "libft_funcs.h"
 
 char	*ft_strjoin(char *s1, char *s2)
 {

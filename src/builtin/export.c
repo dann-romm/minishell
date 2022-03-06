@@ -1,5 +1,6 @@
 #include "shell.h"
 #include "hashtable.h"
+#include "libft_funcs.h"
 
 int	check_input(char *str) 
 {
@@ -27,7 +28,7 @@ void	ft_export(t_hashtable *ht, char **args)
 	if (check_input(args[0])) // если имя переменной состоит только из чисел или в нем есть символ типа !@#', оно невалидно
 	{
 		printf("minishell: export: `%s': not a valid identifier", args[1]);
-		return (1);
+		return ;
 	}
 	insert_hashtable(ht, args[0], args[1]);
 }
