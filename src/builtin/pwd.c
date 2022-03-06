@@ -1,6 +1,7 @@
 #include "shell.h"
+#include "hashtable.h"
 
-void ft_pwd()
+void ft_pwd(t_hashtable *ht)
 {
 	char *cur_dir;
 	cur_dir = (char *)malloc(sizeof(char) * 999);

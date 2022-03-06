@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "hashtable.h"
 
 int	check_input(char *str) 
 {
@@ -21,7 +22,7 @@ int	check_input(char *str)
 	return (0);
 }
 
-void	ft_export(char **args, t_hashtable *ht)
+void	ft_export(t_hashtable *ht, char **args)
 {
 	if (check_input(args[0])) // если имя переменной состоит только из чисел или в нем есть символ типа !@#', оно невалидно
 	{

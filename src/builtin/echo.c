@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "libft_funcs.h"
 
 void	ft_echo(char **args, int arg_num)
 {

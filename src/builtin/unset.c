@@ -1,6 +1,7 @@
 #include "shell.h"
+#include "hashtable.h"
 
-void	ft_unset(t_simple_cmd *unset_cmd, t_env *ht)
+void	ft_unset(t_hashtable *ht, t_simple_cmd *unset_cmd)
 {
 	int		i;
 

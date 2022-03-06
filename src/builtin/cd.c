@@ -1,6 +1,7 @@
 #include "shell.h"
+#include "hashtable.h"
 
-void	upd_pwd(t_hashtable *ht, char *path)
+void	upd_pwd(t_hashtable *ht, char *path) // updates env variables
 {
 	insert_hashtable(ht, "OLDPWD", find_hashtable(ht, "PWD"));
 	insert_hashtable(ht, "PWD", path);
@@ -26,7 +27,7 @@ int	ft_cd(t_hashtable *ht, t_simple_cmd *cd)
 	{
 		const char	*path = getenv("HOME");
 		chdir(path);
-		upd_pwd(ht, path);
+		upd_pwd(ht, (char *)path);
 	}
 	else
 		change_dir(cd, ht);
