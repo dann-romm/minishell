@@ -39,21 +39,12 @@ DEP						= $(OBJ:.o=.d)
 
 all: $(NAME)
 
-
-$(NAME): $(OBJDIR) $(HASHTABLE_OBJDIR) $(PARSER_OBJDIR) $(LEXER_OBJDIR) $(OBJ)
+$(NAME): $(OBJ)
 	$(CC) $(OBJ) -o $(NAME) $(LIBS)
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c Makefile
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCDIR) -MMD
-
-$(OBJDIR):
-	mkdir -p $@
-$(HASHTABLE_OBJDIR):
-	mkdir -p $@
-$(PARSER_OBJDIR):
-	mkdir -p $@
-$(LEXER_OBJDIR):
-	mkdir -p $@
 
 clean:
 	$(RM) $(OBJDIR)
