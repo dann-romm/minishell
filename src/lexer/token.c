@@ -1,7 +1,7 @@
 #include "lexer.h"
 #include "shell.h"
 
-t_token_list	*token_list_init(t_token *token)
+t_token_list	*init_token_list(t_token *token)
 {
 	t_token_list	*node;
 	
@@ -16,7 +16,7 @@ t_token_list	*token_list_init(t_token *token)
 	return (node);
 }
 
-t_token_list	*token_list_create(char *input)
+t_token_list	*create_token_list(char *input)
 {
 	t_source		*src;
 	t_token			*token;
@@ -28,12 +28,12 @@ t_token_list	*token_list_create(char *input)
 	token = get_next_token(src);
 	if (!token)
 	{
-		
+
 	}
 		return (0);
 	while (token->type != T_EOF)
 	{
-		token_list_push_front(&list, token_list_init(token));
+		push_front_token_list(&list, init_token_list(token));
 		token = get_next_token(src);
 	}
 	free(token->value);
@@ -43,7 +43,7 @@ t_token_list	*token_list_create(char *input)
 	free(src);
 }
 
-int	token_list_push_front(t_token_list **head, t_token_list *node)
+int	push_front_token_list(t_token_list **head, t_token_list *node)
 {
 	if (!head || !node)
 		return (1);
@@ -52,7 +52,7 @@ int	token_list_push_front(t_token_list **head, t_token_list *node)
 	return (0);
 }
 
-int	token_list_clear(t_token_list **head)
+int	clear_token_list(t_token_list **head)
 {
 	t_token_list	*tmp;
 

@@ -125,7 +125,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		input = read_input("");
-		list = token_list_create(input);
+		list = create_token_list(input);
 
 		tmp = list;
 		while (tmp)
@@ -134,7 +134,7 @@ int	main(int argc, char **argv, char **env)
 			tmp = tmp->next;
 		}
 
-		token_list_clear(&list);
+		clear_token_list(&list);
 		free(input);
 	}
 }
