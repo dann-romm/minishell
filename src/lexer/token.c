@@ -22,6 +22,7 @@ t_token_list	*create_token_list(char *input)
 	t_token			*token;
 	t_token_list	*list;
 
+	list = NULL;
 	src = init_source(input);
 	if (!src)
 		return (0);

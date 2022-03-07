@@ -208,12 +208,13 @@ t_token	*get_next_token(t_source *src)
 				require_bracket = 1;
 				next_char(src);
 			}
-			scan_word(src);
+			put_env_into_src(src); // TODO: special parameter https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
 			if (require_bracket && peek(src) != '}')
 				token->type = T_ERROR;
 			else if (require_bracket)
 				next_char(src);
-			token->type = T_DOLLAR;
+			// token->type = T_DOLLAR;
+			token->type = T_STRING;
 		}
 	}
 	else if (peek(src) == '"')
