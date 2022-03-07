@@ -22,12 +22,12 @@ typedef struct s_hashtable
 	uint32_t	(*hash)(char *key, uint32_t size);
 }	t_hashtable;
 
-t_pair		*pair_init(char *key, char *value);
-int			pair_push_front(t_pair **head, t_pair *pair);
-int			pair_remove(t_pair **head, char *key);
-t_pair		*pair_find(t_pair *head, char *key);
+t_pair		*init_pair(char *key, char *value);
+int			push_front_pair(t_pair **head, t_pair *pair);
+int			remove_pair(t_pair **head, char *key);
+t_pair		*find_pair(t_pair *head, char *key);
 
-t_hashtable	*init_hashtable(uint32_t size);
+t_hashtable	*hashtable_init(uint32_t size);
 int32_t		insert_hashtable(t_hashtable *ht, char *key, char *value);
 int32_t		remove_hashtable(t_hashtable *ht, char *key);
 char		*find_hashtable(t_hashtable *ht, char *key);

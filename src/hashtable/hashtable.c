@@ -3,7 +3,7 @@
 
 #include <stdio.h> // remove
 
-t_hashtable	*init_hashtable(uint32_t size)
+t_hashtable	*hashtable_init(uint32_t size)
 {
 	t_hashtable	*ht;
 
@@ -34,7 +34,7 @@ int32_t	insert_hashtable(t_hashtable *ht, char *key, char *value)
 	t_pair		*pair;
 
 	index = ht->hash(key, ht->size);
-	pair = pair_find(ht->table[index], key);
+	pair = find_pair(ht->table[index], key);
 	if (pair)
 	{
 		free(pair->value);
@@ -45,7 +45,7 @@ int32_t	insert_hashtable(t_hashtable *ht, char *key, char *value)
 	}
 	if (!ht->table[index])
 		ht->count++;
-	if (pair_push_front(&(ht->table[index]), pair_init(key, value)))
+	if (push_front_pair(&(ht->table[index]), init_pair(key, value)))
 		return (1);
 	if ((float)ht->count / ht->size >= LOAD_RATIO_LIMIT)
 		rehasing(ht);
@@ -55,10 +55,9 @@ int32_t	insert_hashtable(t_hashtable *ht, char *key, char *value)
 int32_t	remove_hashtable(t_hashtable *ht, char *key)
 {
 	uint32_t	index;
-	t_pair		*pair;
 
 	index = ht->hash(key, ht->size);
-	if (!pair_remove(&(ht->table[index]), key))
+	if (!remove_pair(&(ht->table[index]), key))
 	{
 		if (!ht->table[index])
 			ht->count--;
@@ -75,7 +74,7 @@ char	*find_hashtable(t_hashtable *ht, char *key)
 	t_pair		*pair;
 
 	index = ht->hash(key, ht->size);
-	pair = pair_find(ht->table[index], key);
+	pair = find_pair(ht->table[index], key);
 	if (!pair)
 		return (NULL);
 	return (pair->value);
@@ -89,7 +88,7 @@ void	clear_hashtable(t_hashtable *ht)
 	while (++i < ht->size)
 	{
 		while (ht->table[i])
-			pair_remove(&(ht->table[i]), ht->table[i]->key);
+			remove_pair(&(ht->table[i]), ht->table[i]->key);
 	}
 	ht->count = 0;
 }
@@ -130,7 +129,7 @@ uint32_t	rehasing(t_hashtable *ht)
 			new_index = ht->hash(pair->key, (ht->size << 1));
 			if (!new_table[new_index])
 				new_count++;
-			if (pair_push_front(&(new_table[new_index]), pair))
+			if (push_front_pair(&(new_table[new_index]), pair))
 			{
 				free(new_table);
 				return (1);

@@ -137,3 +137,4 @@ void	clear_str(t_source *src)
 	src->strlen = 0;
 	src->str[0] = '\0';
 }
+

@@ -18,19 +18,29 @@ t_token_list	*token_list_init(t_token *token)
 
 t_token_list	*token_list_create(char *input)
 {
-	// t_source		*src;
-	// t_token			*token;
-	// t_token_list	*list;
+	t_source		*src;
+	t_token			*token;
+	t_token_list	*list;
 
-	// src = init_source(input);
-	// token = get_next_token(src);
-	// while (token->type != T_EOF)
-	// {=
-	// 	token = get_next_token(src);
-	// }
-	// free(src->buffer);
-	// free(src->str);
-	// free(src);
+	src = init_source(input);
+	if (!src)
+		return (0);
+	token = get_next_token(src);
+	if (!token)
+	{
+		
+	}
+		return (0);
+	while (token->type != T_EOF)
+	{
+		token_list_push_front(&list, token_list_init(token));
+		token = get_next_token(src);
+	}
+	free(token->value);
+	free(token);
+	free(src->buffer);
+	free(src->str);
+	free(src);
 }
 
 int	token_list_push_front(t_token_list **head, t_token_list *node)

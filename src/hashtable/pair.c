@@ -1,7 +1,7 @@
 #include "hashtable.h"
 #include "libft_funcs.h"
 
-t_pair	*pair_init(char *key, char *value)
+t_pair	*init_pair(char *key, char *value)
 {
 	t_pair	*pair;
 
@@ -30,7 +30,7 @@ t_pair	*pair_init(char *key, char *value)
 	return (pair);
 }
 
-int	pair_push_front(t_pair **head, t_pair *pair)
+int	push_front_pair(t_pair **head, t_pair *pair)
 {
 	if (!head | !pair)
 		return (1);
@@ -39,7 +39,7 @@ int	pair_push_front(t_pair **head, t_pair *pair)
 	return (0);
 }
 
-int	pair_remove(t_pair **head, char *key)
+int	remove_pair(t_pair **head, char *key)
 {
 	t_pair	*tmp;
 	t_pair	*prev;
@@ -66,7 +66,7 @@ int	pair_remove(t_pair **head, char *key)
 	return (1);
 }
 
-t_pair	*pair_find(t_pair *head, char *key)
+t_pair	*find_pair(t_pair *head, char *key)
 {
 	t_pair	*tmp;
 

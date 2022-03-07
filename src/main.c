@@ -118,22 +118,23 @@ int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
 
 int	main(int argc, char **argv, char **env)
 {
+	char			*input;
+	t_token_list	*list;
+	t_token_list	*tmp;
 
-	t_hashtable *ht = init_hashtable(1);
-	printf("hashtable malloced -> %p\n", ht);
-	insert_hashtable(ht, "PATH", "/some/path");
-	printf("HERE\n");
-	insert_hashtable(ht, "qwe", "qwe");
-	insert_hashtable(ht, "HOME", "/home");
-	insert_hashtable(ht, "NUMBER_1", "1");
-	print_hashtable(ht);
-	printf("HERE\n");
-	insert_hashtable(ht, "NUMBER_2", "2");
-	print_hashtable(ht);
+	while (1)
+	{
+		input = read_input("");
+		list = token_list_create(input);
 
-	_DEBUG_assert_right_hashtable(ht);
-	printf("HERE\n");
+		tmp = list;
+		while (tmp)
+		{
+			_DEBUG_print_token(tmp->token);
+			tmp = tmp->next;
+		}
 
-
-	delete_hashtable(&ht);
+		token_list_clear(&list);
+		free(input);
+	}
 }

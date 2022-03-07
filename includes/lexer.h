@@ -87,6 +87,7 @@ t_token			*init_token(t_token_type type, char *str);
 
 // token.c
 t_token_list	*token_list_init(t_token *token);
+t_token_list	*token_list_create(char *input);
 int				token_list_push_front(t_token_list **head, t_token_list *node);
 int				token_list_clear(t_token_list **head);
 
