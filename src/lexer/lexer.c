@@ -1,5 +1,29 @@
-#include "shell.h"
+#include "lexer.h"
 #include "libft_funcs.h"
+#include "shell.h"
+
+t_token	*init_token(t_token_type type, char *str)
+{
+	t_token	*token;
+
+	token = (t_token *)malloc(sizeof(t_token));
+	if (!token)
+	{
+		errno = ENOMEM;
+		return (NULL);
+	}
+	token->type = type;
+	if (str)
+		token->value = ft_strdup(str);
+	else
+		token->value = NULL;
+	if (str && !token->value)
+	{
+		errno = ENOMEM;
+		return (NULL);
+	}
+	return (token);
+}
 
 void	skip_comments(t_source *src)
 {
@@ -281,55 +305,5 @@ t_token	*get_next_token(t_source *src)
 
 	token->value = ft_strdup(src->str);
 	clear_str(src);
-	return (token);
-}
-
-// t_token_list	*init_token_list_node(t_token *token)
-// {
-// 	t_token_list	*list = (t_token_list *)malloc(sizeof(t_token_list));
-	
-// 	if (!list)
-// 	{
-// 		errno = ENOMEM;
-// 		return (NULL);
-// 	}
-// 	list->token = token;
-// 	list->next = NULL;
-// 	return (list);
-// }
-
-// void	token_list_push_front(t_token_list **list, t_token *token)
-// {
-// 	t_token_list	*node;
-
-// 	if (!list || !(*list))
-// 		return ;
-// 	node = init_token_list_node(token);
-// 	if (!node)
-// 		return ;
-// 	node->next = *list;
-// 	*list = node;
-// }
-
-t_token	*init_token(t_token_type type, char *str)
-{
-	t_token	*token;
-
-	token = (t_token *)malloc(sizeof(t_token));
-	if (!token)
-	{
-		errno = ENOMEM;
-		return (NULL);
-	}
-	token->type = type;
-	if (str)
-		token->value = ft_strdup(str);
-	else
-		token->value = NULL;
-	if (str && !token->value)
-	{
-		errno = ENOMEM;
-		return (NULL);
-	}
 	return (token);
 }

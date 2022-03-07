@@ -1,6 +1,8 @@
 #include "shell.h"
+#include "lexer.h"
 #include "hashtable.h"
 #include "libft_funcs.h"
+#include "parser.h"
 
 char	*_DEBUG_token_type_to_str(t_token_type type)
 {
@@ -116,35 +118,6 @@ int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
 
 int	main(int argc, char **argv, char **env)
 {
-	// char		*input;
-	// t_source	*src;
-	// t_token		*token;
-
-	// while (1)
-	// {
-	// 	input = read_input("");
-	// 	src = init_source(input);
-
-	// 	token = get_next_token(src);
-	// 	while (token->type != T_EOF)
-	// 	{
-	// 		_DEBUG_print_token(token);
-	// 		free(token->value);
-	// 		free(token);
-	// 		token = get_next_token(src);
-	// 	}
-	// 	free(token->value);
-	// 	free(token);
-	// 	free(src->buffer);
-	// 	free(src->str);
-	// 	free(src);
-	// 	if (ft_strcmp(input, "exit") == 0)
-	// 	{
-	// 		free(input);
-	// 		break;
-	// 	}
-	// 	free(input);
-	// }
 
 	t_hashtable *ht = init_hashtable(1);
 	printf("hashtable malloced -> %p\n", ht);
@@ -161,18 +134,6 @@ int	main(int argc, char **argv, char **env)
 	_DEBUG_assert_right_hashtable(ht);
 	printf("HERE\n");
 
-	// insert_hashtable(ht, "NUMBER_3", "3");
-	// insert_hashtable(ht, "NUMBER_4", "4");
-	// insert_hashtable(ht, "NUMBER_5", "5");
-	// insert_hashtable(ht, "NUMBER_5!!", "120!");
-	// print_hashtable(ht);
-	// insert_hashtable(ht, "PATH", "/second/path");
-	// insert_hashtable(ht, "PATH", "/new/path");
-	// printf("found value = %s\n", find_hashtable(ht, "NUMBER_2"));
-	// printf("found value = %s\n", find_hashtable(ht, "NUMBER_3"));
-	// remove_hashtable(ht, "NUMBER_2");
-	// remove_hashtable(ht, "NUMBER_3");
-	// print_hashtable(ht);
 
 	delete_hashtable(&ht);
 }

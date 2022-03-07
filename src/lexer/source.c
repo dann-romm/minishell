@@ -1,5 +1,6 @@
-#include "shell.h"
+#include "lexer.h"
 #include "libft_funcs.h"
+#include "shell.h"
 
 t_source	*init_source(char *str)
 {
