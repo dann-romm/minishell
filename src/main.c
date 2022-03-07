@@ -129,6 +129,25 @@ int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
 	return (0);
 }
 
+int	_DEBUG_print_command_table(t_command_table *table)
+{
+	printf("<-------------- DEBUG PRINT CMD TABLE -------------->\n");
+	printf("stdin: %s\n", table->_stdin);
+	printf("stdout: %s\n", table->_stdout);
+	printf("stderr: %s\n", table->_stderr);
+	printf("commands: %d\n", table->commands_num);
+	for (int i = 0; i < table->commands_num; i++)
+	{
+		printf("\t<===== SIMPLE COMMAND =====>\n");
+		printf("\tbinary: %s\n", table->commands[i]->cmd);
+		printf("\targs (%d):", table->commands[i]->args_num);
+		for (int j = 0; j < table->commands[i]->args_num; j++)
+			printf(" %s", table->commands[i]->cmd_args[j]);
+		printf("\n");
+	}
+	return (0);
+}
+
 void	init_shell(void)
 {
 	g_shell = (t_shell *)malloc(sizeof(t_shell));
@@ -141,6 +160,7 @@ int	main(int argc, char **argv, char **env)
 {
 	char			*input;
 	t_token_list	*list;
+	t_command_table	*table;
 
 	init_shell();
 	while (1)
@@ -148,7 +168,9 @@ int	main(int argc, char **argv, char **env)
 		input = read_input("");
 		list = create_token_list(input);
 
-		_DEBUG_print_token_list(list);
+		// _DEBUG_print_token_list(list);
+		table = parser(list);
+		_DEBUG_print_command_table(table);
 
 		clear_token_list(&list);
 		free(input);

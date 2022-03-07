@@ -51,6 +51,22 @@ typedef struct s_shell
 
 t_shell	*g_shell;
 
+typedef struct s_simple_cmd
+{
+	char	*cmd;
+	int32_t	args_num;
+	char	**cmd_args;
+}	t_simple_cmd;
+
+typedef struct s_command_table
+{
+	int32_t				commands_num;
+	t_simple_cmd		**commands;
+	char				*_stdin;
+	char				*_stdout;
+	char				*_stderr;
+}						t_command_table;
+
 // prompt.c
 char		*read_input(char *prompt);
 
