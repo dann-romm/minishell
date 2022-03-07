@@ -1,6 +1,7 @@
 #include "shell.h"
 #include "hashtable.h"
 #include "libft_funcs.h"
+#include "builtin.h"
 
 // void	test_init_source()
 // {
@@ -152,14 +153,28 @@ int	main(int argc, char **argv, char **env)
 	// 	free(input);
 	// }
 
+	printf("156\n");
 	t_hashtable *ht = init_hashtable(1);
-	insert_hashtable(ht, "PATH", "/some/path");
-	insert_hashtable(ht, "qwe", "qwe");
-	insert_hashtable(ht, "HOME", "/home");
-	insert_hashtable(ht, "NUMBER_1", "1");
+	insert_hashtable(ht, "OLDPWD", "/Users/mgwyness/Desktop/school_21");
 	print_hashtable(ht);
-	insert_hashtable(ht, "NUMBER_2", "2");
-	print_hashtable(ht);
+	printf("158\n");
+	insert_hashtable(ht, "HOME", "/Users/mgwyness");
+	// print_hashtable(ht);
+	insert_hashtable(ht, "PWD", "/Users/mgwyness/Desktop");
+	// print_hashtable(ht);
+
+	t_command_table *cmd_table;
+	cmd_table = (t_command_table *)malloc(sizeof(t_command_table));
+	cmd_table->commands_num = 1;
+	// cmd_table->commands = (t_simple_cmd **)malloc(sizeof(t_simple_cmd *) * cmd_table->commands_num);
+	// int i = -1;
+	// while (++i < cmd_table->commands_num)
+	// 	cmd_table->commands[i] = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
+	t_simple_cmd *cmd1;
+	cmd1->cmd = "pwd";
+	cmd1->args_num = 0;
+	cmd1->cmd_args = 0;
+	ft_pwd(ht);
 
 	_DEBUG_assert_right_hashtable(ht);
 
