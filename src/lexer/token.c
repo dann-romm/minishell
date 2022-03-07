@@ -28,27 +28,35 @@ t_token_list	*create_token_list(char *input)
 	token = get_next_token(src);
 	if (!token)
 	{
-
-	}
+		delete_source(&src);
 		return (0);
+	}
 	while (token->type != T_EOF)
 	{
-		push_front_token_list(&list, init_token_list(token));
+		push_back_token_list(&list, init_token_list(token));
 		token = get_next_token(src);
 	}
 	free(token->value);
 	free(token);
-	free(src->buffer);
-	free(src->str);
-	free(src);
+	delete_source(&src);
+	return (list);
 }
 
-int	push_front_token_list(t_token_list **head, t_token_list *node)
+int	push_back_token_list(t_token_list **head, t_token_list *node)
 {
+	t_token_list	*tmp;
+
 	if (!head || !node)
 		return (1);
-	node->next = *head;
-	*head = node;
+	if (!(*head))
+	{
+		*head = node;
+		return (0);
+	}
+	tmp = *head;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = node;
 	return (0);
 }
 

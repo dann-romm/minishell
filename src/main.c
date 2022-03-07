@@ -94,6 +94,19 @@ void	_DEBUG_print_token(t_token *token)
 	printf("token:\n   type:  %s\n   value: %s\n", _DEBUG_token_type_to_str(token->type), token->value);
 }
 
+void	_DEBUG_print_token_list(t_token_list *list)
+{
+	t_token_list	*tmp;
+
+	printf("<------------------- DEBUG PRINT TOKEN LIST ------------------->\n");
+	tmp = list;
+	while (tmp)
+	{
+		_DEBUG_print_token(tmp->token);
+		tmp = tmp->next;
+	}
+}
+
 int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
 {
 	uint32_t	index;
@@ -120,19 +133,13 @@ int	main(int argc, char **argv, char **env)
 {
 	char			*input;
 	t_token_list	*list;
-	t_token_list	*tmp;
 
 	while (1)
 	{
 		input = read_input("");
 		list = create_token_list(input);
 
-		tmp = list;
-		while (tmp)
-		{
-			_DEBUG_print_token(tmp->token);
-			tmp = tmp->next;
-		}
+		_DEBUG_print_token_list(list);
 
 		clear_token_list(&list);
 		free(input);
