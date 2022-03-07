@@ -63,6 +63,30 @@ void	scan_word(t_source *src)
 		save_char(src, next_char(src));
 }
 
+void	put_env_into_src(t_source *src)
+{
+	char	*key;
+	char	*value;
+	int		key_len;
+
+	key_len = 0;
+	while (is_alnum(peek(src)) || peek(src) == '_')
+	{
+		key_len++;
+		next_char(src);
+	}
+	key = (char *)malloc(sizeof(char) * (key_len + 1));
+	while (key_len--)
+		unget_char(src);
+	while (is_alnum(peek(src)) || peek(src) == '_')
+		key[++key_len] = next_char(src);
+	key[++key_len] = '\0';
+	value = find_hashtable(g_shell->env, key);
+	while (value && *value)
+		save_char(src, *value++);
+	free(key);
+}
+
 t_token	*get_next_token(t_source *src)
 {
 	t_token		*token;
@@ -237,16 +261,17 @@ t_token	*get_next_token(t_source *src)
 				else
 					save_char(src, next_char(src));
 			}
-			else if (peek(src) == '$') // TODO: env variables handling
+			else if (peek(src) == '$')
 			{
-				
+				next_char(src);
+				put_env_into_src(src);
 			}
 			else
 				save_char(src, next_char(src));
 		}
 		if (peek(src) == EOF)
 			token->type = T_ERROR;
-		else
+		else if (peek(src) == '"')
 			next_char(src);
 	}
 	else if (peek(src) == '`')
@@ -286,7 +311,7 @@ t_token	*get_next_token(t_source *src)
 		}
 		if (peek(src) == EOF)
 			token->type = T_ERROR;
-		else
+		else if (peek(src) == '\'')
 			next_char(src);
 	}
 	else if (is_word_char(peek(src)))

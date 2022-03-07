@@ -42,6 +42,8 @@
 // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <term.h>
 
+# include "hashtable.h"
+
 typedef struct s_shell
 {
 	t_hashtable	*env;

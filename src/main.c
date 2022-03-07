@@ -134,7 +134,7 @@ void	init_shell(void)
 	g_shell = (t_shell *)malloc(sizeof(t_shell));
 
 	g_shell->env = init_hashtable(10);
-	// TODO: fill env
+	insert_hashtable(g_shell->env, "PWD", "/usr/bin");
 }
 
 int	main(int argc, char **argv, char **env)
@@ -142,6 +142,7 @@ int	main(int argc, char **argv, char **env)
 	char			*input;
 	t_token_list	*list;
 
+	init_shell();
 	while (1)
 	{
 		input = read_input("");
