@@ -73,6 +73,7 @@ typedef struct s_token_list
 
 // source.c
 t_source		*init_source(char *str);
+void			delete_source(t_source **src);
 char			peek(t_source *src);
 char			peek2(t_source *src);
 char			next_char(t_source *src);

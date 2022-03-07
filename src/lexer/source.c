@@ -138,3 +138,17 @@ void	clear_str(t_source *src)
 	src->str[0] = '\0';
 }
 
+void	delete_source(t_source **src)
+{
+	if (!src)
+		return ;
+	if (*src)
+	{
+		if ((*src)->buffer)
+			free((*src)->buffer);
+		if ((*src)->str)
+			free((*src)->str);
+		free(*src);
+		*src = NULL;
+	}
+}
