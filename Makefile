@@ -42,10 +42,8 @@ SRC						=	$(HASHTABLE_SRC) \
 							$(PARSER_SRC) \
 							$(BUILTIN_SRC) \
 							$(SRCDIR)/main.c \
-							$(SRCDIR)/lexer.c \
 							$(SRCDIR)/ft_split.c \
 							$(SRCDIR)/executor.c \
-							$(SRCDIR)/source.c \
 							$(SRCDIR)/utils_ft.c \
 							$(SRCDIR)/utils.c \
 							$(SRCDIR)/prompt.c

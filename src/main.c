@@ -153,43 +153,68 @@ int	main(int argc, char **argv, char **env)
 	// 	free(input);
 	// }
 
-	printf("156\n");
 	t_hashtable *ht = init_hashtable(1);
-	insert_hashtable(ht, "OLDPWD", "/Users/mgwyness/Desktop/school_21");
-	print_hashtable(ht);
-	printf("158\n");
-	insert_hashtable(ht, "HOME", "/Users/mgwyness");
-	// print_hashtable(ht);
-	insert_hashtable(ht, "PWD", "/Users/mgwyness/Desktop");
+	init_ht(ht, env);
+	// insert_hashtable(ht, "OLDPWD", "/Users/mgwyness/Desktop/school_21");
+	// // print_hashtable(ht);
+	// insert_hashtable(ht, "HOME", "/Users/mgwyness");
+	// // print_hashtable(ht);
+	// insert_hashtable(ht, "PWD", "/Users/mgwyness/Desktop");
 	// print_hashtable(ht);
 
 	t_command_table *cmd_table;
 	cmd_table = (t_command_table *)malloc(sizeof(t_command_table));
 	cmd_table->commands_num = 1;
-	// cmd_table->commands = (t_simple_cmd **)malloc(sizeof(t_simple_cmd *) * cmd_table->commands_num);
-	// int i = -1;
-	// while (++i < cmd_table->commands_num)
-	// 	cmd_table->commands[i] = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
+	cmd_table->commands = (t_simple_cmd **)malloc(sizeof(t_simple_cmd *) * cmd_table->commands_num);
 	t_simple_cmd *cmd1;
-	cmd1->cmd = "pwd";
-	cmd1->args_num = 0;
-	cmd1->cmd_args = 0;
+	cmd1 = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
+	// printf("pwd then: ");
+	// ft_pwd(ht);
+	cmd1->cmd = ft_strdup("cd");
+	cmd1->cmd_args = (char **)malloc(sizeof(char *));
+	cmd1->args_num = 1;
+	// ft_cd(ht, cmd1);
+	// printf("pwd now: ");
+	// ft_pwd(ht);
+	cmd1->cmd_args[0] = ft_strdup("/Users/mgwyness/Desktop/memory cleaning scripts");
+	ft_cd(ht, cmd1);
+	printf("pwd now: ");
 	ft_pwd(ht);
+	printf("oldpwd now: %s\n\n", find_hashtable(ht, "OLDPWD"));
+	cmd1->cmd_args[0] = ft_strdup("-");
+	// ft_cd(ht, cmd1);
+	// printf("pwd now: ");
+	// ft_pwd(ht);
+	// printf("oldpwd now: %s\n\n", find_hashtable(ht, "OLDPWD"));
+	cmd1->cmd_args[0] = ft_strdup("/Users/mgwyness/Desktop/minishell");
+	ft_cd(ht, cmd1);
+	printf("pwd now: ");
+	ft_pwd(ht);
+	printf("oldpwd now: %s\n\n", find_hashtable(ht, "OLDPWD"));
+	cmd1->cmd_args[0] = ft_strdup("-");
+	ft_cd(ht, cmd1);
+	printf("pwd now: ");
+	ft_pwd(ht);
+	printf("oldpwd now: %s\n\n", find_hashtable(ht, "OLDPWD"));
+	cmd1->cmd_args[0] = ft_strdup("234vnf");
+	ft_cd(ht, cmd1);
 
-	_DEBUG_assert_right_hashtable(ht);
+	// cmd1->cmd_args[0] = ft_strdup("s;djf;sl");
+	// ft_echo(cmd1->cmd_args, cmd1->args_num);
+	// _DEBUG_assert_right_hashtable(ht);
 
-	// insert_hashtable(ht, "NUMBER_3", "3");
-	// insert_hashtable(ht, "NUMBER_4", "4");
-	// insert_hashtable(ht, "NUMBER_5", "5");
-	// insert_hashtable(ht, "NUMBER_5!!", "120!");
-	// print_hashtable(ht);
-	// insert_hashtable(ht, "PATH", "/second/path");
-	// insert_hashtable(ht, "PATH", "/new/path");
-	// printf("found value = %s\n", find_hashtable(ht, "NUMBER_2"));
-	// printf("found value = %s\n", find_hashtable(ht, "NUMBER_3"));
-	// remove_hashtable(ht, "NUMBER_2");
-	// remove_hashtable(ht, "NUMBER_3");
-	// print_hashtable(ht);
+	// // insert_hashtable(ht, "NUMBER_3", "3");
+	// // insert_hashtable(ht, "NUMBER_4", "4");
+	// // insert_hashtable(ht, "NUMBER_5", "5");
+	// // insert_hashtable(ht, "NUMBER_5!!", "120!");
+	// // print_hashtable(ht);
+	// // insert_hashtable(ht, "PATH", "/second/path");
+	// // insert_hashtable(ht, "PATH", "/new/path");
+	// // printf("found value = %s\n", find_hashtable(ht, "NUMBER_2"));
+	// // printf("found value = %s\n", find_hashtable(ht, "NUMBER_3"));
+	// // remove_hashtable(ht, "NUMBER_2");
+	// // remove_hashtable(ht, "NUMBER_3");
+	// // print_hashtable(ht);
 
-	delete_hashtable(&ht);
+	// delete_hashtable(&ht);
 }
