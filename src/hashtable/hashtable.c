@@ -1,6 +1,8 @@
 #include "hashtable.h"
 #include "libft_funcs.h"
 
+#include <stdio.h> // remove
+
 t_hashtable	*init_hashtable(uint32_t size)
 {
 	t_hashtable	*ht;
@@ -21,7 +23,8 @@ t_hashtable	*init_hashtable(uint32_t size)
 		free(ht);
 		return (NULL);
 	}
-	memset(ht->table, 0, ht->size); // TODO: replace with own memset()
+	while (size)
+		ht->table[--size] = NULL;
 	return (ht);
 }
 
@@ -113,7 +116,9 @@ uint32_t	rehasing(t_hashtable *ht)
 	uint32_t	new_count;
 
 	new_table = malloc(sizeof(t_pair *) * (ht->size << 1));
-	memset(new_table, 0, (ht->size << 1)); // TODO: replace with own memset()
+	i = -1;
+	while (++i < (ht->size << 1))
+		new_table[i] = NULL;
 	new_count = 0;
 	i = -1;
 	while (++i < ht->size)

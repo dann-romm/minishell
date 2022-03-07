@@ -7,9 +7,13 @@ LIBS					= -lreadline -lncurses
 
 SRCDIR					= ./src
 HASHTABLE_SRCDIR		= $(SRCDIR)/hashtable
+PARSER_SRCDIR			= $(SRCDIR)/parser
+LEXER_SRCDIR			= $(SRCDIR)/lexer
 
 OBJDIR					= ./build
 HASHTABLE_OBJDIR		= $(OBJDIR)/hashtable
+PARSER_OBJDIR			= $(OBJDIR)/parser
+LEXER_OBJDIR			= $(OBJDIR)/lexer
 
 INCDIR					= ./includes
 
@@ -17,10 +21,15 @@ HASHTABLE_SRC			=	$(HASHTABLE_SRCDIR)/hashtable.c \
 							$(HASHTABLE_SRCDIR)/pair.c \
 							$(HASHTABLE_SRCDIR)/hash.c
 
+PARSER_SRC				=	$(PARSER_SRCDIR)/parser.c
+
+LEXER_SRC				=	$(LEXER_SRCDIR)/lexer.c \
+							$(LEXER_SRCDIR)/source.c
+
 SRC						=	$(HASHTABLE_SRC) \
+							$(LEXER_SRC) \
+							$(PARSER_SRC) \
 							$(SRCDIR)/main.c \
-							$(SRCDIR)/lexer.c \
-							$(SRCDIR)/source.c \
 							$(SRCDIR)/utils_ft.c \
 							$(SRCDIR)/prompt.c
 
@@ -30,21 +39,20 @@ DEP						= $(OBJ:.o=.d)
 all: $(NAME)
 
 
-$(NAME): $(OBJDIR) $(HASHTABLE_OBJDIR) $(OBJ)
+$(NAME): $(OBJDIR) $(HASHTABLE_OBJDIR) $(PARSER_OBJDIR) $(LEXER_OBJDIR) $(OBJ)
 	$(CC) $(OBJ) -o $(NAME) $(LIBS)
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c Makefile
 	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCDIR) -MMD
 
 $(OBJDIR):
-	mkdir -p $(OBJDIR)
-
+	mkdir -p $@
 $(HASHTABLE_OBJDIR):
-	mkdir -p $(HASHTABLE_OBJDIR)
-# $(OBJDIR):
-# 	mkdir -p $(OBJDIR)
-# $(OBJDIR):
-# 	mkdir -p $(OBJDIR)
+	mkdir -p $@
+$(PARSER_OBJDIR):
+	mkdir -p $@
+$(LEXER_OBJDIR):
+	mkdir -p $@
 
 clean:
 	$(RM) $(OBJDIR)

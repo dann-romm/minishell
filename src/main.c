@@ -2,12 +2,6 @@
 #include "hashtable.h"
 #include "libft_funcs.h"
 
-// void	test_init_source()
-// {
-// 	t_source	*src = init_source("echo \"hello world\"");
-// 	printf("%c %c %c %c %c\n", peek(src), peek2(src), next_char(src), next_char(src), peek2(src));
-// }
-
 char	*_DEBUG_token_type_to_str(t_token_type type)
 {
 	switch (type)
@@ -153,15 +147,19 @@ int	main(int argc, char **argv, char **env)
 	// }
 
 	t_hashtable *ht = init_hashtable(1);
+	printf("hashtable malloced -> %p\n", ht);
 	insert_hashtable(ht, "PATH", "/some/path");
+	printf("HERE\n");
 	insert_hashtable(ht, "qwe", "qwe");
 	insert_hashtable(ht, "HOME", "/home");
 	insert_hashtable(ht, "NUMBER_1", "1");
 	print_hashtable(ht);
+	printf("HERE\n");
 	insert_hashtable(ht, "NUMBER_2", "2");
 	print_hashtable(ht);
 
 	_DEBUG_assert_right_hashtable(ht);
+	printf("HERE\n");
 
 	// insert_hashtable(ht, "NUMBER_3", "3");
 	// insert_hashtable(ht, "NUMBER_4", "4");
