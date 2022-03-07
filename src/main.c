@@ -98,7 +98,7 @@ void	_DEBUG_print_token_list(t_token_list *list)
 {
 	t_token_list	*tmp;
 
-	printf("<------------------- DEBUG PRINT TOKEN LIST ------------------->\n");
+	printf("<-------------- DEBUG PRINT TOKEN LIST -------------->\n");
 	tmp = list;
 	while (tmp)
 	{
@@ -127,6 +127,14 @@ int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
 		}
 	}
 	return (0);
+}
+
+void	init_shell(void)
+{
+	g_shell = (t_shell *)malloc(sizeof(t_shell));
+
+	g_shell->env = init_hashtable(10);
+	// TODO: fill env
 }
 
 int	main(int argc, char **argv, char **env)

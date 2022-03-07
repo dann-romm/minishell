@@ -42,6 +42,13 @@
 // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <term.h>
 
+typedef struct s_shell
+{
+	t_hashtable	*env;
+}	t_shell;
+
+t_shell	*g_shell;
+
 // prompt.c
 char		*read_input(char *prompt);
 

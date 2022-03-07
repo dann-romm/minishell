@@ -3,7 +3,7 @@
 
 #include <stdio.h> // remove
 
-t_hashtable	*hashtable_init(uint32_t size)
+t_hashtable	*init_hashtable(uint32_t size)
 {
 	t_hashtable	*ht;
 

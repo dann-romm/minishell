@@ -192,7 +192,7 @@ t_token	*get_next_token(t_source *src)
 			token->type = T_DOLLAR;
 		}
 	}
-	else if (peek(src) == '"') // TODO: env variables handling
+	else if (peek(src) == '"')
 	{
 		token->type = T_STRING;
 		next_char(src);
@@ -236,6 +236,10 @@ t_token	*get_next_token(t_source *src)
 				}
 				else
 					save_char(src, next_char(src));
+			}
+			else if (peek(src) == '$') // TODO: env variables handling
+			{
+				
 			}
 			else
 				save_char(src, next_char(src));
@@ -282,7 +286,7 @@ t_token	*get_next_token(t_source *src)
 		}
 		if (peek(src) == EOF)
 			token->type = T_ERROR;
-		else // сюда мы попадаем при закрывающих кавычках
+		else
 			next_char(src);
 	}
 	else if (is_word_char(peek(src)))
