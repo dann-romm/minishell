@@ -119,6 +119,14 @@ typedef struct s_token
 // 	struct s_token_list	*next;
 // }	t_token_list;
 
+# include "hashtable.h"
+
+typedef struct s_shell
+{
+	t_hashtable	*env;
+}	t_shell;
+
+t_shell	*g_shell;
 
 typedef struct s_simple_cmd
 {
@@ -156,5 +164,8 @@ t_token		*init_token(t_token_type type, char *str);
 
 // prompt.c
 char		*read_input(char *prompt);
+
+// global variable
+void	init_shell(char **env);
 
 #endif

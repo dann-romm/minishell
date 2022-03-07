@@ -7,13 +7,6 @@
 # include <errno.h>
 # include <string.h> // remove and write own memset()
 
-typedef struct s_shell
-{
-	t_hashtable	*env;
-}	t_shell;
-
-t_shell	*g_shell;
-
 typedef struct s_pair
 {
 	char			*key;
