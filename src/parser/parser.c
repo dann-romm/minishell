@@ -62,9 +62,9 @@ t_command_table	*parser(t_token_list *list)
 	int32_t			i;
 
 	table = (t_command_table *)malloc(sizeof(t_command_table));
-	table->_stdin = NULL;
-	table->_stdout = NULL;
-	table->_stderr = NULL;
+	table->redirect._stdin = NULL;
+	table->redirect._stdout = NULL;
+	table->redirect._stderr = NULL;
 	if (!table) // TODO: errno = ENOMEM
 		return (NULL);
 	table->commands_num = count_commands_num(list);
