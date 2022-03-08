@@ -1,5 +1,6 @@
 #include "shell.h"
 #include "hashtable.h"
+#include "libft_funcs.h"
 
 void	upd_pwd(t_hashtable *ht, char *path) // /Users/mgwyness/Desktop/school_21
 {

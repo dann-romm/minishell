@@ -13,7 +13,7 @@ int	check_input(char *str)
 	count2 = 0;
 	while (str[++i])
 	{
-		if (!ft_isdigit(str[i]) && !ft_isalpha(str[i]) || ft_isdigit(str[0]))
+		if ((!ft_isdigit(str[i]) && !ft_isalpha(str[i])) || ft_isdigit(str[0]))
 			return (1);
 		else if (ft_isdigit(str[i]))
 			count1++;

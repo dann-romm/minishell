@@ -164,3 +164,20 @@ void	print_hashtable(t_hashtable *ht)
 	}
 	printf("\n");
 }
+
+void	print_ht(t_hashtable *ht)
+{
+	t_pair	*pair;
+	int		i;
+
+	i = -1;
+	while (++i < ht->size)
+	{
+		pair = ht->table[i];
+		while (pair)
+		{
+			printf("%s=%s\n", pair->key, pair->value);
+			pair = pair->next;
+		}
+	}
+}

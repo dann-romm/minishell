@@ -22,6 +22,9 @@ typedef struct s_hashtable
 	uint32_t	(*hash)(char *key, uint32_t size);
 }	t_hashtable;
 
+void		fill_ht(char **env);
+void		print_ht(t_hashtable *ht);
+
 t_pair		*init_pair(char *key, char *value);
 int			push_front(t_pair **head, t_pair *pair);
 int			remove_pair(t_pair **head, char *key);

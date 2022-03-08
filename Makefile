@@ -44,7 +44,7 @@ SRC						=	$(HASHTABLE_SRC) \
 							$(SRCDIR)/main.c \
 							$(SRCDIR)/ft_split.c \
 							$(SRCDIR)/init_g_shell.c \
-							$(SRCDIR)/init_hashtable.c \
+							$(SRCDIR)/fill_hashtable.c \
 							$(SRCDIR)/executor.c \
 							$(SRCDIR)/utils_ft.c \
 							$(SRCDIR)/utils.c \

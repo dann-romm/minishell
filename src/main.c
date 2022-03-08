@@ -195,6 +195,7 @@ int	main(int argc, char **argv, char **env)
 	// cmd1->cmd_args[0] = ft_strdup("s;djf;sl");
 	// ft_echo(cmd1->cmd_args, cmd1->args_num);
 	// _DEBUG_assert_right_hashtable(ht);
-
+	ft_env(g_shell->env);
+	ft_export(g_shell->env, argv);
 	// delete_hashtable(&ht);
 }
