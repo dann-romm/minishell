@@ -134,7 +134,6 @@ int	_DEBUG_print_command_table(t_command_table *table)
 	printf("<-------------- DEBUG PRINT CMD TABLE -------------->\n");
 	printf("stdin: %s\n", table->redirect._stdin);
 	printf("stdout: %s\n", table->redirect._stdout);
-	printf("stderr: %s\n", table->redirect._stderr);
 	printf("commands: %d\n", table->commands_num);
 	for (int i = 0; i < table->commands_num; i++)
 	{
@@ -162,18 +161,15 @@ int	main(int argc, char **argv, char **env)
 	t_token_list	*list;
 	t_command_table	*table;
 
-	int fd = open("/dev/fd/0", O_RDONLY);
-	printf("fd = %d\n", fd);
-
 	init_shell();
 	while (1)
 	{
 		input = read_input("");
 		list = create_token_list(input);
 
-		_DEBUG_print_token_list(list);
-		// table = parser(list);
-		// _DEBUG_print_command_table(table);
+		// _DEBUG_print_token_list(list);
+		table = parser(list);
+		_DEBUG_print_command_table(table);
 
 		clear_token_list(&list);
 		free(input);

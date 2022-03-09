@@ -56,17 +56,24 @@ t_simple_cmd	*init_simple_cmd(t_token_list *list)
 	return (cmd);
 }
 
+t_command_table	*init_command_table(void)
+{
+	t_command_table	*table;
+
+	table = (t_command_table *)malloc(sizeof(t_command_table));
+	if (!table) // TODO: errno = ENOMEM
+		return (NULL);
+	table->redirect._stdin = NULL;
+	table->redirect._stdout = NULL;
+	return (table);
+}
+
 t_command_table	*parser(t_token_list *list)
 {
 	t_command_table	*table;
 	int32_t			i;
 
-	table = (t_command_table *)malloc(sizeof(t_command_table));
-	table->redirect._stdin = NULL;
-	table->redirect._stdout = NULL;
-	table->redirect._stderr = NULL;
-	if (!table) // TODO: errno = ENOMEM
-		return (NULL);
+	table = init_command_table();
 	table->commands_num = count_commands_num(list);
 	table->commands = (t_simple_cmd **)malloc(sizeof(t_simple_cmd *) * table->commands_num);
 	if (!table->commands)

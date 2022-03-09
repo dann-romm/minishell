@@ -62,10 +62,8 @@ typedef struct s_redirect
 {
 	char	*_stdin;
 	char	*_stdout;
-	char	*_stderr;
 	int		is_stdin_append;
 	int		is_stdout_append;
-	int		is_stderr_append;
 }	t_redirect;
 
 
