@@ -104,7 +104,7 @@ void	delete_hashtable(t_hashtable **ht)
 
 #include <stdio.h>
 
-uint32_t	rehasing(t_hashtable *ht)
+uint32_t	rehashing(t_hashtable *ht)
 {
 	int32_t		i;
 	t_pair		*pair;

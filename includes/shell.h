@@ -123,7 +123,8 @@ typedef struct s_token
 
 typedef struct s_shell
 {
-	t_hashtable	*env;
+	t_hashtable	*env_global;
+	t_hashtable	*env_local;
 }	t_shell;
 
 t_shell	*g_shell;

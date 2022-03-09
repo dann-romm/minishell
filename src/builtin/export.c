@@ -13,7 +13,7 @@ int	check_input(char *str)
 	count2 = 0;
 	while (str[++i])
 	{
-		if ((!ft_isdigit(str[i]) && !ft_isalpha(str[i])) || ft_isdigit(str[0]))
+		if (str[0] != '_' && ((!ft_isdigit(str[i]) && !ft_isalpha(str[i])) || ft_isdigit(str[0])))
 			return (1);
 		else if (ft_isdigit(str[i]))
 			count1++;
@@ -23,12 +23,45 @@ int	check_input(char *str)
 	return (0);
 }
 
-void	ft_export(t_hashtable *ht, char **args)
+/*
+ABC=qweqwe -> not recorded in any table
+export ABC=qweqwe / ABC= -> recorded in both global and local tables
+export ABC -> recorded only in local table
+*/
+
+void	print_export_ht(t_hashtable *ht)
 {
-	if (check_input(args[0])) // если имя переменной состоит только из чисел или в нем есть символ типа !@#', оно невалидно
+	t_pair	*pair;
+	int		i;
+
+	i = -1;
+	while (++i < ht->size)
 	{
-		printf("minishell: export: `%s': not a valid identifier", args[1]);
+		pair = ht->table[i];
+		while (pair)
+		{
+			printf("declare -x %s=""%s""\n", pair->key, pair->value);
+			pair = pair->next;
+		}
+	}
+}
+
+
+void	ft_export(t_simple_cmd *cmd)
+{
+	int	i;
+	char *res;
+
+	i = 0;
+	if (cmd->args_num == 0)
+		print_export_ht(g_shell->env_global);
+	if (cmd->cmd_args[0][1] == 0 && cmd->cmd_args[0][0] == '_')
+		return ;
+	if (check_input(cmd->cmd_args[0])) // если имя переменной состоит только из чисел или в нем есть символ типа !@#', оно невалидно
+	{
+		printf("minishell: export: `%s': not a valid identifier\n", cmd->cmd_args[0]);
 		return ;
 	}
-	insert_hashtable(ht, args[0], args[1]);
+	insert_hashtable(g_shell->env_global, cmd->cmd_args[0], find_hashtable(g_shell->env_local, cmd->cmd_args[0]));
+	free(res);
 }
