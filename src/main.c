@@ -154,20 +154,27 @@ int	main(int argc, char **argv, char **env)
 	// }
 
 	init_shell(env);
-	// printf("%s\n", argv[2]);
-	t_command_table *cmd_table;
-	cmd_table = (t_command_table *)malloc(sizeof(t_command_table));
-	cmd_table->commands_num = 1;
-	cmd_table->commands = (t_simple_cmd **)malloc(sizeof(t_simple_cmd *) * cmd_table->commands_num);
-	t_simple_cmd *cmd1;
-	cmd1 = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
-	// // printf("pwd then: ");
-	// // ft_pwd(ht);
-	cmd1->cmd = ft_strdup("export");
-	cmd1->cmd_args = (char **)malloc(sizeof(char *));
-	cmd1->cmd_args = ft_split(argv[2], ' ');
-	printf("%s %s\n", cmd1->cmd_args[0], cmd1->cmd_args[1]);
+	// insert_hashtable(g_shell->env_local, "AAA", "abcde");
 
+	// t_command_table *cmd_table;
+	// cmd_table = (t_command_table *)malloc(sizeof(t_command_table));
+	// cmd_table->commands_num = 1;
+	// cmd_table->commands = (t_simple_cmd **)malloc(sizeof(t_simple_cmd *) * cmd_table->commands_num);
+	// t_simple_cmd *cmd1;
+	// cmd1 = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
+
+	// cmd1->cmd = ft_strdup("export");
+	// cmd1->cmd_args = (char **)malloc(sizeof(char *));
+	// cmd1->cmd_args[0] = ft_strdup("AAA");
+	// cmd1->args_num = 1;
+	// ft_export(cmd1);
+	if (argv[1])
+		ft_env();
+	else
+	{
+		insert_hashtable(g_shell->env_global, "BBB", "abcde");
+		print_ht(g_shell->env_global);
+	}
 	
 	// cmd1->args_num = 2;
 	// cmd1->cmd_args[0] = ft_strdup("123");

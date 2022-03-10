@@ -62,6 +62,7 @@ void	ft_export(t_simple_cmd *cmd)
 		printf("minishell: export: `%s': not a valid identifier\n", cmd->cmd_args[0]);
 		return ;
 	}
+	// printf("value -> %s\n", find_hashtable(g_shell->env_local, cmd->cmd_args[0]));
 	insert_hashtable(g_shell->env_global, cmd->cmd_args[0], find_hashtable(g_shell->env_local, cmd->cmd_args[0]));
 	free(res);
 }

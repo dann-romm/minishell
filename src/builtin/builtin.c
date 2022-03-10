@@ -19,7 +19,7 @@ void	exec_builtin(t_command_table *table, t_hashtable *ht)
 		if (!ft_strcmp(table->commands[i]->cmd, "env"))
 			ft_env(ht);
 		if (!ft_strcmp(table->commands[i]->cmd, "export"))
-			ft_export(ht, table->commands[i]);
+			ft_export(table->commands[i]);
 		if (!ft_strcmp(table->commands[i]->cmd, "unset"))
 			ft_unset(ht, table->commands[i]);
 		if (!ft_strcmp(table->commands[i]->cmd, "exit"))

@@ -3,7 +3,7 @@
 
 t_hashtable	*init_hashtable(uint32_t size)
 {
-	t_hashtable	*ht;
+	t_hashtable static	*ht;
 
 	ht = malloc(sizeof(t_hashtable));
 	if (!ht)
@@ -46,7 +46,7 @@ int32_t	insert_hashtable(t_hashtable *ht, char *key, char *value)
 	if (push_front(&(ht->table[index]), init_pair(key, value)))
 		return (1);
 	if ((float)ht->count / ht->size >= LOAD_RATIO_LIMIT)
-		rehasing(ht);
+		rehashing(ht);
 	return (0);
 }
 
