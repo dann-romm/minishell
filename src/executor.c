@@ -1,6 +1,7 @@
 #include "shell.h"
 #include "hashtable.h"
 #include "libft_funcs.h"
+#include "builtin.h"
 
 // s = getenv("PATH"); // покажет значение переменной РАТН
 
@@ -29,9 +30,32 @@ char *search_path(char *cmd) // принимает имя команды, а з�
 	return (0);
 }
 
-void	execute(t_simple_cmd *cmd, t_hashtable *ht)
+
+int	is_builtin(t_simple_cmd *command)
+{
+	if (ft_strcmp(command->cmd, "cd"))
+		return (1);
+	if (ft_strcmp(command->cmd, "echo"))
+		return (1);
+	if (ft_strcmp(command->cmd, "pwd"))
+		return (1);
+	if (ft_strcmp(command->cmd, "export"))
+		return (1);
+	if (ft_strcmp(command->cmd, "unset"))
+		return (1);
+	if (ft_strcmp(command->cmd, "exit"))
+		return (1);
+	if (ft_strcmp(command->cmd, "env"))
+		return (1);
+	return (0);
+}
+
+void	execute_cmd(t_simple_cmd *cmd, t_hashtable *ht)
 {
 	if (!cmd)
 		return ;
-	// else if ()
+	//else if (cmd && is_builtin(cmd))
+		//exec_builtin(ht, cmd);
+	//else
+	//	exec_bin(cmd); // for execution of other cmds, not written yet
 }

@@ -153,12 +153,11 @@ int	main(int argc, char **argv, char **env)
 	// }
 
 	t_hashtable *ht = init_hashtable(1);
-	insert_hashtable(ht, "PATH", "/some/path");
-	insert_hashtable(ht, "qwe", "qwe");
-	insert_hashtable(ht, "HOME", "/home");
-	insert_hashtable(ht, "NUMBER_1", "1");
+	insert_hashtable(ht, "PWD", "/Users/zaira/Desktop");
 	print_hashtable(ht);
-	insert_hashtable(ht, "NUMBER_2", "2");
+	insert_hashtable(ht, "OLDPWD", "/Users/zaira");
+	print_hashtable(ht);
+	insert_hashtable(ht, "HOME", "/Users/zaira");
 	print_hashtable(ht);
 
 	_DEBUG_assert_right_hashtable(ht);
