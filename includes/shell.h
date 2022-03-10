@@ -7,6 +7,8 @@
 
 # include <errno.h>
 
+# include <errno.h>
+
 // readline rl_clear_history rl_on_new_line rl_replace_line rl_redisplay add_history
 # include <readline/readline.h>
 
@@ -117,6 +119,15 @@ typedef struct s_token
 // 	struct s_token_list	*next;
 // }	t_token_list;
 
+# include "hashtable.h"
+
+typedef struct s_shell
+{
+	t_hashtable	*env_global;
+	t_hashtable	*env_local;
+}	t_shell;
+
+t_shell	*g_shell;
 
 typedef struct s_simple_cmd
 {
@@ -158,5 +169,7 @@ char		*read_input(char *prompt);
 // executor.c
 int		is_builtin(t_simple_cmd *command);
 //void	exec_builtin(t_command_table *table, t_hashtable *ht);
+// global variable
+void	init_shell(char **env);
 
 #endif
