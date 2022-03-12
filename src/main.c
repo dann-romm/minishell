@@ -5,7 +5,7 @@
 #include "builtin.h"
 #include "parser.h"
 
-char	*token_type_to_str(t_token_type type)
+char	*_DEBUG_token_type_to_str(t_token_type type)
 {
 	switch (type)
 	{
@@ -151,8 +151,8 @@ int	main(int argc, char **argv, char **env)
 	char			*input;
 	t_token_list	*list;
 	t_command_table	*table;
-
-	init_shell();
+	init_shell(env);
+	insert_hashtable(g_shell->env_local, "AAA", "abcde");
 	while (1)
 	{
 		input = read_input("");
@@ -165,4 +165,27 @@ int	main(int argc, char **argv, char **env)
 		clear_token_list(&list);
 		free(input);
 	}
+	// cmd1->cmd = ft_strdup("export");
+	// cmd1->cmd_args = (char **)malloc(sizeof(char *));
+	// cmd1->cmd_args[0] = ft_strdup("AAA");
+	// cmd1->args_num = 1;
+	// ft_export(cmd1);
+	// print_export_ht(g_shell->env_global);
+
+	// cmd1->cmd = ft_strdup("unset");
+	// cmd1->cmd_args = (char **)malloc(sizeof(char *));
+	// cmd1->cmd_args[0] = ft_strdup("DISPLAY");
+	// cmd1->args_num = 1;
+	// ft_unset(cmd1);
+
+	ft_exit();
+	
+	// cmd1->cmd_args[0] = ft_strdup("s;djf;sl");
+	// ft_echo(cmd1->cmd_args, cmd1->args_num);
+	// _DEBUG_assert_right_hashtable(ht);
+	// char **av = (char **)malloc(sizeof(char *) * 2);
+	// av = ft_split(argv[2], '=');
+	// ft_export(g_shell->env, cmd1, argv[2]);
+	// ft_env(g_shell->env);
+	// delete_hashtable(&ht);
 }
