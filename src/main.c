@@ -168,41 +168,6 @@ int	main(int argc, char **argv, char **env)
 	// cmd1->cmd_args[0] = ft_strdup("AAA");
 	// cmd1->args_num = 1;
 	// ft_export(cmd1);
-	if (argv[1])
-		ft_env();
-	else
-	{
-		insert_hashtable(g_shell->env_global, "BBB", "abcde");
-		print_ht(g_shell->env_global);
-	}
-	
-	// cmd1->args_num = 2;
-	// cmd1->cmd_args[0] = ft_strdup("123");
-	// cmd1->cmd_args[1] = ft_strdup("abc");
-	// // ft_cd(ht, cmd1);
-	// // printf("pwd now: ");
-	// // ft_pwd(ht);
-	// ft_cd(ht, cmd1);
-	// printf("pwd now: ");
-	// ft_pwd(ht);
-	// printf("oldpwd now: %s\n\n", find_hashtable(ht, "OLDPWD"));
-	// cmd1->cmd_args[0] = ft_strdup("-");
-	// // ft_cd(ht, cmd1);
-	// // printf("pwd now: ");
-	// // ft_pwd(ht);
-	// // printf("oldpwd now: %s\n\n", find_hashtable(ht, "OLDPWD"));
-	// cmd1->cmd_args[0] = ft_strdup("/Users/mgwyness/Desktop/minishell");
-	// ft_cd(ht, cmd1);
-	// printf("pwd now: ");
-	// ft_pwd(ht);
-	// printf("oldpwd now: %s\n\n", find_hashtable(ht, "OLDPWD"));
-	// cmd1->cmd_args[0] = ft_strdup("-");
-	// ft_cd(ht, cmd1);
-	// printf("pwd now: ");
-	// ft_pwd(ht);
-	// printf("oldpwd now: %s\n\n", find_hashtable(ht, "OLDPWD"));
-	// cmd1->cmd_args[0] = ft_strdup("234vnf");
-	// ft_cd(ht, cmd1);
 
 	// cmd1->cmd_args[0] = ft_strdup("s;djf;sl");
 	// ft_echo(cmd1->cmd_args, cmd1->args_num);
