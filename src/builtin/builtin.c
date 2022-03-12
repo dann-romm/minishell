@@ -16,12 +16,12 @@ void	exec_builtin(t_command_table *table, t_hashtable *ht)
 		if (!ft_strcmp(table->commands[i]->cmd, "echo"))
 			ft_echo(table->commands[i]->cmd_args, table->commands[i]->args_num);
 		if (!ft_strcmp(table->commands[i]->cmd, "env"))
-			ft_env(ht);
+			ft_env();
 		if (!ft_strcmp(table->commands[i]->cmd, "export"))
 			ft_export(table->commands[i]);
 		if (!ft_strcmp(table->commands[i]->cmd, "unset"))
-			ft_unset(ht, table->commands[i]);
+			ft_unset(table->commands[i]);
 		if (!ft_strcmp(table->commands[i]->cmd, "exit"))
-			ft_exit(table->commands[i]->cmd_args, table->commands[i]->args_num);;
+			ft_exit();
 	}
 }

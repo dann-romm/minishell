@@ -11,38 +11,8 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	// char		*input;
-	// t_source	*src;
-	// t_token		*token;
-
-	// while (1)
-	// {
-	// 	input = read_input("");
-	// 	src = init_source(input);
-
-	// 	token = get_next_token(src);
-	// 	while (token->type != T_EOF)
-	// 	{
-	// 		_DEBUG_print_token(token);
-	// 		free(token->value);
-	// 		free(token);
-	// 		token = get_next_token(src);
-	// 	}
-	// 	free(token->value);
-	// 	free(token);
-	// 	free(src->buffer);
-	// 	free(src->str);
-	// 	free(src);
-	// 	if (ft_strcmp(input, "exit") == 0)
-	// 	{
-	// 		free(input);
-	// 		break;
-	// 	}
-	// 	free(input);
-	// }
-
 	init_shell(env);
-	// insert_hashtable(g_shell->env_local, "AAA", "abcde");
+	insert_hashtable(g_shell->env_local, "AAA", "abcde");
 
 	// t_command_table *cmd_table;
 	// cmd_table = (t_command_table *)malloc(sizeof(t_command_table));
@@ -56,7 +26,16 @@ int	main(int argc, char **argv, char **env)
 	// cmd1->cmd_args[0] = ft_strdup("AAA");
 	// cmd1->args_num = 1;
 	// ft_export(cmd1);
+	// print_export_ht(g_shell->env_global);
 
+	// cmd1->cmd = ft_strdup("unset");
+	// cmd1->cmd_args = (char **)malloc(sizeof(char *));
+	// cmd1->cmd_args[0] = ft_strdup("DISPLAY");
+	// cmd1->args_num = 1;
+	// ft_unset(cmd1);
+
+	ft_exit();
+	
 	// cmd1->cmd_args[0] = ft_strdup("s;djf;sl");
 	// ft_echo(cmd1->cmd_args, cmd1->args_num);
 	// _DEBUG_assert_right_hashtable(ht);
