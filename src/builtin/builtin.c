@@ -6,7 +6,6 @@
 void	exec_builtin(t_command_table *table, t_hashtable *ht)
 {
 	int	i;
-
 	i = -1;
 	while (++i < table->commands_num)
 	{

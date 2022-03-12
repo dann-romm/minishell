@@ -166,6 +166,9 @@ t_token		*init_token(t_token_type type, char *str);
 // prompt.c
 char		*read_input(char *prompt);
 
+// executor.c
+int		is_builtin(t_simple_cmd *command);
+//void	exec_builtin(t_command_table *table, t_hashtable *ht);
 // global variable
 void	init_shell(char **env);
 
