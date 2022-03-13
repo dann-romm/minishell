@@ -43,7 +43,7 @@ int32_t	insert_hashtable(t_hashtable *ht, char *key, char *value)
 	}
 	if (!ht->table[index])
 		ht->count++;
-	if (push_front(&(ht->table[index]), init_pair(key, value)))
+	if (push_front_pair(&(ht->table[index]), init_pair(key, value)))
 		return (1);
 	if ((float)ht->count / ht->size >= LOAD_RATIO_LIMIT)
 		rehashing(ht);
@@ -53,7 +53,6 @@ int32_t	insert_hashtable(t_hashtable *ht, char *key, char *value)
 int32_t	remove_hashtable(t_hashtable *ht, char *key)
 {
 	uint32_t	index;
-	t_pair		*pair;
 
 	index = ht->hash(key, ht->size);
 	if (!remove_pair(&(ht->table[index]), key))
@@ -128,7 +127,7 @@ uint32_t	rehashing(t_hashtable *ht)
 			new_index = ht->hash(pair->key, (ht->size << 1));
 			if (!new_table[new_index])
 				new_count++;
-			if (push_front(&(new_table[new_index]), pair))
+			if (push_front_pair(&(new_table[new_index]), pair))
 			{
 				free(new_table);
 				return (1);
