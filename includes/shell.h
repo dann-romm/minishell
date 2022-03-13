@@ -1,6 +1,12 @@
 #ifndef SHELL_H
 # define SHELL_H
 
+# define PATH_MAX 4096
+# define ERRCHAR 0
+# define ESCCHAR '\\'
+
+# include <errno.h>
+
 # include <errno.h>
 
 // readline rl_clear_history rl_on_new_line rl_replace_line rl_redisplay add_history
@@ -44,18 +50,24 @@
 
 # include "hashtable.h"
 
-typedef struct s_shell
+typedef enum e_cmd_type
 {
-	t_hashtable	*env;
-}	t_shell;
-
-t_shell	*g_shell;
+	CMD_NONE = -1,
+	CMD_CD,
+	CMD_PWD,
+	CMD_ECHO,
+	CMD_EXPORT,
+	CMD_EXIT,
+	CMD_UNSET,
+	CMD_ENV
+} 	t_cmd_type;
 
 typedef struct s_simple_cmd
 {
-	char	*cmd;
-	int32_t	args_num;
-	char	**cmd_args;
+	char		*cmd;
+	int32_t		args_num;
+	char		**cmd_args;
+	t_cmd_type	type;
 }	t_simple_cmd;
 
 typedef struct s_redirect
@@ -66,13 +78,20 @@ typedef struct s_redirect
 	int		is_stdout_append;
 }	t_redirect;
 
-
 typedef struct s_command_table
 {
 	int32_t			commands_num;
 	t_simple_cmd	**commands;
 	t_redirect		redirect;
-}						t_command_table;
+}	t_command_table;
+
+typedef struct s_shell
+{
+	t_hashtable	*env_global;
+	t_hashtable	*env_local;
+}	t_shell;
+
+t_shell	*g_shell;
 
 // prompt.c
 char		*read_input(char *prompt);

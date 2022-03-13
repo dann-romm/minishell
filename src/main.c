@@ -2,9 +2,10 @@
 #include "lexer.h"
 #include "hashtable.h"
 #include "libft_funcs.h"
+#include "builtin.h"
 #include "parser.h"
 
-char	*_DEBUG_token_type_to_str(t_token_type type)
+char	*token_type_to_str(t_token_type type)
 {
 	switch (type)
 	{
@@ -20,8 +21,6 @@ char	*_DEBUG_token_type_to_str(t_token_type type)
 			return ("T_DOLLAR");
 		case T_STRING:
 			return ("T_STRING");
-		case T_BUILTIN:
-			return ("T_BUILTIN");
 		case T_EXITSTATUS:
 			return ("T_EXITSTATUS");
 		case T_IF:
@@ -145,14 +144,6 @@ int	_DEBUG_print_command_table(t_command_table *table)
 		printf("\n");
 	}
 	return (0);
-}
-
-void	init_shell(void)
-{
-	g_shell = (t_shell *)malloc(sizeof(t_shell));
-
-	g_shell->env = init_hashtable(10);
-	insert_hashtable(g_shell->env, "PWD", "/usr/bin");
 }
 
 int	main(int argc, char **argv, char **env)

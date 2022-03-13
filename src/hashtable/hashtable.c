@@ -1,11 +1,9 @@
 #include "hashtable.h"
 #include "libft_funcs.h"
 
-#include <stdio.h> // remove
-
 t_hashtable	*init_hashtable(uint32_t size)
 {
-	t_hashtable	*ht;
+	t_hashtable static	*ht;
 
 	ht = malloc(sizeof(t_hashtable));
 	if (!ht)
@@ -48,7 +46,7 @@ int32_t	insert_hashtable(t_hashtable *ht, char *key, char *value)
 	if (push_front_pair(&(ht->table[index]), init_pair(key, value)))
 		return (1);
 	if ((float)ht->count / ht->size >= LOAD_RATIO_LIMIT)
-		rehasing(ht);
+		rehashing(ht);
 	return (0);
 }
 
@@ -105,7 +103,7 @@ void	delete_hashtable(t_hashtable **ht)
 
 #include <stdio.h>
 
-uint32_t	rehasing(t_hashtable *ht)
+uint32_t	rehashing(t_hashtable *ht)
 {
 	int32_t		i;
 	t_pair		*pair;
@@ -164,4 +162,21 @@ void	print_hashtable(t_hashtable *ht)
 		printf("\n");
 	}
 	printf("\n");
+}
+
+void	print_ht(t_hashtable *ht)
+{
+	t_pair	*pair;
+	int		i;
+
+	i = -1;
+	while (++i < ht->size)
+	{
+		pair = ht->table[i];
+		while (pair)
+		{
+			printf("%s=%s\n", pair->key, pair->value);
+			pair = pair->next;
+		}
+	}
 }

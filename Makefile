@@ -7,11 +7,13 @@ LIBS					= -lreadline -lncurses
 
 SRCDIR					= ./src
 HASHTABLE_SRCDIR		= $(SRCDIR)/hashtable
+BUILTIN_SRCDIR			= $(SRCDIR)/builtin
 PARSER_SRCDIR			= $(SRCDIR)/parser
 LEXER_SRCDIR			= $(SRCDIR)/lexer
 
 OBJDIR					= ./build
 HASHTABLE_OBJDIR		= $(OBJDIR)/hashtable
+BUILTIN_OBJDIR			= $(OBJDIR)/builtin
 PARSER_OBJDIR			= $(OBJDIR)/parser
 LEXER_OBJDIR			= $(OBJDIR)/lexer
 
@@ -20,6 +22,15 @@ INCDIR					= ./includes
 HASHTABLE_SRC			=	$(HASHTABLE_SRCDIR)/hashtable.c \
 							$(HASHTABLE_SRCDIR)/pair.c \
 							$(HASHTABLE_SRCDIR)/hash.c
+
+BUILTIN_SRC				=	$(BUILTIN_SRCDIR)/builtin.c \
+							$(BUILTIN_SRCDIR)/cd.c \
+							$(BUILTIN_SRCDIR)/echo.c \
+							$(BUILTIN_SRCDIR)/env.c \
+							$(BUILTIN_SRCDIR)/exit.c \
+							$(BUILTIN_SRCDIR)/export.c \
+							$(BUILTIN_SRCDIR)/pwd.c \
+							$(BUILTIN_SRCDIR)/unset.c 
 
 PARSER_SRC				=	$(PARSER_SRCDIR)/parser.c
 
@@ -30,8 +41,14 @@ LEXER_SRC				=	$(LEXER_SRCDIR)/lexer.c \
 SRC						=	$(HASHTABLE_SRC) \
 							$(LEXER_SRC) \
 							$(PARSER_SRC) \
+							$(BUILTIN_SRC) \
 							$(SRCDIR)/main.c \
+							$(SRCDIR)/ft_split.c \
+							$(SRCDIR)/init_g_shell.c \
+							$(SRCDIR)/fill_hashtable.c \
+							$(SRCDIR)/executor.c \
 							$(SRCDIR)/utils_ft.c \
+							$(SRCDIR)/utils.c \
 							$(SRCDIR)/prompt.c
 
 OBJ						= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
