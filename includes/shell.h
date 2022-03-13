@@ -50,11 +50,24 @@
 
 # include "hashtable.h"
 
+typedef enum e_cmd_type
+{
+	CMD_NONE = -1,
+	CMD_CD,
+	CMD_PWD,
+	CMD_ECHO,
+	CMD_EXPORT,
+	CMD_EXIT,
+	CMD_UNSET,
+	CMD_ENV
+} 	t_cmd_type;
+
 typedef struct s_simple_cmd
 {
-	char	*cmd;
-	int32_t	args_num;
-	char	**cmd_args; // TODO: add cmd type enum
+	char		*cmd;
+	int32_t		args_num;
+	char		**cmd_args;
+	t_cmd_type	type;
 }	t_simple_cmd;
 
 typedef struct s_redirect
