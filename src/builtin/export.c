@@ -23,7 +23,13 @@ int	check_input(char *str)
 	return (0);
 }
 
-void	print_export_ht(t_hashtable *ht) // sort it in alphabetic order
+/*
+ABC=qweqwe -> not recorded in any table
+export ABC=qweqwe / ABC= -> recorded in both global and local tables
+export ABC -> recorded only in local table
+*/
+
+void	print_export_ht(t_hashtable *ht)
 {
 	t_pair	*pair;
 	int		i;
@@ -34,7 +40,7 @@ void	print_export_ht(t_hashtable *ht) // sort it in alphabetic order
 		pair = ht->table[i];
 		while (pair)
 		{
-			printf("declare -x %s=\"%s\"\n", pair->key, pair->value);
+			printf("declare -x %s=""%s""\n", pair->key, pair->value);
 			pair = pair->next;
 		}
 	}
@@ -56,6 +62,7 @@ void	ft_export(t_simple_cmd *cmd)
 		printf("minishell: export: `%s': not a valid identifier\n", cmd->cmd_args[0]);
 		return ;
 	}
+	// printf("value -> %s\n", find_hashtable(g_shell->env_local, cmd->cmd_args[0]));
 	insert_hashtable(g_shell->env_global, cmd->cmd_args[0], find_hashtable(g_shell->env_local, cmd->cmd_args[0]));
 	free(res);
 }

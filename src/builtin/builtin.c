@@ -3,53 +3,25 @@
 #include "libft_funcs.h"
 #include "builtin.h"
 
-int	is_builtin(t_simple_cmd *some_cmd)
+void	exec_builtin(t_command_table *table, t_hashtable *ht)
 {
-	if ((some_cmd->type == CMD_CD, "cd"))
-		return (1);
-	if ((some_cmd->type == CMD_PWD, "pwd"))
-		return (1);
-	if ((some_cmd->type == CMD_ECHO, "echo"))
-		return (1);
-	if ((some_cmd->type == CMD_ENV, "env"))
-		return (1);
-	if ((some_cmd->type == CMD_EXPORT, "export"))
-		return (1);
-	if ((some_cmd->type == CMD_UNSET, "unset"))
-		return (1);
-	if ((some_cmd->type == CMD_EXIT, "exit"))
-		return (1);
-	return (0);
-}
-
-void	exec_builtin(t_simple_cmd *some_cmd)
-{
-	set_pipe();
-	if ((some_cmd->type == CMD_CD, "cd"))
-		ft_cd(some_cmd->cmd);
-	if ((some_cmd->type == CMD_PWD, "pwd"))
-		ft_pwd();
-	if ((some_cmd->type == CMD_ECHO, "echo"))
-		ft_echo(some_cmd->cmd_args, some_cmd->args_num);
-	if ((some_cmd->type == CMD_ENV, "env"))
-		ft_env();
-	if ((some_cmd->type == CMD_EXPORT, "export"))
-		ft_export(some_cmd->cmd);
-	if ((some_cmd->type == CMD_UNSET, "unset"))
-		ft_unset(some_cmd->cmd);
-	if ((some_cmd->type == CMD_EXIT, "exit"))
-		ft_exit();
-}
-
-void	run_cmd(t_command_table *table) // проходится по каждой команде и запускает соответствующую функцию
-{
-	int i = 0;
-	while (i < table->commands_num)
+	int	i;
+	i = -1;
+	while (++i < table->commands_num)
 	{
-		if (is_builtin)
-			exec_builtin(table->commands[i]);
-		else
-			exec_cmd(table->commands[i]);
-		i++;
+		if (!ft_strcmp(table->commands[i]->cmd, "cd"))
+			ft_cd(ht, table->commands[i]);
+		if (!ft_strcmp(table->commands[i]->cmd, "pwd"))
+			ft_pwd(ht);
+		if (!ft_strcmp(table->commands[i]->cmd, "echo"))
+			ft_echo(table->commands[i]->cmd_args, table->commands[i]->args_num);
+		if (!ft_strcmp(table->commands[i]->cmd, "env"))
+			ft_env(ht);
+		if (!ft_strcmp(table->commands[i]->cmd, "export"))
+			ft_export(table->commands[i]);
+		if (!ft_strcmp(table->commands[i]->cmd, "unset"))
+			ft_unset(ht, table->commands[i]);
+		if (!ft_strcmp(table->commands[i]->cmd, "exit"))
+			ft_exit(table->commands[i]->cmd_args, table->commands[i]->args_num);;
 	}
 }

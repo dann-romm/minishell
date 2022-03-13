@@ -2,13 +2,17 @@
 #include "hashtable.h"
 #include "libft_funcs.h"
 
-void	upd_pwd(char *path)
+void	upd_pwd(t_hashtable *ht, char *path) // /Users/mgwyness/Desktop/school_21
 {
-	insert_hashtable(g_shell->env_global, "OLDPWD", find_hashtable(g_shell->env_global, "PWD"));
-	insert_hashtable(g_shell->env_global, "PWD", path);
+	// /Users/mgwyness/Desktop/school_21 (old) -> pwd
+	// /Users/mgwyness/Desktop (pwd) -> old
+	// char	*path1 = find_hashtable(ht, "PWD");
+	// printf("[pwd =  %s]\n\n", path1);
+	insert_hashtable(ht, "OLDPWD", find_hashtable(ht, "PWD"));
+	insert_hashtable(ht, "PWD", path);
 }
 
-void	change_dir(t_simple_cmd *cd)
+void	change_dir(t_simple_cmd *cd, t_hashtable *ht)
 {
 	if (chdir(cd->cmd_args[0])) //chdir() gets an absolute path
 	{
@@ -20,23 +24,24 @@ void	change_dir(t_simple_cmd *cd)
 		else
 			printf("minishell: cd: %s: not a directory\n", cd->cmd_args[0]);
 	}
-	upd_pwd(cd->cmd_args[0]);
+	upd_pwd(ht, cd->cmd_args[0]);
 }
 
-int	ft_cd(t_simple_cmd *cd)
+int	ft_cd(t_hashtable *ht, t_simple_cmd *cd)
 {
 	if (!cd->args_num || !ft_strcmp(cd->cmd_args[0], ".."))
 	{
 		const char	*path = getenv("HOME");
 		chdir(path);
-		upd_pwd((char *)path);
+		upd_pwd(ht, (char *)path);
 	}
 	else if (!cd->args_num || !ft_strcmp(cd->cmd_args[0], "-"))
 	{
-		chdir(find_hashtable(g_shell->env_global, "OLDPWD"));
-		upd_pwd(find_hashtable(g_shell->env_global, "OLDPWD"));
+		// char	*path = find_hashtable(ht, "OLDPWD");
+		chdir(find_hashtable(ht, "OLDPWD"));
+		upd_pwd(ht, find_hashtable(ht, "OLDPWD"));
 	}
 	else
-		change_dir(cd);
+		change_dir(cd, ht);
 	return (0);
 }
