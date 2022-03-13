@@ -1,4 +1,7 @@
 #include "shell.h"
+#include "hashtable.h"
+#include "libft_funcs.h"
+#include "builtin.h"
 
 // void	test_init_source()
 // {
@@ -93,17 +96,7 @@ void	print_token(t_token *token)
 {	
 	printf("token:\n   type:  %s\n   value: %s\n", token_type_to_str(token->type), token->value);
 }
-
 int	main(int argc, char **argv, char **env)
 {
-	t_source	*src = init_source("&& $? <> <<");
-	// t_source	*src = init_source("   \t &? << printf ; | pipe || `qwe` ;; 123");
-	t_token		*token;
-
-	token = get_next_token(src);
-	print_token(token);
-	token = get_next_token(src);
-	print_token(token);
-	token = get_next_token(src);
-	print_token(token);
+	
 }

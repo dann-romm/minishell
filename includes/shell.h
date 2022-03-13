@@ -1,5 +1,11 @@
 #ifndef SHELL_H
 # define SHELL_H
+# define PATH_MAX        4096
+
+# define ERRCHAR 0
+# define ESCCHAR '\\'
+
+# include <errno.h>
 
 # include <errno.h>
 
@@ -63,6 +69,7 @@ typedef enum e_token_type
 	T_ERROR = 0,
 
 	T_NUMBER = 10,
+	T_BUILTIN,
 	T_ID,
 	T_DOLLAR,
 	T_STRING,
@@ -116,12 +123,23 @@ typedef struct s_token
 // 	struct s_token_list	*next;
 // }	t_token_list;
 
+# include "hashtable.h"
+
+typedef struct s_shell
+{
+	t_hashtable	*env_global;
+	t_hashtable	*env_local;
+}	t_shell;
+
+t_shell	*g_shell;
 
 typedef struct s_simple_cmd
 {
+
 	char	*cmd;
 	int32_t	args_num;
 	char	**cmd_args;
+	
 }	t_simple_cmd;
 
 typedef struct s_command_table
@@ -132,7 +150,8 @@ typedef struct s_command_table
 	// char				*_stdin;
 	// char				*_stdout;
 	// char				*_stderr;
-}	t_command_table;
+ 
+}						t_command_table;
 
 // source.c
 t_source	*init_source(char *str);
@@ -160,5 +179,17 @@ char		**ft_split(char const *s, char c);
 // lexer.c
 t_token		*get_next_token(t_source *src);
 t_token		*init_token(t_token_type type, char *str);
+// lexer.c
+t_token		*get_next_token(t_source *src);
+t_token		*init_token(t_token_type type, char *str);
+
+// prompt.c
+char		*read_input(char *prompt);
+
+// executor.c
+int		is_builtin(t_simple_cmd *command);
+//void	exec_builtin(t_command_table *table, t_hashtable *ht);
+// global variable
+void	init_shell(char **env);
 
 #endif

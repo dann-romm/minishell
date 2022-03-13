@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include "libft_funcs.h"
 
 int	is_alnum(char c)
 {
@@ -102,4 +102,14 @@ char	*ft_strdup(char *str)
 		p[i] = str[i];
 	p[i] = '\0';
 	return (p);
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	while (*s1 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+	}
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
