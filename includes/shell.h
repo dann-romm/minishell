@@ -144,10 +144,10 @@ typedef enum e_cmd_type
 typedef struct s_simple_cmd
 {
 
-	char	*cmd;
-	int32_t	args_num;
-	char	**cmd_args;
-	
+	char		*cmd;
+	int32_t		args_num;
+	char		**cmd_args;
+	t_cmd_type	type;
 }	t_simple_cmd;
 
 typedef struct s_command_table
@@ -180,7 +180,7 @@ char		*read_input(char *prompt);
 
 // executor.c
 int		is_builtin(t_simple_cmd *command);
-//void	exec_builtin(t_command_table *table, t_hashtable *ht);
+void	exec_builtin(t_simple_cmd *some_cmd);
 // global variable
 void	init_shell(char **env);
 
