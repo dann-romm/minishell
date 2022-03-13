@@ -35,7 +35,8 @@ BUILTIN_SRC				=	$(BUILTIN_SRCDIR)/builtin.c \
 PARSER_SRC				=	$(PARSER_SRCDIR)/parser.c
 
 LEXER_SRC				=	$(LEXER_SRCDIR)/lexer.c \
-							$(LEXER_SRCDIR)/source.c
+							$(LEXER_SRCDIR)/source.c \
+							$(LEXER_SRCDIR)/token.c
 
 SRC						=	$(HASHTABLE_SRC) \
 							$(LEXER_SRC) \
@@ -55,27 +56,12 @@ DEP						= $(OBJ:.o=.d)
 
 all: $(NAME)
 
-$(NAME): $(OBJDIR)  $(BUILTIN_OBJDIR) $(HASHTABLE_OBJDIR) $(PARSER_OBJDIR) $(LEXER_OBJDIR) $(OBJ)
+$(NAME): $(OBJ)
 	$(CC) $(OBJ) -o $(NAME) $(LIBS)
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c Makefile
+	@mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCDIR) -MMD
-
-$(OBJDIR):
-	mkdir -p $@
-$(HASHTABLE_OBJDIR):
-	mkdir -p $@
-$(PARSER_OBJDIR):
-	mkdir -p $@
-$(LEXER_OBJDIR):
-	mkdir -p $@
-$(BUILTIN_OBJDIR):
-	mkdir -p $@
-
-# $(OBJDIR):
-# 	mkdir -p $(OBJDIR)
-# $(OBJDIR):
-# 	mkdir -p $(OBJDIR)
 
 clean:
 	$(RM) $(OBJDIR)

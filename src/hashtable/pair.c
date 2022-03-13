@@ -30,7 +30,7 @@ t_pair	*init_pair(char *key, char *value)
 	return (pair);
 }
 
-int	push_front(t_pair **head, t_pair *pair)
+int	push_front_pair(t_pair **head, t_pair *pair)
 {
 	if (!head | !pair)
 		return (1);

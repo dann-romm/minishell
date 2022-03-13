@@ -26,7 +26,7 @@ void		fill_ht(char **env);
 void		print_ht(t_hashtable *ht);
 
 t_pair		*init_pair(char *key, char *value);
-int			push_front(t_pair **head, t_pair *pair);
+int			push_front_pair(t_pair **head, t_pair *pair);
 int			remove_pair(t_pair **head, char *key);
 t_pair		*find_pair(t_pair *head, char *key);
 

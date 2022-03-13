@@ -48,70 +48,32 @@
 // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <term.h>
 
-# define ERRCHAR 0
-# define ESCCHAR '\\'
+# include "hashtable.h"
 
-
-typedef struct s_source
+typedef struct s_shell
 {
-	char	*buffer;
-	int32_t	bufsize;
-	int32_t	pos;
+	t_hashtable	*env;
+}	t_shell;
 
-	char	*str;
-	int32_t	strsize;
-	int32_t	strlen;
-}	t_source;
+t_shell	*g_shell;
 
-typedef enum e_token_type
+typedef struct s_simple_cmd
 {
-	T_EOF = -1,
-	T_ERROR = 0,
+	char	*cmd;
+	int32_t	args_num;
+	char	**cmd_args;
+}	t_simple_cmd;
 
-	T_NUMBER = 10,
-	T_BUILTIN,
-	T_ID,
-	T_DOLLAR,
-	T_STRING,
+typedef struct s_redirect
+{
+	char	*_stdin;
+	char	*_stdout;
+	int		is_stdin_append;
+	int		is_stdout_append;
+}	t_redirect;
 
-	T_EXITSTATUS, // $?
 
-	T_IF = 20,
-	T_THEN,
-	T_ELSE,
-	T_ELIF,
-	T_FI,
-	T_FOR,
-	T_IN,
-	T_BREAK,
-	T_CONTINUE,
-	T_WHILE,
-	T_DO,
-	T_DONE,
-
-	T_AND = 40, // &
-	T_ANDAND, // &&
-	T_PIPE, // |
-	T_OROR, // ||
-	T_LESS, // <
-	T_GREAT, // >
-	T_EQUALS, // =
-	T_DGREAT, // >>
-	T_DLESS, // <<
-	T_LESSAND, // <&
-	T_GREATAND, // >&
-	T_LESSGREAT, // <>
-	T_DLESSDASH, // <<-
-	T_CLOBBER, // >|
-
-	T_SEMI, // ;
-	T_DSEMI, // ;;
-	T_TICK, // `
-	T_NEWLINE // \n
-
-}	t_token_type;
-
-typedef struct s_token
+typedef struct s_command_table
 {
 	t_token_type	type;
 	char			*value;

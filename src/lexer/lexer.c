@@ -1,5 +1,29 @@
-#include "shell.h"
+#include "lexer.h"
 #include "libft_funcs.h"
+#include "shell.h"
+
+t_token	*init_token(t_token_type type, char *str)
+{
+	t_token	*token;
+
+	token = (t_token *)malloc(sizeof(t_token));
+	if (!token)
+	{
+		errno = ENOMEM;
+		return (NULL);
+	}
+	token->type = type;
+	if (str)
+		token->value = ft_strdup(str);
+	else
+		token->value = NULL;
+	if (str && !token->value)
+	{
+		errno = ENOMEM;
+		return (NULL);
+	}
+	return (token);
+}
 
 void	skip_comments(t_source *src)
 {
@@ -37,6 +61,30 @@ void	scan_word(t_source *src)
 {
 	while (is_word_char(peek(src)))
 		save_char(src, next_char(src));
+}
+
+void	put_env_into_src(t_source *src)
+{
+	char	*key;
+	char	*value;
+	int		key_len;
+
+	key_len = 0;
+	while (is_alnum(peek(src)) || peek(src) == '_')
+	{
+		key_len++;
+		next_char(src);
+	}
+	key = (char *)malloc(sizeof(char) * (key_len + 1));
+	while (key_len--)
+		unget_char(src);
+	while (is_alnum(peek(src)) || peek(src) == '_')
+		key[++key_len] = next_char(src);
+	key[++key_len] = '\0';
+	value = find_hashtable(g_shell->env, key);
+	while (value && *value)
+		save_char(src, *value++);
+	free(key);
 }
 
 t_token	*get_next_token(t_source *src)
@@ -160,15 +208,16 @@ t_token	*get_next_token(t_source *src)
 				require_bracket = 1;
 				next_char(src);
 			}
-			scan_word(src);
+			put_env_into_src(src); // TODO: special parameter https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
 			if (require_bracket && peek(src) != '}')
 				token->type = T_ERROR;
 			else if (require_bracket)
 				next_char(src);
-			token->type = T_DOLLAR;
+			// token->type = T_DOLLAR;
+			token->type = T_STRING;
 		}
 	}
-	else if (peek(src) == '"') // TODO: env variables handling
+	else if (peek(src) == '"')
 	{
 		token->type = T_STRING;
 		next_char(src);
@@ -213,12 +262,17 @@ t_token	*get_next_token(t_source *src)
 				else
 					save_char(src, next_char(src));
 			}
+			else if (peek(src) == '$')
+			{
+				next_char(src);
+				put_env_into_src(src);
+			}
 			else
 				save_char(src, next_char(src));
 		}
 		if (peek(src) == EOF)
 			token->type = T_ERROR;
-		else
+		else if (peek(src) == '"')
 			next_char(src);
 	}
 	else if (peek(src) == '`')
@@ -258,7 +312,7 @@ t_token	*get_next_token(t_source *src)
 		}
 		if (peek(src) == EOF)
 			token->type = T_ERROR;
-		else // сюда мы попадаем при закрывающих кавычках
+		else if (peek(src) == '\'')
 			next_char(src);
 	}
 	else if (is_word_char(peek(src)))
@@ -281,55 +335,5 @@ t_token	*get_next_token(t_source *src)
 
 	token->value = ft_strdup(src->str);
 	clear_str(src);
-	return (token);
-}
-
-// t_token_list	*init_token_list_node(t_token *token)
-// {
-// 	t_token_list	*list = (t_token_list *)malloc(sizeof(t_token_list));
-	
-// 	if (!list)
-// 	{
-// 		errno = ENOMEM;
-// 		return (NULL);
-// 	}
-// 	list->token = token;
-// 	list->next = NULL;
-// 	return (list);
-// }
-
-// void	token_list_push_front(t_token_list **list, t_token *token)
-// {
-// 	t_token_list	*node;
-
-// 	if (!list || !(*list))
-// 		return ;
-// 	node = init_token_list_node(token);
-// 	if (!node)
-// 		return ;
-// 	node->next = *list;
-// 	*list = node;
-// }
-
-t_token	*init_token(t_token_type type, char *str)
-{
-	t_token	*token;
-
-	token = (t_token *)malloc(sizeof(t_token));
-	if (!token)
-	{
-		errno = ENOMEM;
-		return (NULL);
-	}
-	token->type = type;
-	if (str)
-		token->value = ft_strdup(str);
-	else
-		token->value = NULL;
-	if (str && !token->value)
-	{
-		errno = ENOMEM;
-		return (NULL);
-	}
 	return (token);
 }
