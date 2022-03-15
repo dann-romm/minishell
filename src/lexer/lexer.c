@@ -81,7 +81,7 @@ void	put_env_into_src(t_source *src)
 	while (is_alnum(peek(src)) || peek(src) == '_')
 		key[++key_len] = next_char(src);
 	key[++key_len] = '\0';
-	value = find_hashtable(g_shell->env, key);
+	value = find_hashtable(g_shell->env_global, key);
 	while (value && *value)
 		save_char(src, *value++);
 	free(key);
