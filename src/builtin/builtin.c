@@ -13,55 +13,124 @@
 
 // }
 
-int	exec_cmd(t_simple_cmd *command)
+char *find_path(t_simple_cmd *command)
 {
-	if (command->type == CMD_CD)
-		return (ft_cd(g_shell->env_global, command));
-	if (command->type == CMD_PWD)
-		return (ft_pwd(g_shell->env_global));
-	if (command->type == 2)
-		ft_echo(command->cmd_args, command->args_num); //return
-	if (command->type == 6)
-		ft_env(g_shell->env_global); //return
-	if (command->type == 3)
-		ft_export(command); //return
-	if (command->type == 5)
-		ft_unset(g_shell->env_global, command); //return
-	if (command->type == 4)
-		ft_exit(command->cmd_args, command->args_num); //return
-	else
-		bin_cmd(command); //return
-	return (1);
+	int i = 0;
+	int all = -1;
+	char *res = 0;
+	char *cur_dir = find_hashtable(g_shell->env_global, "PWD");
+	cur_dir = ft_strjoin(cur_dir, command->cmd);
+	int cur = access(cur_dir, F_OK);
+	if (cur == 0)
+	{
+		res = cur_dir;
+		free(cur_dir);
+		return (res);
+	}
+	char **paths = ft_split(find_hashtable(g_shell->env_global, "PATH"), ":");
+	while (paths[i])
+	{
+		cur_dir = ft_strjoin(paths[i], command->cmd);
+		all = access(cur_dir, F_OK);
+		if (all == 0)
+		{
+			res = cur_dir;
+			free(cur_dir);
+			free_split(paths);
+			return (res);
+		}
+		i++;
+	}
+	free(cur_dir);
+	free_split(paths);
+	return (res);
 }
 
 int is_executable(t_simple_cmd *command)
 {
-	
-	// check in current dir
-	// check in every PATH way
-	if (!access(path1, F_OK) == -1 && )
-		printf("minishell: cd: %s: no such file or directory\n", command);
-	else if (access(path1, R_OK) == -1)
-			printf("minishell: cd: %s: permission denied\n", command);
-		else
-			printf("minishell: cd: %s: not a directory\n", cd->cmd_args[0]);
+	int i = 0;
+	int all = -1;
+	char *path = find_path(command);
+	if (!path)
+	{
+		free(path);
+		return (0);
 	}
+	return (1);
+}
+
+int	bin_exec(t_simple_cmd *command)
+{
+	// find path and execute it
+}
+
+int	exec_cmd(t_simple_cmd *command)
+{
+	if (if_executable(command->cmd))
+	{
+		if (command->type == CMD_CD)
+			return (ft_cd(g_shell->env_global, command));
+		if (command->type == CMD_PWD)
+			return (ft_pwd(g_shell->env_global));
+		if (command->type == 2)
+			ft_echo(command->cmd_args, command->args_num); //return
+		if (command->type == 6)
+			ft_env(g_shell->env_global); //return
+		if (command->type == 3)
+			ft_export(command); //return
+		if (command->type == 5)
+			ft_unset(g_shell->env_global, command); //return
+		if (command->type == 4)
+			ft_exit(command->cmd_args, command->args_num); //return
+		else
+			bin_exec(command); //return
+	}
+	else
+		printf("minishell: command not found: %s\n", command->cmd);
+	return (1);
+}
+
+static void	perror_exit(char *message)
+{
+	perror(message);
+	exit(1);
+}
+
+int	ft_waitpid(int i)
+{
+	int	status;
+	int	error_code;
+
+	error_code = 0;
+	while (i-- >= 0)
+	{
+		waitpid(-1, &status, 0);
+		if (status != 0)
+			error_code = status;
+	}
+	return (error_code);
 }
 
 int	execute(t_command_table *table)
 {
+	int tube[2];
+	int	child_proc;
 	int i = -1;
-	if (table->commands_num > 1)
-		set_pipe();
+
+	if (table->commands_num == 0)
+		return (0);
 	while (++i < table->commands_num)
 	{
-		set_fork();
-		if (is_executable(table->commands[i]))
-			return (exec_cmd(table->commands[i]));
-		else
-		{
-			printf("minishell: command not found: %s\n", table->commands[i]);
-			return (1);
-		}
+		if (pipe(tube))
+			perror_exit("pipe");
+		child_proc = fork();
+		if (child_proc < 0)
+			perror_exit(table->commands[i]);
+		if (child_proc == 0)
+			exec_cmd(table->commands[i]);
+		close(tube[0]);
+		close(tube[1]);
+		i++;
 	}
+	return (ft_waitpid(i));
 }

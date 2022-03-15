@@ -22,4 +22,6 @@ void	ft_putendl(char *s);
 int		ft_isdigit(int c);
 int		ft_isalpha(int c);
 
+void	free_split(char **pointers);
+
 #endif

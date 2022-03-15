@@ -96,4 +96,10 @@ t_shell	*g_shell;
 // prompt.c
 char		*read_input(char *prompt);
 
+// execute.c
+int	execute(t_command_table *table);
+
+// init_g_shell.c
+void	init_shell();
+
 #endif
