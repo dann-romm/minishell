@@ -153,16 +153,23 @@ int	main(int argc, char **argv, char **env)
 	t_command_table	*table;
 
 	init_shell();
-	while (1)
-	{
-		input = read_input("");
-		list = create_token_list(input);
+	// while (1)
+	// {
+	// 	input = read_input("");
+	// 	list = create_token_list(input);
 
-		// _DEBUG_print_token_list(list);
-		table = parser(list);
-		_DEBUG_print_command_table(table);
+	// 	// _DEBUG_print_token_list(list);
+	// 	table = parser(list);
+	// 	_DEBUG_print_command_table(table);
 
-		clear_token_list(&list);
-		free(input);
-	}
+	// 	clear_token_list(&list);
+	// 	free(input);
+	// }
+	table = (t_command_table *)malloc(sizeof(t_command_table));
+	table->commands_num = 1;
+	table->commands = (t_simple_cmd **)malloc(sizeof(t_simple_cmd *) * table->commands_num);
+	t_simple_cmd *cmd1 = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
+	cmd1->cmd = ft_strdup("pwq");
+	// t_simple_cmd *cmd1 = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
+	execute(cmd1);
 }

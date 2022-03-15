@@ -3,51 +3,65 @@
 #include "libft_funcs.h"
 #include "builtin.h"
 
-void	exec_cmd(t_command_table *table, t_simple_cmd *command)
-{
+// void	exec_cmd(t_command_table *table, t_simple_cmd *command)
+// {
 
+// }
+
+// void	set_fork()
+// {
+
+// }
+
+int	exec_cmd(t_simple_cmd *command)
+{
+	if (command->type == CMD_CD)
+		return (ft_cd(g_shell->env_global, command));
+	if (command->type == CMD_PWD)
+		return (ft_pwd(g_shell->env_global));
+	if (command->type == 2)
+		ft_echo(command->cmd_args, command->args_num); //return
+	if (command->type == 6)
+		ft_env(g_shell->env_global); //return
+	if (command->type == 3)
+		ft_export(command); //return
+	if (command->type == 5)
+		ft_unset(g_shell->env_global, command); //return
+	if (command->type == 4)
+		ft_exit(command->cmd_args, command->args_num); //return
+	else
+		bin_cmd(command); //return
+	return (1);
 }
 
-void	set_fork()
+int is_executable(t_simple_cmd *command)
 {
-
-}
-
-void	check_cmd(t_command_table *table, t_simple_cmd *command)
-{
-	int	i;
-	i = -1;
-	while (++i < table->commands_num)
-	{
-		if (command->type == CMD_CD)
-			ft_cd(g_shell->env_global, table->commands[i]);
-		if (command->type == CMD_PWD)
-			ft_pwd(g_shell->env_global);
-		if (command->type == 2)
-			ft_echo(table->commands[i]->cmd_args, table->commands[i]->args_num);
-		if (command->type == 6)
-			ft_env(g_shell->env_global);
-		if (command->type == 3)
-			ft_export(table->commands[i]);
-		if (command->type == 5)
-			ft_unset(g_shell->env_global, table->commands[i]);
-		if (command->type == 4)
-			ft_exit(table->commands[i]->cmd_args, table->commands[i]->args_num);
+	
+	// check in current dir
+	// check in every PATH way
+	if (!access(path1, F_OK) == -1 && )
+		printf("minishell: cd: %s: no such file or directory\n", command);
+	else if (access(path1, R_OK) == -1)
+			printf("minishell: cd: %s: permission denied\n", command);
 		else
-			exec_cmd(table, command);
+			printf("minishell: cd: %s: not a directory\n", cd->cmd_args[0]);
 	}
 }
 
-void	execute(t_command_table *table)
+int	execute(t_command_table *table)
 {
-	int i = 0;
-	if (table->commands_num == 1)
-		check_cmd(table, table->commands[0]);
-	else
+	int i = -1;
+	if (table->commands_num > 1)
+		set_pipe();
+	while (++i < table->commands_num)
 	{
-		while (i < table->commands_num)
+		set_fork();
+		if (is_executable(table->commands[i]))
+			return (exec_cmd(table->commands[i]));
+		else
 		{
-			pipe()
+			printf("minishell: command not found: %s\n", table->commands[i]);
+			return (1);
 		}
 	}
 }
