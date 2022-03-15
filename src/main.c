@@ -88,63 +88,63 @@ char	*_DEBUG_token_type_to_str(t_token_type type)
 	}
 }
 
-void	_DEBUG_print_token(t_token *token)
-{	
-	printf("token:\n   type:  %s\n   value: %s\n", _DEBUG_token_type_to_str(token->type), token->value);
-}
+// void	_DEBUG_print_token(t_token *token)
+// {	
+// 	printf("token:\n   type:  %s\n   value: %s\n", _DEBUG_token_type_to_str(token->type), token->value);
+// }
 
-void	_DEBUG_print_token_list(t_token_list *list)
-{
-	t_token_list	*tmp;
+// void	_DEBUG_print_token_list(t_token_list *list)
+// {
+// 	t_token_list	*tmp;
 
-	printf("<-------------- DEBUG PRINT TOKEN LIST -------------->\n");
-	tmp = list;
-	while (tmp)
-	{
-		_DEBUG_print_token(tmp->token);
-		tmp = tmp->next;
-	}
-}
+// 	printf("<-------------- DEBUG PRINT TOKEN LIST -------------->\n");
+// 	tmp = list;
+// 	while (tmp)
+// 	{
+// 		_DEBUG_print_token(tmp->token);
+// 		tmp = tmp->next;
+// 	}
+// }
 
-int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
-{
-	uint32_t	index;
-	t_pair		*pair;
+// int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
+// {
+// 	uint32_t	index;
+// 	t_pair		*pair;
 
-	index = -1;
-	while (++index < ht->size)
-	{
-		pair = ht->table[index];
-		while (pair)
-		{
-			if (ht->hash(pair->key, ht->size) != index)
-			{
-				printf("ERROR: (%u) hash at index %u\n", ht->hash(pair->key, ht->size), index);
-				exit(1);
-			}
-			pair = pair->next;
-		}
-	}
-	return (0);
-}
+// 	index = -1;
+// 	while (++index < ht->size)
+// 	{
+// 		pair = ht->table[index];
+// 		while (pair)
+// 		{
+// 			if (ht->hash(pair->key, ht->size) != index)
+// 			{
+// 				printf("ERROR: (%u) hash at index %u\n", ht->hash(pair->key, ht->size), index);
+// 				exit(1);
+// 			}
+// 			pair = pair->next;
+// 		}
+// 	}
+// 	return (0);
+// }
 
-int	_DEBUG_print_command_table(t_command_table *table)
-{
-	printf("<-------------- DEBUG PRINT CMD TABLE -------------->\n");
-	printf("stdin: %s\n", table->redirect._stdin);
-	printf("stdout: %s\n", table->redirect._stdout);
-	printf("commands: %d\n", table->commands_num);
-	for (int i = 0; i < table->commands_num; i++)
-	{
-		printf("\t<===== SIMPLE COMMAND =====>\n");
-		printf("\tbinary: %s\n", table->commands[i]->cmd);
-		printf("\targs (%d):", table->commands[i]->args_num);
-		for (int j = 0; j < table->commands[i]->args_num; j++)
-			printf(" %s", table->commands[i]->cmd_args[j]);
-		printf("\n");
-	}
-	return (0);
-}
+// int	_DEBUG_print_command_table(t_command_table *table)
+// {
+// 	printf("<-------------- DEBUG PRINT CMD TABLE -------------->\n");
+// 	printf("stdin: %s\n", table->redirect._stdin);
+// 	printf("stdout: %s\n", table->redirect._stdout);
+// 	printf("commands: %d\n", table->commands_num);
+// 	for (int i = 0; i < table->commands_num; i++)
+// 	{
+// 		printf("\t<===== SIMPLE COMMAND =====>\n");
+// 		printf("\tbinary: %s\n", table->commands[i]->cmd);
+// 		printf("\targs (%d):", table->commands[i]->args_num);
+// 		for (int j = 0; j < table->commands[i]->args_num; j++)
+// 			printf(" %s", table->commands[i]->cmd_args[j]);
+// 		printf("\n");
+// 	}
+// 	return (0);
+// }
 
 int	main(int argc, char **argv, char **env)
 {
