@@ -25,7 +25,6 @@ typedef enum e_token_type
 	T_BUILTIN,
 	T_ID,
 	T_DOLLAR,
-	T_STRING,
 	T_EXITSTATUS, // $?
 	T_IF = 20,
 	T_THEN,

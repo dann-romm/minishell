@@ -29,15 +29,7 @@
 // 	return (0);
 // }
 
-void	set_pipe(t_command_table *table, t_pipex_data *data)
-{
-	if (i == 0)
-	{
-		if (dup2(data->fd1, 0) < 0 || dup2(data->tube1[1], 1) < 0)
-			perror_exit("dup2");
-	}
-	else if (i == data->ac - 2)
-}
+//
 
 char *find_path(t_simple_cmd *command)
 {
@@ -93,7 +85,7 @@ int	bin_exec(t_simple_cmd *command)
 
 int	exec_cmd(t_command_table *table, int index)
 {
-	set_pipe(table);
+	// set_pipe(table);
 	if (is_executable(table->commands[index]))
 	{
 		if (table->commands[index]->type == CMD_CD)
@@ -148,16 +140,16 @@ int	execute(t_command_table *table)
 	int i = -1;
 
 	// open_files() - создание фд
-	int fd1;
-	int fd2;
-	if (table->redirect._stdin != 0)
-		fd1 = open(table->redirect._stdin, O_RDONLY);
-	else
-		fd1 = STDIN_FILENO;
-	if stdout != 0
-    	fd2 = open(table->redirect._stdout, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	else
-		fd2 = STDOUT_FILENO;
+	// int fd1;
+	// int fd2;
+	// if (table->redirect._stdin != 0)
+	// 	fd1 = open(table->redirect._stdin, O_RDONLY);
+	// else
+	// 	fd1 = STDIN_FILENO;
+	// if stdout != 0
+    // 	fd2 = open(table->redirect._stdout, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	// else
+	// 	fd2 = STDOUT_FILENO;
 
 	if (table->commands_num == 0)
 		return (0);

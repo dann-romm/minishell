@@ -26,13 +26,14 @@ int	main(int argc, char **argv, char **env)
 		input = read_input("");
 		list = create_token_list(input);
 
-		_DEBUG_print_token_list(list);
-		// table = parser(list);
-		// _DEBUG_print_command_table(table);
+		// _DEBUG_print_token_list(list);
+		table = parser(list);
+		_DEBUG_print_command_table(table);
 
 		clear_token_list(&list);
 		free(input);
 	}
+
 
 	// cmd1->cmd = ft_strdup("export");
 	// cmd1->cmd_args = (char **)malloc(sizeof(char *));

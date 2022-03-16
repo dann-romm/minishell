@@ -2,29 +2,6 @@
 #include "libft_funcs.h"
 #include "shell.h"
 
-t_token	*init_token(t_token_type type, char *str)
-{
-	t_token	*token;
-
-	token = (t_token *)malloc(sizeof(t_token));
-	if (!token)
-	{
-		errno = ENOMEM;
-		return (NULL);
-	}
-	token->type = type;
-	if (str)
-		token->value = ft_strdup(str);
-	else
-		token->value = NULL;
-	if (str && !token->value)
-	{
-		errno = ENOMEM;
-		return (NULL);
-	}
-	return (token);
-}
-
 void	skip_comments(t_source *src)
 {
 	while (is_space(peek(src)) && peek(src) != '\n')
@@ -207,7 +184,6 @@ t_token	*get_next_token(t_source *src)
 				token->type = T_ERROR;
 			else if (require_bracket)
 				next_char(src);
-			// token->type = T_DOLLAR;
 			token->type = T_ID;
 		}
 	}
@@ -311,19 +287,9 @@ t_token	*get_next_token(t_source *src)
 	}
 	else if (is_word_char(peek(src)))
 	{
-		int			i;
-		const char	*builtins[7] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
 		token->type = T_ID;
 		while (is_word_char(peek(src)))
 			save_char(src, next_char(src));
-		
-		i = 0;
-		while (i < 7)
-		{
-			if (!ft_strcmp(src->str, (char *)builtins[i]))
-				token->type = T_BUILTIN;
-			i++;
-		}
 	}
 	else
 		token->type = T_ERROR;

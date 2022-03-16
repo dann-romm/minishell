@@ -44,7 +44,8 @@ LEXER_SRC				=	$(LEXER_SRCDIR)/lexer.c \
 							$(LEXER_SRCDIR)/source.c \
 							$(LEXER_SRCDIR)/token.c
 
-PARSER_SRC				=	$(PARSER_SRCDIR)/parser.c
+PARSER_SRC				=	$(PARSER_SRCDIR)/parser.c \
+							$(PARSER_SRCDIR)/simple_cmd.c
 
 PROMPT_SRC				=	$(PROMPT_SRCDIR)/prompt.c
 

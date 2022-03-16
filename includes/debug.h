@@ -19,8 +19,6 @@ __attribute__((weak)) char	*_DEBUG_token_type_to_str(t_token_type type)
 			return ("T_ID");
 		case T_DOLLAR:
 			return ("T_DOLLAR");
-		case T_STRING:
-			return ("T_STRING");
 		case T_EXITSTATUS:
 			return ("T_EXITSTATUS");
 		case T_IF:
@@ -89,7 +87,12 @@ __attribute__((weak)) char	*_DEBUG_token_type_to_str(t_token_type type)
 }
 
 __attribute__((weak)) void	_DEBUG_print_token(t_token *token)
-{	
+{
+	if (!token)
+	{
+		printf("token is NULL\n");
+		return ;
+	}
 	printf("token:\n   type:  %s\n   value: %s\n", _DEBUG_token_type_to_str(token->type), token->value);
 }
 
@@ -131,8 +134,13 @@ __attribute__((weak)) int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
 __attribute__((weak)) int	_DEBUG_print_command_table(t_command_table *table)
 {
 	printf("<-------------- DEBUG PRINT CMD TABLE -------------->\n");
-	printf("stdin: %s\n", table->redirect._stdin);
-	printf("stdout: %s\n", table->redirect._stdout);
+	if (!table)
+	{
+		printf("table is NULL\n");
+		return (0);
+	}
+	printf("stdin: %s | is_append: %d\n", table->redirect._stdin, table->redirect.is_stdin_append);
+	printf("stdout: %s | is_append: %d\n", table->redirect._stdout, table->redirect.is_stdout_append);
 	printf("commands: %d\n", table->commands_num);
 	for (int i = 0; i < table->commands_num; i++)
 	{
