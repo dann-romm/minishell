@@ -3,5 +3,5 @@
 
 void	ft_env()
 {
-	print_ht(g_shell->env_global);
+	print_hashtable(g_shell->env_global);
 }

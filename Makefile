@@ -6,22 +6,24 @@ NAME					= minishell
 LIBS					= -lreadline -lncurses
 
 SRCDIR					= ./src
-HASHTABLE_SRCDIR		= $(SRCDIR)/hashtable
 BUILTIN_SRCDIR			= $(SRCDIR)/builtin
-PARSER_SRCDIR			= $(SRCDIR)/parser
+EXECUTOR_SRCDIR			= $(SRCDIR)/executor
+HASHTABLE_SRCDIR		= $(SRCDIR)/hashtable
 LEXER_SRCDIR			= $(SRCDIR)/lexer
+PARSER_SRCDIR			= $(SRCDIR)/parser
+PROMPT_SRCDIR			= $(SRCDIR)/prompt
+UTILS_SRCDIR			= $(SRCDIR)/utils
 
 OBJDIR					= ./build
-HASHTABLE_OBJDIR		= $(OBJDIR)/hashtable
 BUILTIN_OBJDIR			= $(OBJDIR)/builtin
-PARSER_OBJDIR			= $(OBJDIR)/parser
+EXECUTOR_OBJDIR			= $(OBJDIR)/executor
+HASHTABLE_OBJDIR		= $(OBJDIR)/hashtable
 LEXER_OBJDIR			= $(OBJDIR)/lexer
+PARSER_OBJDIR			= $(OBJDIR)/parser
+PROMPT_OBJDIR			= $(OBJDIR)/prompt
+UTILS_OBJDIR			= $(OBJDIR)/utils
 
 INCDIR					= ./includes
-
-HASHTABLE_SRC			=	$(HASHTABLE_SRCDIR)/hashtable.c \
-							$(HASHTABLE_SRCDIR)/pair.c \
-							$(HASHTABLE_SRCDIR)/hash.c
 
 BUILTIN_SRC				=	$(BUILTIN_SRCDIR)/builtin.c \
 							$(BUILTIN_SRCDIR)/cd.c \
@@ -30,26 +32,34 @@ BUILTIN_SRC				=	$(BUILTIN_SRCDIR)/builtin.c \
 							$(BUILTIN_SRCDIR)/exit.c \
 							$(BUILTIN_SRCDIR)/export.c \
 							$(BUILTIN_SRCDIR)/pwd.c \
-							$(BUILTIN_SRCDIR)/unset.c 
+							$(BUILTIN_SRCDIR)/unset.c
 
-PARSER_SRC				=	$(PARSER_SRCDIR)/parser.c
+EXECUTOR_SRC			=	$(EXECUTOR_SRCDIR)/executor.c
+
+HASHTABLE_SRC			=	$(HASHTABLE_SRCDIR)/hashtable.c \
+							$(HASHTABLE_SRCDIR)/pair.c \
+							$(HASHTABLE_SRCDIR)/hash.c \
+							$(HASHTABLE_SRCDIR)/fill_hashtable.c
 
 LEXER_SRC				=	$(LEXER_SRCDIR)/lexer.c \
 							$(LEXER_SRCDIR)/source.c \
 							$(LEXER_SRCDIR)/token.c
 
-SRC						=	$(HASHTABLE_SRC) \
+PARSER_SRC				=	$(PARSER_SRCDIR)/parser.c
+
+PROMPT_SRC				=	$(PROMPT_SRCDIR)/prompt.c
+
+UTILS_SRC				=	$(UTILS_SRCDIR)/ft_split.c \
+						=	$(UTILS_SRCDIR)/utils_ft.c
+
+SRC						=	$(BUILTIN_SRC) \
+							$(EXECUTOR_SRC) \
+							$(HASHTABLE_SRC) \
 							$(LEXER_SRC) \
 							$(PARSER_SRC) \
-							$(BUILTIN_SRC) \
+							$(PROMPT_SRC) \
+							$(UTILS_SRC) \
 							$(SRCDIR)/main.c \
-							$(SRCDIR)/ft_split.c \
-							$(SRCDIR)/init_g_shell.c \
-							$(SRCDIR)/fill_hashtable.c \
-							$(SRCDIR)/executor.c \
-							$(SRCDIR)/utils_ft.c \
-							$(SRCDIR)/utils.c \
-							$(SRCDIR)/prompt.c
 
 OBJ						= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
 DEP						= $(OBJ:.o=.d)

@@ -2,7 +2,7 @@
 #include "hashtable.h"
 #include "libft_funcs.h"
 
-void	fill_ht(char **env)
+void	fill_hashtable(char **env)
 {
 	int		i;
 	char	**all_paths;

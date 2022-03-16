@@ -96,4 +96,7 @@ t_shell	*g_shell;
 // prompt.c
 char		*read_input(char *prompt);
 
+// init_g_shell.c
+void	init_shell();
+
 #endif

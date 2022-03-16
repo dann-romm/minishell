@@ -142,29 +142,7 @@ uint32_t	rehashing(t_hashtable *ht)
 	return (0);
 }
 
-
 void	print_hashtable(t_hashtable *ht)
-{
-	t_pair	*pair;
-	int		i;
-
-	i = -1;
-	printf("HASHTABLE: size=%d, count=%d, load_ratio=%.3f\n", ht->size, ht->count, (float)ht->count / ht->size);
-	while (++i < ht->size)
-	{
-		pair = ht->table[i];
-		printf("table[%d]", i);
-		while (pair)
-		{
-			printf(" -> (%s; %s)", pair->key, pair->value);
-			pair = pair->next;
-		}
-		printf("\n");
-	}
-	printf("\n");
-}
-
-void	print_ht(t_hashtable *ht)
 {
 	t_pair	*pair;
 	int		i;

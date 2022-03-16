@@ -22,8 +22,8 @@ typedef struct s_hashtable
 	uint32_t	(*hash)(char *key, uint32_t size);
 }	t_hashtable;
 
-void		fill_ht(char **env);
-void		print_ht(t_hashtable *ht);
+void		fill_hashtable(char **env);
+void		print_hashtable(t_hashtable *ht);
 
 t_pair		*init_pair(char *key, char *value);
 int			push_front_pair(t_pair **head, t_pair *pair);
@@ -39,9 +39,5 @@ void		delete_hashtable(t_hashtable **ht);
 
 uint32_t	djb2_hash(char *key, uint32_t size);
 uint32_t	rehashing(t_hashtable *ht);
-
-void		print_hashtable(t_hashtable *ht); // for debugging
-
-// t_hashtable	*fill_with_env(char **env); // TODO
 
 #endif
