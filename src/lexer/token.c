@@ -1,5 +1,31 @@
 #include "lexer.h"
 #include "shell.h"
+#include "libft_funcs.h"
+
+#include "debug.h" // to remove
+
+t_token	*init_token(t_token_type type, char *str)
+{
+	t_token	*token;
+
+	token = (t_token *)malloc(sizeof(t_token));
+	if (!token)
+	{
+		errno = ENOMEM;
+		return (NULL);
+	}
+	token->type = type;
+	if (str)
+		token->value = ft_strdup(str);
+	else
+		token->value = NULL;
+	if (str && !token->value)
+	{
+		errno = ENOMEM;
+		return (NULL);
+	}
+	return (token);
+}
 
 t_token_list	*init_token_list(t_token *token)
 {

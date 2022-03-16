@@ -1,11 +1,11 @@
 #ifndef DEBUG_H
 # define DEBUG_H
 
-#include "hashtable.h"
-#include "lexer.h"
-#include "shell.h"
+# include "hashtable.h"
+# include "lexer.h"
+# include "shell.h"
 
-char	*_DEBUG_token_type_to_str(t_token_type type)
+__attribute__((weak)) char	*_DEBUG_token_type_to_str(t_token_type type)
 {
 	switch (type)
 	{
@@ -88,12 +88,12 @@ char	*_DEBUG_token_type_to_str(t_token_type type)
 	}
 }
 
-void	_DEBUG_print_token(t_token *token)
+__attribute__((weak)) void	_DEBUG_print_token(t_token *token)
 {	
 	printf("token:\n   type:  %s\n   value: %s\n", _DEBUG_token_type_to_str(token->type), token->value);
 }
 
-void	_DEBUG_print_token_list(t_token_list *list)
+__attribute__((weak)) void	_DEBUG_print_token_list(t_token_list *list)
 {
 	t_token_list	*tmp;
 
@@ -106,7 +106,7 @@ void	_DEBUG_print_token_list(t_token_list *list)
 	}
 }
 
-int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
+__attribute__((weak)) int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
 {
 	uint32_t	index;
 	t_pair		*pair;
@@ -128,7 +128,7 @@ int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
 	return (0);
 }
 
-int	_DEBUG_print_command_table(t_command_table *table)
+__attribute__((weak)) int	_DEBUG_print_command_table(t_command_table *table)
 {
 	printf("<-------------- DEBUG PRINT CMD TABLE -------------->\n");
 	printf("stdin: %s\n", table->redirect._stdin);
@@ -146,7 +146,7 @@ int	_DEBUG_print_command_table(t_command_table *table)
 	return (0);
 }
 
-void	_DEBUG_print_hashtable(t_hashtable *ht)
+__attribute__((weak)) void	_DEBUG_print_hashtable(t_hashtable *ht)
 {
 	t_pair	*pair;
 	int		i;

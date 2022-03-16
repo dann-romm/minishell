@@ -73,7 +73,19 @@ t_command_table	*init_command_table(void)
 
 int	handle_assignments(t_token_list *list)
 {
+	t_token_list	*tmp;
 
+	tmp = list;
+	while (tmp && tmp->next)
+	{
+		if (tmp->next->token->type == T_EQUALS)
+		{
+			if (!tmp->next->next || tmp->token->type != T_ID)
+				return (1);
+		}
+		tmp = tmp->next;
+	}
+	
 }
 
 t_command_table	*parser(t_token_list *list)
