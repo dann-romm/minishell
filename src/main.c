@@ -4,6 +4,7 @@
 #include "libft_funcs.h"
 #include "builtin.h"
 #include "parser.h"
+#include "debug.h"
 
 void	init_shell(char **env)
 {

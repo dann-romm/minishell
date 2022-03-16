@@ -50,7 +50,7 @@ PARSER_SRC				=	$(PARSER_SRCDIR)/parser.c
 PROMPT_SRC				=	$(PROMPT_SRCDIR)/prompt.c
 
 UTILS_SRC				=	$(UTILS_SRCDIR)/ft_split.c \
-						=	$(UTILS_SRCDIR)/utils_ft.c
+							$(UTILS_SRCDIR)/utils_ft.c
 
 SRC						=	$(BUILTIN_SRC) \
 							$(EXECUTOR_SRC) \

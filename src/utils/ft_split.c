@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:11:30 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/02/28 20:24:20 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/03/16 17:36:43 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	ft_seps(char const *s, char c)
 	return (seps);
 }
 
-static int	ft_free_mem(char **arr)
+int	free_2d_array(char **arr)
 {
 	int	i;
 
@@ -71,7 +71,7 @@ static int	ft_allocate_mem(const char *s, char **arr, char c)
 		{
 			arr[j] = (char *)malloc(sizeof(char) * (count + 1));
 			if (arr[j++] == 0)
-				return (ft_free_mem(arr));
+				return (free_2d_array(arr));
 		}
 	}
 	return (0);

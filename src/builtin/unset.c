@@ -8,7 +8,7 @@ void	ft_unset(t_hashtable *ht, t_simple_cmd *unset_cmd)
 
 	i = -1;
 	if (unset_cmd->args_num == 0)
-		ft_putstr("unset: not enough arguments\n");
+		printf("unset: not enough arguments\n");
 	else
 	{
 		while (++i < unset_cmd->args_num)

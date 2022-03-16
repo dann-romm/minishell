@@ -10,7 +10,7 @@ void	ft_echo(char **args, int arg_num)
 	i = -1;
 	if (!args)
 	{
-		write(1, "\n", 1);
+		printf("\n");
 		return ;
 	}
 	else if (args[0][0] == '-' && args[0][1] == 'n' && args[0][2] == '\0')
@@ -20,10 +20,10 @@ void	ft_echo(char **args, int arg_num)
 	}
 	while (args[++i])
 	{
-		ft_putstr(args[i]);
+		printf("%s", args[i]);
 		if (i < arg_num - 1)
-			write(1, " ", 1);
+			printf(" ");
 	}
 	if (!flag)
-		write(1, "\n", 1);
+		printf("\n");
 }

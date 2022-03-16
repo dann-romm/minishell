@@ -27,7 +27,7 @@ char *find_path(t_simple_cmd *command)
 		free(cur_dir);
 		return (res);
 	}
-	char **paths = ft_split(find_hashtable(g_shell->env_global, "PATH"), ":");
+	char **paths = ft_split(find_hashtable(g_shell->env_global, "PATH"), ':');
 	while (paths[i])
 	{
 		cur_dir = ft_strjoin(paths[i], command->cmd);
@@ -36,13 +36,13 @@ char *find_path(t_simple_cmd *command)
 		{
 			res = cur_dir;
 			free(cur_dir);
-			free_split(paths);
+			free_2d_array(paths);
 			return (res);
 		}
 		i++;
 	}
 	free(cur_dir);
-	free_split(paths);
+	free_2d_array(paths);
 	return (res);
 }
 
@@ -62,11 +62,12 @@ int is_executable(t_simple_cmd *command)
 int	bin_exec(t_simple_cmd *command)
 {
 	// find path and execute it
+	return (0);
 }
 
 int	exec_cmd(t_simple_cmd *command)
 {
-	if (if_executable(command->cmd))
+	if (is_executable(command))
 	{
 		if (command->type == CMD_CD)
 			return (ft_cd(g_shell->env_global, command));
@@ -125,7 +126,8 @@ int	execute(t_command_table *table)
 			perror_exit("pipe");
 		child_proc = fork();
 		if (child_proc < 0)
-			perror_exit(table->commands[i]);
+			exit(1);
+			// perror_exit(table->commands[i]); // perror_exit принимает на вход строку (char *), а не (t_simple_cmd *)
 		if (child_proc == 0)
 			exec_cmd(table->commands[i]);
 		close(tube[0]);

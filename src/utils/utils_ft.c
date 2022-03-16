@@ -1,5 +1,15 @@
 #include "libft_funcs.h"
 
+int	is_alpha(char c)
+{
+	return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+}
+
+int	is_numeric(char c)
+{
+	return (c >= '0' && c <= '9');
+}
+
 int	is_alnum(char c)
 {
 	return ((c >= '0' && c <= '9')
@@ -112,4 +122,32 @@ int	ft_strcmp(char *s1, char *s2)
 		s2++;
 	}
 	return (*(unsigned char *)s1 - *(unsigned char *)s2);
+}
+
+int	ft_atoi(char *str)
+{
+	int	i;
+	int	sign;
+	int	ans;
+
+	i = 0;
+	ans = 0;
+	sign = 1;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		sign = (str[i] == '-') * (-1) + (str[i] == '+');
+		i++;
+	}
+	while (str[i] == '0')
+		i++;
+	if (str[i] > '0' && str[i] <= '9')
+		ans = sign * (str[i++] - '0');
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		if ((ans * 10 + sign * (str[i] - '0') > 0) != (ans > 0))
+			return (0);
+		ans = ans * 10 + sign * (str[i] - '0');
+		i++;
+	}
+	return (ans);
 }

@@ -13,9 +13,9 @@ int	check_input(char *str)
 	count2 = 0;
 	while (str[++i])
 	{
-		if (str[0] != '_' && ((!ft_isdigit(str[i]) && !ft_isalpha(str[i])) || ft_isdigit(str[0])))
+		if (str[0] != '_' && ((!is_numeric(str[i]) && !is_alpha(str[i])) || is_numeric(str[0])))
 			return (1);
-		else if (ft_isdigit(str[i]))
+		else if (is_numeric(str[i]))
 			count1++;
 	}
 	if (count1 == i - 1)
