@@ -57,12 +57,6 @@ int	is_word_char(char c)
 		|| (c == '+'));
 }
 
-void	scan_word(t_source *src)
-{
-	while (is_word_char(peek(src)))
-		save_char(src, next_char(src));
-}
-
 void	put_env_into_src(t_source *src)
 {
 	char	*key;
@@ -214,12 +208,12 @@ t_token	*get_next_token(t_source *src)
 			else if (require_bracket)
 				next_char(src);
 			// token->type = T_DOLLAR;
-			token->type = T_STRING;
+			token->type = T_ID;
 		}
 	}
 	else if (peek(src) == '"')
 	{
-		token->type = T_STRING;
+		token->type = T_ID;
 		next_char(src);
 		while (peek(src) != EOF && peek(src) != '"')
 		{
@@ -288,7 +282,7 @@ t_token	*get_next_token(t_source *src)
 	}
 	else if (peek(src) == '\'')
 	{
-		token->type = T_STRING;
+		token->type = T_ID;
 		next_char(src);
 		while (peek(src) != EOF && peek(src) != '\'')
 		{
@@ -320,7 +314,8 @@ t_token	*get_next_token(t_source *src)
 		int			i;
 		const char	*builtins[7] = {"echo", "cd", "pwd", "export", "unset", "env", "exit"};
 		token->type = T_ID;
-		scan_word(src);
+		while (is_word_char(peek(src)))
+			save_char(src, next_char(src));
 		
 		i = 0;
 		while (i < 7)
