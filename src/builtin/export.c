@@ -23,12 +23,6 @@ int	check_input(char *str)
 	return (0);
 }
 
-/*
-ABC=qweqwe -> not recorded in any table
-export ABC=qweqwe / ABC= -> recorded in both global and local tables
-export ABC -> recorded only in local table
-*/
-
 void	print_export_ht(t_hashtable *ht)
 {
 	t_pair	*pair;
@@ -62,7 +56,6 @@ void	ft_export(t_simple_cmd *cmd)
 		printf("minishell: export: `%s': not a valid identifier\n", cmd->cmd_args[0]);
 		return ;
 	}
-	// printf("value -> %s\n", find_hashtable(g_shell->env_local, cmd->cmd_args[0]));
 	insert_hashtable(g_shell->env_global, cmd->cmd_args[0], find_hashtable(g_shell->env_local, cmd->cmd_args[0]));
 	free(res);
 }
