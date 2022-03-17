@@ -103,7 +103,7 @@ int	exec_cmd(t_command_table *table, int index, t_pipex_data *data)
 	if (is_executable(table->commands[index]))
 	{
 		if (table->commands[index]->type == CMD_CD)
-			return (ft_cd(g_shell->env_global, table->commands[index]));
+			return (ft_cd(table->commands[index]));
 		if (table->commands[index]->type == CMD_PWD)
 			return (ft_pwd(g_shell->env_global));
 		if (table->commands[index]->type == 2)

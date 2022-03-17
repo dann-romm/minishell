@@ -235,7 +235,9 @@ t_token	*get_next_token(t_source *src)
 			else if (peek(src) == '$')
 			{
 				next_char(src);
+				printf("- here1\n");
 				put_env_into_src(src);
+				printf("- here2\n");
 			}
 			else
 				save_char(src, next_char(src));
