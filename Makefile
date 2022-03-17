@@ -25,7 +25,8 @@ UTILS_OBJDIR			= $(OBJDIR)/utils
 
 INCDIR					= ./includes
 
-BUILTIN_SRC				=	$(BUILTIN_SRCDIR)/cd.c \
+BUILTIN_SRC				=	$(BUILTIN_SRCDIR)/assignment.c \
+							$(BUILTIN_SRCDIR)/cd.c \
 							$(BUILTIN_SRCDIR)/echo.c \
 							$(BUILTIN_SRCDIR)/env.c \
 							$(BUILTIN_SRCDIR)/exit.c \

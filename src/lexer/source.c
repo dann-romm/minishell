@@ -114,6 +114,7 @@ void	reallocate_str(t_source *src)
 		errno = ENOMEM;
 		return ;
 	}
+	src->str[src->strlen] = '\0';
 	ft_strcpy(tmp, src->str);
 	free(src->str);
 	src->str = tmp;

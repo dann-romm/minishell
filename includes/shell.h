@@ -59,8 +59,9 @@ typedef enum e_cmd_type
 	CMD_EXPORT,
 	CMD_EXIT,
 	CMD_UNSET,
-	CMD_ENV
-} 	t_cmd_type;
+	CMD_ENV,
+	CMD_ASSIGNMENT
+}	t_cmd_type;
 
 typedef struct s_simple_cmd
 {
