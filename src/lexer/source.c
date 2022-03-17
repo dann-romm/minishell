@@ -108,7 +108,7 @@ void	reallocate_str(t_source *src)
 		return ;
 	}
 	src->strsize *= 2;
-	tmp = (char *)malloc(sizeof(char) * src->strsize);
+	tmp = (char *)malloc(sizeof(char) * (src->strsize + 1));
 	if (!tmp)
 	{
 		errno = ENOMEM;
@@ -119,7 +119,7 @@ void	reallocate_str(t_source *src)
 	src->str = tmp;
 }
 
-void	save_char(t_source *src, char c) // segfault bug
+void	save_char(t_source *src, char c)
 {
 	if (!src || !src->str)
 	{
