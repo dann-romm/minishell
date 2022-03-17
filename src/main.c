@@ -9,6 +9,11 @@
 void	init_shell(char **env)
 {
 	g_shell = (t_shell *)malloc(sizeof(t_shell));
+	if (!g_shell)
+	{
+		errno = ENOMEM;
+		exit(errno);
+	}
 	g_shell->env_global = init_hashtable(10);
 	g_shell->env_local = init_hashtable(10);
 	fill_hashtable(env);
@@ -27,7 +32,7 @@ int	main(int argc, char **argv, char **env)
 		list = create_token_list(input);
 
 		// _DEBUG_print_token_list(list);
-		table = parser(list);
+		table = parser(&list);
 		_DEBUG_print_command_table(table);
 
 		clear_token_list(&list);

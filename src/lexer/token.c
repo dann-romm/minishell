@@ -87,27 +87,32 @@ int	push_back_token_list(t_token_list **head, t_token_list *node)
 	return (0);
 }
 
-int	remove_token_list(t_token_list *head, t_token_list **node)
+int	remove_token_list(t_token_list **head, t_token_list *node)
 {
 	t_token_list	*tmp;
 
-	if (!(*node)->next)
+	if (!head || !(*head) || !node)
+		return (1);
+	free(node->token->value);
+	free(node->token);
+	if (*head == node)
 	{
-		while (head && head->next != (*node))
-			head = head->next;
-		free((*node)->token->value);
-		free((*node)->token);
-		free((*node));
-		*node = NULL;
-		head->next = NULL;
+		free(*head);
+		*head = NULL;
+	}
+	if (!node->next)
+	{
+		tmp = *head;
+		while (tmp && tmp->next != node)
+			tmp = tmp->next;
+		free(node);
+		tmp->next = NULL;
 		return (0);
 	}
-	free((*node)->token->value);
-	free((*node)->token);
-	(*node)->token = (*node)->next->token;
-	tmp = (*node)->next->next;
-	free((*node)->next);
-	(*node)->next = tmp;
+	node->token = node->next->token;
+	tmp = node->next->next;
+	free(node->next);
+	node->next = tmp;
 	return (0);
 }
 

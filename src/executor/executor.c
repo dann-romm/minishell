@@ -30,7 +30,11 @@
 // 	return (0);
 // }
 
-//
+static void	perror_exit(char *message)
+{
+	perror(message);
+	exit(1);
+}
 
 char *find_path(t_simple_cmd *command)
 {
@@ -122,12 +126,6 @@ int	exec_cmd(t_command_table *table, int index, t_pipex_data *data)
 	else
 		printf("minishell: command not found: %s\n", table->commands[index]->cmd);
 	return (1);
-}
-
-static void	perror_exit(char *message)
-{
-	perror(message);
-	exit(1);
 }
 
 int	ft_waitpid(int i)

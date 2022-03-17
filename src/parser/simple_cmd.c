@@ -2,6 +2,8 @@
 #include "shell.h"
 #include "parser.h"
 
+// TODO: < text.txt segfault
+
 int32_t	count_cmd_args(t_token_list *list)
 {
 	int32_t	i;
@@ -49,21 +51,4 @@ t_simple_cmd	*get_simple_cmd(t_token_list *list)
 		list = list->next;
 	}
 	return (command);
-}
-
-int	handle_assignments(t_token_list *list)
-{
-	t_token_list	*tmp;
-
-	tmp = list;
-	while (tmp && tmp->next)
-	{
-		if (tmp->next->token->type == T_EQUALS)
-		{
-			if (!tmp->next->next || tmp->token->type != T_ID || tmp->next->next->token->type != T_ID)
-				return (1); // syntax error
-		}
-		tmp = tmp->next;
-	}
-	return (0);
 }

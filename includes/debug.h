@@ -101,6 +101,11 @@ __attribute__((weak)) void	_DEBUG_print_token_list(t_token_list *list)
 	t_token_list	*tmp;
 
 	printf("<-------------- DEBUG PRINT TOKEN LIST -------------->\n");
+	if (!list)
+	{
+		printf("token list is NULL\n");
+		return ;
+	}
 	tmp = list;
 	while (tmp)
 	{
