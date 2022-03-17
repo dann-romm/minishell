@@ -67,8 +67,6 @@ int	handle_redirect(t_command_table *table, t_token_list **list) // segfault at 
 				table->redirect.is_stdin_append = 1;
 			remove_token_list(*list, &tmp);
 			remove_token_list(*list, &tmp);
-			if (tmp && tmp->token->type != T_PIPE)
-				return (1); // syntax error
 		}
 		else
 			tmp = tmp->next;

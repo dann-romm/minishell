@@ -119,7 +119,7 @@ void	reallocate_str(t_source *src)
 	src->str = tmp;
 }
 
-void	save_char(t_source *src, char c)
+void	save_char(t_source *src, char c) // segfault bug
 {
 	if (!src || !src->str)
 	{
