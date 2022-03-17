@@ -2,6 +2,7 @@
 #include "hashtable.h"
 #include "libft_funcs.h"
 #include "builtin.h"
+#include "executor.h"
 
 // s = getenv("PATH"); // покажет значение переменной РАТН
 
@@ -77,13 +78,26 @@ int is_executable(t_simple_cmd *command)
 	return (1);
 }
 
-int	bin_exec(t_simple_cmd *command)
+int	bin_exec(t_command_table *table, int index,t_pipex_data *data)
 {
-	// find path and execute it
+	if (index == 0)
+	{
+		if (dup2(data->fd1, 0) < 0 || dup2(data->tube2[1], 1) < 0)
+			perror_exit("dup2 86");
+	}
+	else if (index == table->commands_num - 1)
+	{
+		if (dup2(data->tube1[0], 0) < 0 || dup2(data->fd2, 1) < 0)
+			perror_exit("dup2 91");
+	}
+	else
+	{
+		
+	}
 	return (0);
 }
 
-int	exec_cmd(t_command_table *table, int index)
+int	exec_cmd(t_command_table *table, int index, t_pipex_data *data)
 {
 	// set_pipe(table);
 	if (is_executable(table->commands[index]))
@@ -103,7 +117,7 @@ int	exec_cmd(t_command_table *table, int index)
 		if (table->commands[index]->type == 4)
 			ft_exit(table->commands[index]->cmd_args, table->commands[index]->args_num); //return
 		else
-			bin_exec(table->commands[index]); //return
+			bin_exec(table, index, data); //return
 	}
 	else
 		printf("minishell: command not found: %s\n", table->commands[index]->cmd);
@@ -131,40 +145,41 @@ int	ft_waitpid(int i)
 	return (error_code);
 }
 
+void open_files(t_command_table *table, t_pipex_data *data)
+{
+	if (table->redirect._stdin != 0)
+		data->fd1 = open(table->redirect._stdin, O_RDONLY);
+	else
+		data->fd1 = STDIN_FILENO;
+	if (table->redirect._stdout != 0)
+    	data->fd2 = open(table->redirect._stdout, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	else
+		data->fd2 = STDOUT_FILENO;
+}
+
 int	execute(t_command_table *table)
 {
-	// создать структуру с пайпами и фд
-	int tube[2];
-	int	fd[2];
 	int	child_proc;
 	int i = -1;
+	t_pipex_data *data = (t_pipex_data *)malloc(sizeof(t_cmd_type));
 
-	// open_files() - создание фд
-	// int fd1;
-	// int fd2;
-	// if (table->redirect._stdin != 0)
-	// 	fd1 = open(table->redirect._stdin, O_RDONLY);
-	// else
-	// 	fd1 = STDIN_FILENO;
-	// if stdout != 0
-    // 	fd2 = open(table->redirect._stdout, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	// else
-	// 	fd2 = STDOUT_FILENO;
+	open_files(table,  data);
 
 	if (table->commands_num == 0)
 		return (0);
 	while (++i < table->commands_num)
 	{
-		if (pipe(tube))
-			perror_exit("pipe");
+		if (pipe(data->tube2))
+			perror_exit("pipe 164");
 		child_proc = fork();
 		if (child_proc < 0)
-			exit(1);
-			// perror_exit(table->commands[i]); // perror_exit принимает на вход строку (char *), а не (t_simple_cmd *)
+			perror_exit(table->commands[i]->cmd);
 		if (child_proc == 0)
-			exec_cmd(table, i);
-		close(tube[0]);
-		close(tube[1]);
+			exec_cmd(table, i, data);
+		close(data->tube1[0]); // закрываем фдшники, полученные из tube2 в цикле (произойдёт в след. операции)
+		close(data->tube1[1]);
+		data->tube1[0] = data->tube2[0]; // tube1 присваиваются именно фдшники (не какие-то другие данные) tube2 (что по сути делает pipe, поэтому нам не нужно делать pipe(tube1))
+		data->tube1[1] = data->tube2[1];
 		i++;
 	}
 	return (ft_waitpid(i));
