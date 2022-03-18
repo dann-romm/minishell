@@ -36,35 +36,38 @@ t_command_table	*init_command_table(t_token_list *list)
 	table->redirect.is_stdout_append = 0;
 	table->commands_num = count_commands_num(list);
 	table->commands = (t_simple_cmd **)malloc(sizeof(t_simple_cmd *) * table->commands_num);
-	for (int i = 0; i < table->commands_num; i++) // replace with memset
-		table->commands[i] = NULL; // replace with memset
 	if (!table->commands)
 	{
 		free(table);
 		errno = ENOMEM;
 		return (NULL);
 	}
+	for (int i = 0; i < table->commands_num; i++) // replace with memset
+		table->commands[i] = NULL; // replace with memset
 	return (table);
 }
 
 int	delete_simple_cmd(t_simple_cmd **cmd)
 {
-	t_simple_cmd	*tmp;
+	if (!cmd || !(*cmd))
+		return (1);
 
-	tmp = *cmd;
-	if (tmp)
+	if ((*cmd)->cmd)
 	{
-		if (tmp->cmd)
-			free(tmp->cmd);
-		while (tmp->args_num--)
-		{
-			if (tmp->cmd_args[tmp->args_num])
-				free(tmp->cmd_args[tmp->args_num]);
-		}
-
-		free(tmp->cmd_args);
-		free(tmp);
+		free((*cmd)->cmd);
+		(*cmd)->cmd = NULL;
 	}
+	while ((*cmd)->args_num--)
+	{
+		if ((*cmd)->cmd_args[(*cmd)->args_num])
+		{
+			free((*cmd)->cmd_args[(*cmd)->args_num]);
+			(*cmd)->cmd_args[(*cmd)->args_num] = NULL;
+		}
+	}
+	free((*cmd)->cmd_args);
+	(*cmd)->cmd_args = NULL;
+	free((*cmd));
 	*cmd = NULL;
 	return (0);
 }
@@ -92,7 +95,7 @@ int	delete_command_table(t_command_table **table)
 	return (0);
 }
 
-int	handle_redirect(t_command_table *table, t_token_list **list) // segfault at > text.txt
+int	handle_redirect(t_command_table *table, t_token_list **list)
 {
 	t_token_list	*tmp;
 
@@ -121,24 +124,27 @@ int	handle_redirect(t_command_table *table, t_token_list **list) // segfault at 
 	return (0);
 }
 
-int	handle_assignments(t_token_list *list)
+int	handle_parse_error(t_command_table *table, t_token_list **list)
 {
 	t_token_list	*tmp;
+	int32_t			is_cmd;
 
-	tmp = list;
-	while (tmp && tmp->next)
+	is_cmd = 0;
+	tmp = *list;
+	while (tmp)
 	{
-		if (tmp->next->token->type == T_EQUALS)
-		{
-			if (!tmp->next->next || tmp->token->type != T_ID || tmp->next->next->token->type != T_ID)
-				return (1); // syntax error
-		}
+		if (tmp->token->type == T_EQUALS && (is_cmd == 0 || !tmp->next || tmp->next->token->type != T_ID || (tmp->next->next != 0 && tmp->next->next->token->type != T_PIPE)))
+			return (1);
+		if (tmp->token->type == T_PIPE && is_cmd == 0)
+			return (1);
+		if (tmp->token->type == T_ID)
+			is_cmd++;
+		if (tmp->token->type == T_PIPE)
+			is_cmd = 0;
 		tmp = tmp->next;
 	}
-	return (0);
+	return (!is_cmd);
 }
-
-
 
 t_command_table	*parser(t_token_list **list)
 {
@@ -150,8 +156,10 @@ t_command_table	*parser(t_token_list **list)
 	if (!table)
 		return (0);
 	
-	if (handle_redirect(table, list))
+	if (handle_redirect(table, list) || handle_parse_error(table, list))
 		return (0); // syntax error
+
+	_DEBUG_print_token_list(*list);
 
 	i = 0;
 	tmp = *list;
@@ -162,6 +170,6 @@ t_command_table	*parser(t_token_list **list)
 			tmp = tmp->next;
 		if (tmp)
 			tmp = tmp->next;
-	} // не работает, говно
-	return (NULL);
+	}
+	return (table);
 }

@@ -86,10 +86,11 @@ t_token			*get_next_token(t_source *src);
 
 // token.c
 t_token			*init_token(t_token_type type, char *str);
+int				delete_token(t_token **token);
 t_token_list	*init_token_list(t_token *token);
 t_token_list	*create_token_list(char *input);
 int				push_back_token_list(t_token_list **head, t_token_list *node);
 int				remove_token_list(t_token_list **head, t_token_list *node);
-int				clear_token_list(t_token_list **head);
+int				delete_token_list(t_token_list **head);
 
 #endif

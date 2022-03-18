@@ -86,6 +86,33 @@ __attribute__((weak)) char	*_DEBUG_token_type_to_str(t_token_type type)
 	}
 }
 
+__attribute__((weak)) char	*_DEBUG_cmd_type_to_str(t_cmd_type type)
+{
+	switch (type)
+	{
+		case CMD_NONE:
+			return ("CMD_NONE");
+		case CMD_ASSIGNMENT:
+			return ("CMD_ASSIGNMENT");
+		case CMD_CD:
+			return ("CMD_CD");
+		case CMD_ECHO:
+			return ("CMD_ECHO");
+		case CMD_ENV:
+			return ("CMD_ENV");
+		case CMD_EXIT:
+			return ("CMD_EXIT");
+		case CMD_EXPORT:
+			return ("CMD_EXPORT");
+		case CMD_PWD:
+			return ("CMD_PWD");
+		case CMD_UNSET:
+			return ("CMD_UNSET");
+		default:
+			return ("(null)");
+	}
+}
+
 __attribute__((weak)) void	_DEBUG_print_token(t_token *token)
 {
 	if (!token)
@@ -144,17 +171,23 @@ __attribute__((weak)) int	_DEBUG_print_command_table(t_command_table *table)
 		printf("table is NULL\n");
 		return (0);
 	}
-	printf("stdin: %s | is_append: %d\n", table->redirect._stdin, table->redirect.is_stdin_append);
-	printf("stdout: %s | is_append: %d\n", table->redirect._stdout, table->redirect.is_stdout_append);
+	printf("is_append: %d | stdin file:  %s\n", table->redirect.is_stdin_append, table->redirect._stdin);
+	printf("is_append: %d | stdout file: %s\n", table->redirect.is_stdout_append, table->redirect._stdout);
 	printf("commands: %d\n", table->commands_num);
 	for (int i = 0; i < table->commands_num; i++)
 	{
 		printf("\t<===== SIMPLE COMMAND =====>\n");
-		printf("\tbinary: %s\n", table->commands[i]->cmd);
-		printf("\targs (%d):", table->commands[i]->args_num);
-		for (int j = 0; j < table->commands[i]->args_num; j++)
-			printf(" %s", table->commands[i]->cmd_args[j]);
-		printf("\n");
+		if (table->commands[i])
+		{
+			printf("\tbinary: %s\n", table->commands[i]->cmd);
+			printf("\ttype: %s\n", _DEBUG_cmd_type_to_str(table->commands[i]->type));
+			printf("\targs (%d):", table->commands[i]->args_num);
+			for (int j = 0; j < table->commands[i]->args_num; j++)
+				printf(" %s", table->commands[i]->cmd_args[j]);
+			printf("\n");
+		}
+		else
+			printf("\tsimple cmd is NULL\n");
 	}
 	return (0);
 }
