@@ -2,6 +2,11 @@
 #include "hashtable.h"
 #include "libft_funcs.h"
 
+// if env looks like this
+// KEY: 'a'
+// VALUE: 'b==b=b=b=b=b=b==bb'
+// ft_split vill split that into 10+ strings, so you will put only first 'b' into hastable
+// also you have mem leak at all_paths[2], all_paths[3], so one and so forth
 void	fill_hashtable(char **env)
 {
 	int		i;
