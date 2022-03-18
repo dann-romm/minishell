@@ -33,6 +33,31 @@ t_simple_cmd	*init_simple_cmd(t_token_list *list)
 	return (command);
 }
 
+int	delete_simple_cmd(t_simple_cmd **cmd)
+{
+	if (!cmd || !(*cmd))
+		return (1);
+
+	if ((*cmd)->cmd)
+	{
+		free((*cmd)->cmd);
+		(*cmd)->cmd = NULL;
+	}
+	while ((*cmd)->args_num--)
+	{
+		if ((*cmd)->cmd_args[(*cmd)->args_num])
+		{
+			free((*cmd)->cmd_args[(*cmd)->args_num]);
+			(*cmd)->cmd_args[(*cmd)->args_num] = NULL;
+		}
+	}
+	free((*cmd)->cmd_args);
+	(*cmd)->cmd_args = NULL;
+	free((*cmd));
+	*cmd = NULL;
+	return (0);
+}
+
 // 0 - no assignment found
 // 1 - assignment handled successful
 int	handle_assignment(t_simple_cmd **command, t_token_list *list)
@@ -83,6 +108,7 @@ int	define_cmd_type(t_simple_cmd *command)
 		command->type = CMD_UNSET;
 	else
 		command->type = CMD_NONE;
+	return (0);
 }
 
 t_simple_cmd	*get_simple_cmd(t_token_list *list)
@@ -93,12 +119,12 @@ t_simple_cmd	*get_simple_cmd(t_token_list *list)
 	if (handle_assignment(&command, list))
 		return (command);
 	command = init_simple_cmd(list);
-	command->cmd = list->token->value;
+	command->cmd = ft_strdup(list->token->value);
 	list = list->next;
 	i = 0;
 	while (list && list->token->type != T_PIPE)
 	{
-		command->cmd_args[i++] = list->token->value;
+		command->cmd_args[i++] = ft_strdup(list->token->value);
 		list = list->next;
 	}
 	define_cmd_type(command);

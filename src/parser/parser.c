@@ -47,49 +47,21 @@ t_command_table	*init_command_table(t_token_list *list)
 	return (table);
 }
 
-int	delete_simple_cmd(t_simple_cmd **cmd)
-{
-	if (!cmd || !(*cmd))
-		return (1);
-
-	if ((*cmd)->cmd)
-	{
-		free((*cmd)->cmd);
-		(*cmd)->cmd = NULL;
-	}
-	while ((*cmd)->args_num--)
-	{
-		if ((*cmd)->cmd_args[(*cmd)->args_num])
-		{
-			free((*cmd)->cmd_args[(*cmd)->args_num]);
-			(*cmd)->cmd_args[(*cmd)->args_num] = NULL;
-		}
-	}
-	free((*cmd)->cmd_args);
-	(*cmd)->cmd_args = NULL;
-	free((*cmd));
-	*cmd = NULL;
-	return (0);
-}
-
 int	delete_command_table(t_command_table **table)
 {
-	t_command_table	*tmp;
-	
-	tmp = *table;
-	if (tmp)
+	if (*table)
 	{
-		if (tmp->redirect._stdin)
-			free(tmp->redirect._stdin);
-		if (tmp->redirect._stdout)
-			free(tmp->redirect._stdout);
-		while (tmp->commands_num--)
+		if ((*table)->redirect._stdin)
+			free((*table)->redirect._stdin);
+		if ((*table)->redirect._stdout)
+			free((*table)->redirect._stdout);
+		while ((*table)->commands_num--)
 		{
-			if (tmp->commands[tmp->commands_num])
-				delete_simple_cmd(&(tmp->commands[tmp->commands_num]));
+			if ((*table)->commands[(*table)->commands_num])
+				delete_simple_cmd(&((*table)->commands[(*table)->commands_num]));
 		}
-		free(tmp->commands);
-		free(tmp);
+		free((*table)->commands);
+		free((*table));
 	}
 	*table = NULL;
 	return (0);

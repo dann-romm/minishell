@@ -35,7 +35,8 @@ int	main(int argc, char **argv, char **env)
 		table = parser(&list);
 		_DEBUG_print_command_table(table);
 
-		clear_token_list(&list);
+		delete_token_list(&list);
+		delete_command_table(&table);
 		free(input);
 	}
 

@@ -105,7 +105,7 @@ int	bin_exec(t_command_table *table, int index, t_pipex_data *data)
 	close(data->tube2[0]);
 	close(data->tube2[1]);
 	printf("bin path -> %s\n", find_path(table->commands[0]));
-	execve(find_path(table->commands[0]), table->commands[0]->cmd_args, g_shell->env_global);
+	// execve(find_path(table->commands[0]), table->commands[0]->cmd_args, g_shell->env_global);
 	return (0);
 }
 
