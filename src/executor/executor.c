@@ -4,31 +4,30 @@
 #include "builtin.h"
 #include "executor.h"
 
-// s = getenv("PATH"); // покажет значение переменной РАТН
+char **ht_to_array(t_hashtable *ht) // transform it to a function which concatenates 3 strings
+{
+	int		i;
+	int		j;
+	char	**env_array;
+	t_pair	*pair;
 
-// int is_path_exists(char *str)
-// {
-// 	struct stat st;
-// 	if (stat(str, &st) == 0)
-// 		return (1);
-// 	return (0);
-// }
-
-// char *search_path(char *cmd) // принимает имя команды, а затем ищет каталоги, перечисленные в переменной $PATH, чтобы попытаться найти исполняемый файл команды.
-// {
-// 	const char	*path = getenv("PATH"); 
-// 	char		**all_paths = ft_split(path, ':');
-// 	int i = 0, j = 0;
-// 	while (all_paths[i])
-// 	{
-// 		all_paths[i] = ft_strjoin(all_paths[i], "/");
-// 		all_paths[i] = ft_strjoin(all_paths[i], cmd);
-// 		if (is_path_exists(all_paths[i]))
-// 			return (all_paths[i]);
-// 		i++;
-// 	}
-// 	return (0);
-// }
+	i = -1;
+	j = -1;
+	env_array = (char **)malloc(sizeof(char *) * (ht->count + 1));
+	while (++i < ht->size)
+	{
+		pair = ht->table[i];
+		while (pair)
+		{
+			env_array[j] = ft_strjoin(pair->key, "="); // due to inability to free this strjoin make another function
+			env_array[j] = ft_strjoin(env_array[j], pair->value);
+			j++;
+			pair = pair->next;
+		}
+	}
+	ht->table[i] = 0;
+	return (env_array);
+}
 
 static void	perror_exit(char *message)
 {
@@ -42,6 +41,7 @@ char *find_path(t_simple_cmd *command)
 	int all = -1;
 	char *res = 0;
 	char *cur_dir = find_hashtable(g_shell->env_global, "PWD");
+	cur_dir = ft_strjoin(cur_dir, "/"); // memory leak at cur_dir
 	cur_dir = ft_strjoin(cur_dir, command->cmd);
 	int cur = access(cur_dir, F_OK);
 	if (cur == 0)
@@ -53,11 +53,12 @@ char *find_path(t_simple_cmd *command)
 	char **paths = ft_split(find_hashtable(g_shell->env_global, "PATH"), ':');
 	while (paths[i])
 	{
-		cur_dir = ft_strjoin(paths[i], command->cmd);
+		cur_dir = ft_strjoin(paths[i], "/"); // memory leak at cur_dir
+		cur_dir = ft_strjoin(cur_dir, command->cmd);
 		all = access(cur_dir, F_OK);
 		if (all == 0)
 		{
-			res = cur_dir;
+			res = ft_strdup(cur_dir);
 			free(cur_dir);
 			free_2d_array(paths);
 			return (res);
@@ -82,7 +83,7 @@ int is_executable(t_simple_cmd *command)
 	return (1);
 }
 
-int	bin_exec(t_command_table *table, int index,t_pipex_data *data)
+int	bin_exec(t_command_table *table, int index, t_pipex_data *data)
 {
 	if (index == 0)
 	{
@@ -96,8 +97,15 @@ int	bin_exec(t_command_table *table, int index,t_pipex_data *data)
 	}
 	else
 	{
-		
+		if(dup2(data->tube1[0], 0) < 0 || dup2(data->tube2[1], 1) < 0)
+			perror_exit("dup2 100");
 	}
+	close(data->tube1[0]);
+	close(data->tube1[1]);
+	close(data->tube2[0]);
+	close(data->tube2[1]);
+	printf("bin path -> %s\n", find_path(table->commands[0]));
+	execve(find_path(table->commands[0]), table->commands[0]->cmd_args, g_shell->env_global);
 	return (0);
 }
 
@@ -117,7 +125,7 @@ int	exec_cmd(t_command_table *table, int index, t_pipex_data *data)
 		if (table->commands[index]->type == 3)
 			ft_export(table->commands[index]); //return
 		if (table->commands[index]->type == 5)
-			ft_unset(g_shell->env_global, table->commands[index]); //return
+			ft_unset(table->commands[index]); //return
 		if (table->commands[index]->type == 4)
 			ft_exit(table->commands[index]->cmd_args, table->commands[index]->args_num); //return
 		else

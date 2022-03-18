@@ -12,5 +12,7 @@ typedef struct s_pipex_data
 }		t_pipex_data;
 
 int		execute(t_command_table *table);
+char	*find_path(t_simple_cmd *command);
+char	**ht_to_array(t_hashtable *ht);
 
 #endif

@@ -2,7 +2,7 @@
 #include "hashtable.h"
 #include "libft_funcs.h"
 
-void	ft_unset(t_hashtable *ht, t_simple_cmd *unset_cmd)
+void	ft_unset(t_simple_cmd *unset_cmd)
 {
 	int		i;
 
@@ -13,8 +13,8 @@ void	ft_unset(t_hashtable *ht, t_simple_cmd *unset_cmd)
 	{
 		while (++i < unset_cmd->args_num)
 		{
-			if (find_hashtable(ht, unset_cmd->cmd) != 0)
-				delete_hashtable(&ht);
+			if (find_hashtable(g_shell->env_global, unset_cmd->cmd) != 0)
+				delete_hashtable(&(g_shell->env_global));
 		}
 	}
 }
