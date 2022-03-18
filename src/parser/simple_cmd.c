@@ -58,6 +58,33 @@ int	handle_assignment(t_simple_cmd **command, t_token_list *list)
 	return (1);
 }
 
+int	define_cmd_type(t_simple_cmd *command)
+{
+	if (!command)
+		return (1);
+	if (!command->cmd)
+	{
+		command->type = CMD_NONE;
+		return (0);
+	}
+	if (!ft_strcmp(command->cmd, "cd"))
+		command->type = CMD_CD;
+	else if (!ft_strcmp(command->cmd, "echo"))
+		command->type = CMD_ECHO;
+	else if (!ft_strcmp(command->cmd, "env"))
+		command->type = CMD_ENV;
+	else if (!ft_strcmp(command->cmd, "exit"))
+		command->type = CMD_EXIT;
+	else if (!ft_strcmp(command->cmd, "export"))
+		command->type = CMD_EXPORT;
+	else if (!ft_strcmp(command->cmd, "pwd"))
+		command->type = CMD_PWD;
+	else if (!ft_strcmp(command->cmd, "unset"))
+		command->type = CMD_UNSET;
+	else
+		command->type = CMD_NONE;
+}
+
 t_simple_cmd	*get_simple_cmd(t_token_list *list)
 {
 	t_simple_cmd	*command;
@@ -74,5 +101,6 @@ t_simple_cmd	*get_simple_cmd(t_token_list *list)
 		command->cmd_args[i++] = list->token->value;
 		list = list->next;
 	}
+	define_cmd_type(command);
 	return (command);
 }
