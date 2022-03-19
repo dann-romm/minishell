@@ -22,5 +22,5 @@ void		ft_putstr(char *s);
 void		ft_putendl(char *s);
 
 int			free_2d_array(char **arr);
-
+char 		*three_str_cat(char *s1, char *s2, char *s3);
 #endif

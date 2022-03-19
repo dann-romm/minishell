@@ -27,13 +27,8 @@ int	main(int argc, char **argv, char **env)
 	t_command_table	*table = (t_command_table *)malloc(sizeof(t_command_table));
 
 	init_shell(env);
-	// char **all_env = ht_to_array(g_shell->env_global);
-	// int i = 0;
-	// while (all_env[i])
-	// {
-	// 	printf("%s\n", all_env[i]);
-	// 	i++;
-	// }
+
+
 	while (1)
 	{
 		input = read_input("");

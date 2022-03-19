@@ -3,6 +3,7 @@
 
 int	ft_echo(char **args, int arg_num)
 {
+	// printf()
 	int	flag;
 	int	i;
 

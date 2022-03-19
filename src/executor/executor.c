@@ -5,7 +5,36 @@
 #include "executor.h"
 #include "debug.h"
 
-char **ht_to_array(t_hashtable *ht) // transform it to a function which concatenates 3 strings
+char *three_str_cat(char *s1, char *s2, char *s3)
+{
+	int		len1 = ft_strlen(s1);
+	int		len2 = ft_strlen(s2);
+	int		len3 = ft_strlen(s3);
+	char	*dest = (char *)malloc(sizeof(char) * (len1 + len2 + len3 + 1));
+	int i = 0, j = 0;
+	while (s1[i] && i < (len1 + len2 + len3 + 1))
+	{
+		dest[i] = s1[i];
+		i++;
+	}
+	while (s2[j] && i < (len1 + len2 + len3 + 1))
+	{
+		dest[i] = s2[j];
+		i++;
+		j++;
+	}
+	j = 0;
+	while (s3[j] && i < (len1 + len2 + len3 + 1))
+	{
+		dest[i] = s3[j];
+		i++;
+		j++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+char **ht_to_array(t_hashtable *ht)
 {
 	int		i;
 	int		j;
@@ -20,8 +49,7 @@ char **ht_to_array(t_hashtable *ht) // transform it to a function which concaten
 		pair = ht->table[i];
 		while (pair)
 		{
-			env_array[j] = ft_strjoin(pair->key, "="); // due to inability to free this strjoin make another function
-			env_array[j] = ft_strjoin(env_array[j], pair->value);
+			env_array[j] = three_str_cat(pair->key, "=", pair->value);
 			j++;
 			pair = pair->next;
 		}
@@ -42,8 +70,7 @@ char *find_path(t_simple_cmd *command)
 	int all = -1;
 	char *res = 0;
 	char *cur_dir = find_hashtable(g_shell->env_global, "PWD");
-	cur_dir = ft_strjoin(cur_dir, "/"); // memory leak at cur_dir
-	cur_dir = ft_strjoin(cur_dir, command->cmd);
+	cur_dir = three_str_cat(cur_dir, "/", command->cmd);
 	int cur = access(cur_dir, F_OK);
 	if (cur == 0)
 	{
@@ -54,8 +81,7 @@ char *find_path(t_simple_cmd *command)
 	char **paths = ft_split(find_hashtable(g_shell->env_global, "PATH"), ':');
 	while (paths[i])
 	{
-		cur_dir = ft_strjoin(paths[i], "/"); // memory leak at cur_dir
-		cur_dir = ft_strjoin(cur_dir, command->cmd);
+		cur_dir = three_str_cat(paths[i], "/", command->cmd);
 		all = access(cur_dir, F_OK);
 		if (all == 0)
 		{
@@ -89,28 +115,36 @@ void	bin_exec(t_command_table *table, int index, t_pipex_data *data)
 	if (index == 0)
 	{
 		if (dup2(data->fd1, 0) < 0)
-			perror_exit("dup2 86");
+			perror_exit("dup2 92");
 	}
 	else
 	{
 		if (dup2(data->tube1[0], 0) < 0)
-			perror_exit("dup2 100");
+			perror_exit("dup2 97");
 	}
 	if (index == table->commands_num - 1)
 	{
 		if (dup2(data->fd2, 1) < 0)
-			perror_exit("dup2 91");
+			perror_exit("dup2 102");
 	}
 	else
 	{
 		if (dup2(data->tube2[1], 1) < 0)
-			perror_exit("dup2 100");
+			perror_exit("dup2 107");
+		printf("here\n");
 	}
+	// int k = 0;
+	// while (table->commands[0]->cmd_args[k])
+	// {
+	// 	printf("%d, %s\n", k, table->commands[0]->cmd_args[k]);
+	// 	k++;
+	// }
 	close(data->tube1[0]);
 	close(data->tube1[1]);
 	close(data->tube2[0]);
 	close(data->tube2[1]);
-	execve(find_path(table->commands[0]), table->commands[0]->cmd_args, ht_to_array(g_shell->env_global)); // make cmd->cmd_args NULL-terminated
+	if (execve(find_path(table->commands[0]), table->commands[0]->cmd_args, ht_to_array(g_shell->env_global)) < 0)
+		printf("failure\n");
 }
 
 int	exec_cmd(t_command_table *table, int index, t_pipex_data *data)
@@ -171,6 +205,8 @@ int	execute(t_command_table *table) // if table == NULL
 	int	child_proc;
 	int i = -1;
 	t_pipex_data *data = (t_pipex_data *)malloc(sizeof(t_pipex_data)); // safe malloc
+	if (!data)
+		return (1);
 
 	open_files(table, data);
 
