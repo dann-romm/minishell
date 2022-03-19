@@ -135,7 +135,6 @@ int	exec_cmd(t_command_table *table, int index, t_pipex_data *data)
 		bin_exec(table, index, data);
 	else
 		printf("minishell: command not found: %s\n", table->commands[index]->cmd);
-
 	return (1);
 }
 
@@ -161,7 +160,7 @@ void open_files(t_command_table *table, t_pipex_data *data)
 	else
 		data->fd1 = STDIN_FILENO;
 	if (table->redirect._stdout != 0)
-    	data->fd2 = open(table->redirect._stdout, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		data->fd2 = open(table->redirect._stdout, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	else
 		data->fd2 = STDOUT_FILENO;
 }

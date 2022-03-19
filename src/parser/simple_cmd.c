@@ -27,7 +27,10 @@ t_simple_cmd	*init_simple_cmd(t_token_list *list)
 		return (NULL);
 	command->args_num = count_cmd_args(list) - 1;
 	if (command->args_num)
-		command->cmd_args = (char **)malloc(sizeof(char *) * command->args_num);
+	{
+		command->cmd_args = (char **)malloc(sizeof(char *) * (command->args_num + 1));
+		command->cmd_args[command->args_num] = NULL;
+	}
 	else
 		command->cmd_args = NULL;
 	return (command);
