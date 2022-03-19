@@ -87,8 +87,8 @@ int	handle_redirect(t_command_table *table, t_token_list **list)
 				table->redirect.is_stdout_append = 1;
 			else if (tmp->token->type == T_DLESS)
 				table->redirect.is_stdin_append = 1;
-			remove_token_list(list, tmp);
-			remove_token_list(list, tmp);
+			remove_token_list(list, &tmp);
+			remove_token_list(list, &tmp);
 		}
 		else
 			tmp = tmp->next;
@@ -131,7 +131,7 @@ t_command_table	*parser(t_token_list **list)
 	if (handle_redirect(table, list) || handle_parse_error(table, list))
 		return (0); // syntax error
 
-	_DEBUG_print_token_list(*list);
+	// _DEBUG_print_token_list(*list);
 
 	i = 0;
 	tmp = *list;

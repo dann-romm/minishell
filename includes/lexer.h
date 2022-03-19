@@ -90,7 +90,7 @@ int				delete_token(t_token **token);
 t_token_list	*init_token_list(t_token *token);
 t_token_list	*create_token_list(char *input);
 int				push_back_token_list(t_token_list **head, t_token_list *node);
-int				remove_token_list(t_token_list **head, t_token_list *node);
+int				remove_token_list(t_token_list **head, t_token_list **node);
 int				delete_token_list(t_token_list **head);
 
 #endif
