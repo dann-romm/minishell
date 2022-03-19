@@ -110,6 +110,23 @@ int is_executable(t_simple_cmd *command)
 	return (1);
 }
 
+char	**adapt_cmd_args(t_simple_cmd *command)
+{
+	int i = 0, j = 0;
+	char **new = (char **)malloc(sizeof(char *) * (command->args_num + 2));
+	new[i] = ft_strdup("minishell");
+	// new[1] = ft_strdup(command->cmd);
+	i++;
+	while (i < command->args_num)
+	{
+		new[i] = ft_strdup(command->cmd_args[j]);
+		i++;
+		j++;
+	}
+	new[i] = 0;
+	return (new);
+}
+
 void	bin_exec(t_command_table *table, int index, t_pipex_data *data)
 {
 	if (index == 0)
@@ -133,17 +150,18 @@ void	bin_exec(t_command_table *table, int index, t_pipex_data *data)
 			perror_exit("dup2 107");
 		printf("here\n");
 	}
-	// int k = 0;
-	// while (table->commands[0]->cmd_args[k])
+	char **tmp = adapt_cmd_args(table->commands[0]);
+	// while (tmp[k])
 	// {
-	// 	printf("%d, %s\n", k, table->commands[0]->cmd_args[k]);
+	// 	printf("[%d] %s\n", k, tmp[k]);
 	// 	k++;
 	// }
+	// printf("%s %s %s %s\n", tmp[0], tmp[1], tmp[2], tmp[3]);
 	close(data->tube1[0]);
 	close(data->tube1[1]);
 	close(data->tube2[0]);
 	close(data->tube2[1]);
-	if (execve(find_path(table->commands[0]), table->commands[0]->cmd_args, ht_to_array(g_shell->env_global)) < 0)
+	if (execve(find_path(table->commands[0]), tmp, ht_to_array(g_shell->env_global)) < 0)
 		printf("failure\n");
 }
 
