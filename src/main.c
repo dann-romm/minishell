@@ -17,6 +17,7 @@ void	init_shell(char **env)
 	}
 	g_shell->env_global = init_hashtable(10);
 	g_shell->env_local = init_hashtable(10);
+	g_shell->exit_status = 0;
 	fill_hashtable(env);
 }
 

@@ -76,6 +76,7 @@ typedef struct s_shell
 {
 	t_hashtable	*env_global;
 	t_hashtable	*env_local;
+	int32_t		exit_status;
 }	t_shell;
 
 t_shell	*g_shell;
