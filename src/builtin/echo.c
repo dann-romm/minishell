@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft_funcs.h"
 
-void	ft_echo(char **args, int arg_num)
+int	ft_echo(char **args, int arg_num)
 {
 	int	flag;
 	int	i;
@@ -11,7 +11,7 @@ void	ft_echo(char **args, int arg_num)
 	if (!args)
 	{
 		printf("\n");
-		return ;
+		return (0);
 	}
 	else if (args[0][0] == '-' && args[0][1] == 'n' && args[0][2] == '\0')
 	{
@@ -26,4 +26,5 @@ void	ft_echo(char **args, int arg_num)
 	}
 	if (!flag)
 		printf("\n");
+	return (0);
 }

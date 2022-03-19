@@ -3,6 +3,7 @@
 #include "libft_funcs.h"
 #include "builtin.h"
 #include "executor.h"
+#include "debug.h"
 
 char **ht_to_array(t_hashtable *ht) // transform it to a function which concatenates 3 strings
 {
@@ -83,56 +84,58 @@ int is_executable(t_simple_cmd *command)
 	return (1);
 }
 
-int	bin_exec(t_command_table *table, int index, t_pipex_data *data)
+void	bin_exec(t_command_table *table, int index, t_pipex_data *data)
 {
 	if (index == 0)
 	{
-		if (dup2(data->fd1, 0) < 0 || dup2(data->tube2[1], 1) < 0)
+		if (dup2(data->fd1, 0) < 0)
 			perror_exit("dup2 86");
 	}
-	else if (index == table->commands_num - 1)
+	else
 	{
-		if (dup2(data->tube1[0], 0) < 0 || dup2(data->fd2, 1) < 0)
+		if (dup2(data->tube1[0], 0) < 0)
+			perror_exit("dup2 100");
+	}
+	if (index == table->commands_num - 1)
+	{
+		if (dup2(data->fd2, 1) < 0)
 			perror_exit("dup2 91");
 	}
 	else
 	{
-		if(dup2(data->tube1[0], 0) < 0 || dup2(data->tube2[1], 1) < 0)
+		if (dup2(data->tube2[1], 1) < 0)
 			perror_exit("dup2 100");
 	}
 	close(data->tube1[0]);
 	close(data->tube1[1]);
 	close(data->tube2[0]);
 	close(data->tube2[1]);
-	printf("bin path -> %s\n", find_path(table->commands[0]));
-	// execve(find_path(table->commands[0]), table->commands[0]->cmd_args, g_shell->env_global);
-	return (0);
+	execve(find_path(table->commands[0]), table->commands[0]->cmd_args, ht_to_array(g_shell->env_global)); // make cmd->cmd_args NULL-terminated
 }
 
 int	exec_cmd(t_command_table *table, int index, t_pipex_data *data)
 {
-	// set_pipe(table);
-	if (is_executable(table->commands[index]))
-	{
-		if (table->commands[index]->type == CMD_CD)
-			return (ft_cd(table->commands[index]));
-		if (table->commands[index]->type == CMD_PWD)
-			return (ft_pwd(g_shell->env_global));
-		if (table->commands[index]->type == 2)
-			ft_echo(table->commands[index]->cmd_args, table->commands[index]->args_num); //return
-		if (table->commands[index]->type == 6)
-			ft_env(g_shell->env_global); //return
-		if (table->commands[index]->type == 3)
-			ft_export(table->commands[index]); //return
-		if (table->commands[index]->type == 5)
-			ft_unset(table->commands[index]); //return
-		if (table->commands[index]->type == 4)
-			ft_exit(table->commands[index]->cmd_args, table->commands[index]->args_num); //return
-		else
-			bin_exec(table, index, data); //return
-	}
+	if (table->commands[index]->type == CMD_CD)
+		exit(ft_cd(table->commands[index]));
+	if (table->commands[index]->type == CMD_PWD)
+		exit(ft_pwd());
+	if (table->commands[index]->type == CMD_ECHO)
+		exit(ft_echo(table->commands[index]->cmd_args, table->commands[index]->args_num));
+	if (table->commands[index]->type == CMD_ENV)
+		exit(ft_env());
+	if (table->commands[index]->type == CMD_EXPORT)
+		exit(ft_export(table->commands[index]));
+	if (table->commands[index]->type == CMD_UNSET)
+		exit(ft_unset(table->commands[index]));
+	if (table->commands[index]->type == CMD_EXIT)
+		ft_exit(table->commands[index]->cmd_args, table->commands[index]->args_num);
+	if (table->commands[index]->type == CMD_ASSIGNMENT)
+		exit(ft_assignment(table->commands[index]));
+	else if (is_executable(table->commands[index]))
+		bin_exec(table, index, data);
 	else
 		printf("minishell: command not found: %s\n", table->commands[index]->cmd);
+
 	return (1);
 }
 
@@ -163,20 +166,22 @@ void open_files(t_command_table *table, t_pipex_data *data)
 		data->fd2 = STDOUT_FILENO;
 }
 
-int	execute(t_command_table *table)
+int	execute(t_command_table *table) // if table == NULL
 {
 	int	child_proc;
 	int i = -1;
-	t_pipex_data *data = (t_pipex_data *)malloc(sizeof(t_cmd_type));
+	t_pipex_data *data = (t_pipex_data *)malloc(sizeof(t_pipex_data)); // safe malloc
 
-	open_files(table,  data);
+	open_files(table, data);
 
 	if (table->commands_num == 0)
 		return (0);
+	if (pipe(data->tube1))
+		perror_exit("pipe tube1");
 	while (++i < table->commands_num)
 	{
 		if (pipe(data->tube2))
-			perror_exit("pipe 164");
+			perror_exit("pipe tube2");
 		child_proc = fork();
 		if (child_proc < 0)
 			perror_exit(table->commands[i]->cmd);
@@ -186,7 +191,6 @@ int	execute(t_command_table *table)
 		close(data->tube1[1]);
 		data->tube1[0] = data->tube2[0]; // tube1 присваиваются именно фдшники (не какие-то другие данные) tube2 (что по сути делает pipe, поэтому нам не нужно делать pipe(tube1))
 		data->tube1[1] = data->tube2[1];
-		i++;
 	}
 	return (ft_waitpid(i));
 }

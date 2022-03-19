@@ -41,7 +41,7 @@ void	print_export_ht(t_hashtable *ht)
 }
 
 
-void	ft_export(t_simple_cmd *cmd)
+int	ft_export(t_simple_cmd *cmd)
 {
 	int	i;
 	char *res;
@@ -50,12 +50,13 @@ void	ft_export(t_simple_cmd *cmd)
 	if (cmd->args_num == 0)
 		print_export_ht(g_shell->env_global);
 	if (cmd->cmd_args[0][1] == 0 && cmd->cmd_args[0][0] == '_')
-		return ;
+		return (0);
 	if (check_input(cmd->cmd_args[0])) // если имя переменной состоит только из чисел или в нем есть символ типа !@#', оно невалидно
 	{
 		printf("minishell: export: `%s': not a valid identifier\n", cmd->cmd_args[0]);
-		return ;
+		return (1);
 	}
 	insert_hashtable(g_shell->env_global, cmd->cmd_args[0], find_hashtable(g_shell->env_local, cmd->cmd_args[0]));
 	free(res);
+	return (0);
 }
