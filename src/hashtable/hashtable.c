@@ -26,6 +26,12 @@ t_hashtable	*init_hashtable(uint32_t size)
 	return (ht);
 }
 
+void	sort_hashtable(t_hashtable *ht) // TODO: sort it in alphabetical order
+{
+	char **tmp = ht_to_array(ht);
+	if 
+}
+
 int32_t	insert_hashtable(t_hashtable *ht, char *key, char *value)
 {
 	uint32_t	index;

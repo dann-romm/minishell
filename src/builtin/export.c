@@ -34,7 +34,7 @@ void	print_export_ht(t_hashtable *ht)
 		pair = ht->table[i];
 		while (pair)
 		{
-			printf("declare -x %s=""%s""\n", pair->key, pair->value);
+			printf("declare -x %s=\"%s\"\n", pair->key, pair->value);
 			pair = pair->next;
 		}
 	}

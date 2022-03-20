@@ -42,7 +42,7 @@ char **ht_to_array(t_hashtable *ht)
 	t_pair	*pair;
 
 	i = -1;
-	j = -1;
+	j = 0;
 	env_array = (char **)malloc(sizeof(char *) * (ht->count + 1));
 	while (++i < ht->size)
 	{
@@ -54,7 +54,7 @@ char **ht_to_array(t_hashtable *ht)
 			pair = pair->next;
 		}
 	}
-	ht->table[i] = 0;
+	env_array[j] = 0;
 	return (env_array);
 }
 
@@ -114,10 +114,9 @@ char	**adapt_cmd_args(t_simple_cmd *command)
 {
 	int i = 0, j = 0;
 	char **new = (char **)malloc(sizeof(char *) * (command->args_num + 2));
-	new[i] = ft_strdup("minishell");
-	// new[1] = ft_strdup(command->cmd);
+	new[i] = ft_strdup(command->cmd);
 	i++;
-	while (i < command->args_num)
+	while (i <= command->args_num)
 	{
 		new[i] = ft_strdup(command->cmd_args[j]);
 		i++;
@@ -127,52 +126,49 @@ char	**adapt_cmd_args(t_simple_cmd *command)
 	return (new);
 }
 
-void	bin_exec(t_command_table *table, int index, t_pipex_data *data)
+void	ft_dup2(int index, t_pipex_data *data, t_command_table *table)
 {
 	if (index == 0)
 	{
 		if (dup2(data->fd1, 0) < 0)
-			perror_exit("dup2 92");
+			perror_exit("dup2 134");
 	}
 	else
 	{
 		if (dup2(data->tube1[0], 0) < 0)
-			perror_exit("dup2 97");
+			perror_exit("dup2 139");
 	}
 	if (index == table->commands_num - 1)
 	{
 		if (dup2(data->fd2, 1) < 0)
-			perror_exit("dup2 102");
+			perror_exit("dup2 144");
 	}
 	else
 	{
 		if (dup2(data->tube2[1], 1) < 0)
-			perror_exit("dup2 107");
-		printf("here\n");
+			perror_exit("dup2 149");
 	}
-	char **tmp = adapt_cmd_args(table->commands[0]);
-	// while (tmp[k])
-	// {
-	// 	printf("[%d] %s\n", k, tmp[k]);
-	// 	k++;
-	// }
-	// printf("%s %s %s %s\n", tmp[0], tmp[1], tmp[2], tmp[3]);
+}
+
+void	bin_exec(t_command_table *table, int index, t_pipex_data *data)
+{
 	close(data->tube1[0]);
 	close(data->tube1[1]);
 	close(data->tube2[0]);
 	close(data->tube2[1]);
-	if (execve(find_path(table->commands[0]), tmp, ht_to_array(g_shell->env_global)) < 0)
-		printf("failure\n");
+	if (execve(find_path(table->commands[0]), adapt_cmd_args(table->commands[0]), ht_to_array(g_shell->env_global)) < 0)
+		printf("execve error");
 }
 
 int	exec_cmd(t_command_table *table, int index, t_pipex_data *data)
 {
+	ft_dup2(index, data, table);
 	if (table->commands[index]->type == CMD_CD)
 		exit(ft_cd(table->commands[index]));
 	if (table->commands[index]->type == CMD_PWD)
 		exit(ft_pwd());
 	if (table->commands[index]->type == CMD_ECHO)
-		exit(ft_echo(table->commands[index]->cmd_args, table->commands[index]->args_num));
+		exit(ft_echo(table->commands[index]));
 	if (table->commands[index]->type == CMD_ENV)
 		exit(ft_env());
 	if (table->commands[index]->type == CMD_EXPORT)
@@ -205,14 +201,19 @@ int	ft_waitpid(int i)
 	return (error_code);
 }
 
-void open_files(t_command_table *table, t_pipex_data *data)
+void open_files(t_command_table *table, t_pipex_data *data) // add << (it's heredoc)
 {
 	if (table->redirect._stdin != 0)
 		data->fd1 = open(table->redirect._stdin, O_RDONLY);
 	else
 		data->fd1 = STDIN_FILENO;
 	if (table->redirect._stdout != 0)
-		data->fd2 = open(table->redirect._stdout, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	{
+		if (table->redirect.is_stdout_append)
+			data->fd2 = open(table->redirect._stdout, O_CREAT | O_RDWR | O_APPEND, 0644);
+		else
+			data->fd2 = open(table->redirect._stdout, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	}
 	else
 		data->fd2 = STDOUT_FILENO;
 }
@@ -221,10 +222,9 @@ int	execute(t_command_table *table) // if table == NULL
 {
 	int	child_proc;
 	int i = -1;
-	t_pipex_data *data = (t_pipex_data *)malloc(sizeof(t_pipex_data)); // safe malloc
+	t_pipex_data *data = (t_pipex_data *)malloc(sizeof(t_pipex_data));
 	if (!data)
 		return (1);
-
 	open_files(table, data);
 
 	if (table->commands_num == 0)

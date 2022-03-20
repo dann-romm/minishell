@@ -1,28 +1,27 @@
 #include "shell.h"
 #include "libft_funcs.h"
 
-int	ft_echo(char **args, int arg_num)
+int	ft_echo(t_simple_cmd *command)
 {
-	// printf()
 	int	flag;
 	int	i;
 
 	flag = 0;
 	i = -1;
-	if (!args)
+	if (!command->args_num)
 	{
 		printf("\n");
 		return (0);
 	}
-	else if (args[0][0] == '-' && args[0][1] == 'n' && args[0][2] == '\0')
+	else if (!ft_strcmp(command->cmd_args[0], "-n"))
 	{
 		flag = 1;
 		i = 0;
 	}
-	while (args[++i])
+	while (++i < command->args_num)
 	{
-		printf("%s", args[i]);
-		if (i < arg_num - 1)
+		printf("%s", command->cmd_args[i]);
+		if (i < command->args_num - 1)
 			printf(" ");
 	}
 	if (!flag)

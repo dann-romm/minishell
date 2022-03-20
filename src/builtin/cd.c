@@ -1,5 +1,6 @@
 #include "shell.h"
 #include "hashtable.h"
+#include "builtin.h"
 #include "libft_funcs.h"
 
 void	upd_pwd(char *path)
@@ -13,11 +14,10 @@ int	change_dir(t_simple_cmd *cd)
 	char *cur_dir;
 
 	cur_dir = (char *)malloc(sizeof(PATH_MAX));
-	if (cd->cmd_args[0][0] == '~')
+	if (!ft_strcmp(cd->cmd_args[0], "~"))
 		cd->cmd_args[0] = ft_strjoin(getenv("HOME"), &(cd->cmd_args[0][1]));
 	if (chdir(cd->cmd_args[0]))
 	{
-		printf("path is: %s\n", cd->cmd_args[0]);
 		if (access(cd->cmd_args[0], F_OK) == -1)
 		{
 			printf("minishell: cd: %s: no such file or directory\n", cd->cmd_args[0]);
@@ -34,7 +34,11 @@ int	change_dir(t_simple_cmd *cd)
 			return (1);
 		}
 	}
-	upd_pwd(getcwd(cur_dir, PATH_MAX));
+	char *tmp = (char *)malloc(sizeof(char) * PATH_MAX);
+	tmp = getcwd(tmp, PATH_MAX);
+	upd_pwd(tmp);
+	print_hashtable(g_shell->env_global);
+	free(tmp);
 	free(cur_dir);
 	return (0);
 }
@@ -46,6 +50,7 @@ int	ft_cd(t_simple_cmd *cd)
 		const char	*path = getenv("HOME");
 		chdir(path);
 		upd_pwd((char *)path);
+		// print_hashtable(g_shell->env_global);
 	}
 	else
 		return (change_dir(cd));
