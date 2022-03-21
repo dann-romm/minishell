@@ -25,26 +25,26 @@ int	check_input(char *str)
 
 void	print_export_ht(t_hashtable *ht)
 {
-	t_pair	*pair;
+	char	**array_env;
+	char	**parts_of_array;
 	int		i;
-
-	i = -1;
-	while (++i < ht->size)
+	
+	i = 3;
+	array_env = sort_hashtable(ht);
+	while (array_env[i])
 	{
-		pair = ht->table[i];
-		while (pair)
-		{
-			printf("declare -x %s=\"%s\"\n", pair->key, pair->value);
-			pair = pair->next;
-		}
+		parts_of_array = ft_split(array_env[i], '=');
+		printf("declare -x %s=\"%s\"\n", parts_of_array[0], parts_of_array[1]);
+		free_2d_array(parts_of_array);
+		i++;
 	}
 }
 
 
 int	ft_export(t_simple_cmd *cmd)
 {
-	int	i;
-	char *res;
+	int		i;
+	char	*res;
 
 	i = 0;
 	if (cmd->args_num == 0)

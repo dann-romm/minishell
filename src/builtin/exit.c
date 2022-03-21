@@ -9,7 +9,7 @@ int	ft_exit(char **cmd_args, int args_num) //TODO: free all structures and array
 		exit(0);
 	if (args_num == 1)
 	{
-		if (!is_numeric((char) cmd_args[0]))
+		if (!is_numeric(cmd_args[0][0]))
 		{
 			printf("minishell: exit: %s: numeric argument required\n", cmd_args[0]);
 			exit(255);

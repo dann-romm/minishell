@@ -36,6 +36,7 @@ int32_t		remove_hashtable(t_hashtable *ht, char *key);
 char		*find_hashtable(t_hashtable *ht, char *key);
 void		clear_hashtable(t_hashtable *ht);
 void		delete_hashtable(t_hashtable **ht);
+char		**sort_hashtable(t_hashtable *ht);
 
 uint32_t	djb2_hash(char *key, uint32_t size);
 uint32_t	rehashing(t_hashtable *ht);
