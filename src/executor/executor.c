@@ -245,5 +245,9 @@ int	execute(t_command_table *table) // if table == NULL
 		data->tube1[0] = data->tube2[0]; // tube1 присваиваются именно фдшники (не какие-то другие данные) tube2 (что по сути делает pipe, поэтому нам не нужно делать pipe(tube1))
 		data->tube1[1] = data->tube2[1];
 	}
+	// close(data->fd1);
+	// close(data->fd2);
+	// free data
+	// free(child_proc);
 	return (ft_waitpid(i));
 }

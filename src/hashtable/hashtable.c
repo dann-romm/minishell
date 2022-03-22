@@ -45,7 +45,6 @@ int partition(char **str, int l, int r)
 		str[i] = str[j];
 		str[j] = tmp;
 		i++;
-		//j--;
 	}
     return j;
 }
@@ -61,7 +60,7 @@ void quick_sort(char **str, int l, int r)
 	}
 }
 
-char	**sort_hashtable(t_hashtable *ht) // TODO: sort it in alphabetical order
+char	**sort_hashtable(t_hashtable *ht)
 {
 	char **tmp = ht_to_array(ht);
 	int strlen = 0, i = 3;
@@ -69,11 +68,6 @@ char	**sort_hashtable(t_hashtable *ht) // TODO: sort it in alphabetical order
 		strlen++;
 	quick_sort(tmp, i, strlen - 1);
 	return (tmp);
-	//while (tmp[i])
-	//{
-	//	printf("%d %s\n", i, tmp[i]);
-	//	i++;
-	//}
 }
 
 int32_t	insert_hashtable(t_hashtable *ht, char *key, char *value)

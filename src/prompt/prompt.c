@@ -4,7 +4,7 @@
 char	*read_input(char *prompt)
 {
 	(void)prompt;
-	const char	*_DEBUG_prompt = "minishell > ";
+	const char	*input = "minishell > ";
 
-	return (readline(_DEBUG_prompt));
+	return (readline(input));
 }

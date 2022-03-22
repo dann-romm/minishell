@@ -13,6 +13,8 @@ LEXER_SRCDIR			= $(SRCDIR)/lexer
 PARSER_SRCDIR			= $(SRCDIR)/parser
 PROMPT_SRCDIR			= $(SRCDIR)/prompt
 UTILS_SRCDIR			= $(SRCDIR)/utils
+HISTORY_SRCDIR			= $(SRCDIR)/history
+SIGNAL_SRCDIR			= $(SRCDIR)/signal
 
 OBJDIR					= ./build
 BUILTIN_OBJDIR			= $(OBJDIR)/builtin
@@ -22,6 +24,8 @@ LEXER_OBJDIR			= $(OBJDIR)/lexer
 PARSER_OBJDIR			= $(OBJDIR)/parser
 PROMPT_OBJDIR			= $(OBJDIR)/prompt
 UTILS_OBJDIR			= $(OBJDIR)/utils
+HISTORY_OBJDIR			= $(OBJDIR)/history
+SIGNAL_OBJDIR			= $(OBJDIR)/signal
 
 INCDIR					= ./includes
 
@@ -53,6 +57,10 @@ PROMPT_SRC				=	$(PROMPT_SRCDIR)/prompt.c
 UTILS_SRC				=	$(UTILS_SRCDIR)/ft_split.c \
 							$(UTILS_SRCDIR)/utils_ft.c
 
+HISTORY_SRC				=	$(HISTORY_SRCDIR)/history.c
+
+SIGNAL_SRC				=	$(SIGNAL_SRCDIR)/signal.c
+
 SRC						=	$(BUILTIN_SRC) \
 							$(EXECUTOR_SRC) \
 							$(HASHTABLE_SRC) \
@@ -60,6 +68,8 @@ SRC						=	$(BUILTIN_SRC) \
 							$(PARSER_SRC) \
 							$(PROMPT_SRC) \
 							$(UTILS_SRC) \
+							$(HISTORY_SRC) \
+							$(SIGNAL_SRC) \
 							$(SRCDIR)/main.c \
 
 OBJ						= $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))
