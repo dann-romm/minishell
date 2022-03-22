@@ -37,7 +37,6 @@ int	change_dir(t_simple_cmd *cd)
 	char *tmp = (char *)malloc(sizeof(char) * PATH_MAX);
 	tmp = getcwd(tmp, PATH_MAX);
 	upd_pwd(tmp);
-	print_hashtable(g_shell->env_global);
 	free(tmp);
 	free(cur_dir);
 	return (0);
