@@ -126,7 +126,7 @@ char	**adapt_cmd_args(t_simple_cmd *command)
 	return (new);
 }
 
-void	ft_dup2(int index, t_pipex_data *data, t_command_table *table)
+void	ft_dup2(t_command_table *table, t_pipex_data *data, int index)
 {
 	if (index == 0)
 	{
@@ -150,7 +150,7 @@ void	ft_dup2(int index, t_pipex_data *data, t_command_table *table)
 	}
 }
 
-void	bin_exec(t_command_table *table, int index, t_pipex_data *data)
+void	exec_bin(t_command_table *table, t_pipex_data *data, int index)
 {
 	close(data->tube1[0]);
 	close(data->tube1[1]);
@@ -160,30 +160,84 @@ void	bin_exec(t_command_table *table, int index, t_pipex_data *data)
 		printf("execve error");
 }
 
-int	exec_cmd(t_command_table *table, int index, t_pipex_data *data)
+int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
 {
-	ft_dup2(index, data, table);
 	if (table->commands[index]->type == CMD_CD)
-		exit(ft_cd(table->commands[index]));
-	if (table->commands[index]->type == CMD_PWD)
-		exit(ft_pwd());
-	if (table->commands[index]->type == CMD_ECHO)
-		exit(ft_echo(table->commands[index]));
-	if (table->commands[index]->type == CMD_ENV)
-		exit(ft_env());
-	if (table->commands[index]->type == CMD_EXPORT)
-		exit(ft_export(table->commands[index]));
-	if (table->commands[index]->type == CMD_UNSET)
-		exit(ft_unset(table->commands[index]));
-	if (table->commands[index]->type == CMD_EXIT)
+		return (ft_cd(table->commands[index]));
+	else if (table->commands[index]->type == CMD_PWD)
+		return (ft_pwd());
+	else if (table->commands[index]->type == CMD_ECHO)
+		return (ft_echo(table->commands[index]));
+	else if (table->commands[index]->type == CMD_ENV)
+		return (ft_env());
+	else if (table->commands[index]->type == CMD_EXPORT)
+		return (ft_export(table->commands[index]));
+	else if (table->commands[index]->type == CMD_UNSET)
+		return (ft_unset(table->commands[index]));
+	else if (table->commands[index]->type == CMD_EXIT)
+	{
 		ft_exit(table->commands[index]->cmd_args, table->commands[index]->args_num);
-	if (table->commands[index]->type == CMD_ASSIGNMENT)
-		exit(ft_assignment(table->commands[index]));
+		return (0);
+	}
+	else if (table->commands[index]->type == CMD_ASSIGNMENT)
+		return (ft_assignment(table->commands[index]));
+	return (1);
+}
+
+int	set_fork_builtin(t_command_table *table, t_pipex_data *data, int index)
+{
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid < 0)
+		exit(1);
+	if (pid == 0)
+		exit(exec_builtin(table, data, index));
+	else
+	{
+		close(data->tube1[0]);
+		close(data->tube1[1]);
+		close(data->tube2[0]);
+		close(data->tube2[1]);
+		waitpid(pid, &status, 0);
+	}
+	return (0);
+}
+
+int	handle_builtin(t_command_table *table, t_pipex_data *data, int index)
+{
+	if (table->commands[index]->type == CMD_PWD
+		|| table->commands[index]->type == CMD_ECHO
+		|| table->commands[index]->type == CMD_ENV)
+	{
+		set_fork_builtin(table, data, index);
+		return (1);
+	}
+	else if (table->commands[index]->type == CMD_EXIT && table->commands_num != 1)
+		return (1);
+	else if (table->commands[index]->type == CMD_CD
+		|| table->commands[index]->type == CMD_EXPORT
+		|| table->commands[index]->type == CMD_EXIT
+		|| table->commands[index]->type == CMD_UNSET
+		|| table->commands[index]->type == CMD_ASSIGNMENT)
+	{
+		exec_builtin(table, data, index);
+		return (1);
+	}
+	else
+		return (0);
+}
+
+int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
+{
+	if (handle_builtin(table, data, index))
+		return (0);
 	else if (is_executable(table->commands[index]))
-		bin_exec(table, index, data);
+		exec_bin(table, data, index);
 	else
 		printf("minishell: command not found: %s\n", table->commands[index]->cmd);
-	return (1);
+	return (0);
 }
 
 int	ft_waitpid(int i)
@@ -220,13 +274,17 @@ void open_files(t_command_table *table, t_pipex_data *data) // add << (it's here
 
 int	execute(t_command_table *table) // if table == NULL
 {
-	int	child_proc;
-	int i = -1;
-	t_pipex_data *data = (t_pipex_data *)malloc(sizeof(t_pipex_data));
+	t_pipex_data	*data;
+	int				child_proc;
+	int				i;
+	
+	if (!table)
+		return (1);
+	i = -1;
+	data = (t_pipex_data *)malloc(sizeof(t_pipex_data));
 	if (!data)
 		return (1);
 	open_files(table, data);
-
 	if (table->commands_num == 0)
 		return (0);
 	if (pipe(data->tube1))
@@ -235,11 +293,8 @@ int	execute(t_command_table *table) // if table == NULL
 	{
 		if (pipe(data->tube2))
 			perror_exit("pipe tube2");
-		child_proc = fork();
-		if (child_proc < 0)
-			perror_exit(table->commands[i]->cmd);
-		if (child_proc == 0)
-			exec_cmd(table, i, data);
+		ft_dup2(table, data, i);
+		exec_cmd(table, data, i);
 		close(data->tube1[0]); // закрываем фдшники, полученные из tube2 в цикле (произойдёт в след. операции)
 		close(data->tube1[1]);
 		data->tube1[0] = data->tube2[0]; // tube1 присваиваются именно фдшники (не какие-то другие данные) tube2 (что по сути делает pipe, поэтому нам не нужно делать pipe(tube1))
