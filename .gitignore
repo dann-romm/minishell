@@ -1,6 +1,6 @@
+minishell
 
 *.o
 *.d
 *.DS_Store
-
-minishell
+.vscode

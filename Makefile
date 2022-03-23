@@ -1,9 +1,9 @@
 CC						= gcc
 RM						= rm -rf
-# CFLAGS					= -Wall -Wextra -Werror
+# CFLAGS					= -Wall -Wextra -Werror -MMD
 
 NAME					= minishell
-LIBS					= -lreadline -lncurses
+READLINE				= ./lib/libhistory.a ./lib/libreadline.a
 
 SRCDIR					= ./src
 BUILTIN_SRCDIR			= $(SRCDIR)/builtin
@@ -78,11 +78,11 @@ DEP						= $(OBJ:.o=.d)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -o $(NAME) $(LIBS)
+	$(CC) $(OBJ) $(READLINE) -ltermcap -o $(NAME)
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c Makefile
 	@mkdir -p $(@D)
-	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCDIR) -MMD
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCDIR)
 
 clean:
 	$(RM) $(OBJDIR)

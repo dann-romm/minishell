@@ -1,6 +1,8 @@
 #include "shell.h"
-#include <signal.h>
-#include <readline/readline.h>
+
+// лишнее, потому что эти хедеры уже подключены из shell.h
+// #include <signal.h> 
+// #include <readline/readline.h>
 
 void	signal_handler(int signum)
 {
