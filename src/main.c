@@ -29,10 +29,13 @@ int	main(int argc, char **argv, char **env)
 
 	init_shell(env);
 
+	setting_signal();
 
 	while (1)
 	{
 		input = read_input("");
+		if (input)
+			add_history(input);
 		list = create_token_list(input);
 
 		table = parser(&list);

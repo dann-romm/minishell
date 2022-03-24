@@ -1,5 +1,6 @@
 CC						= gcc
 RM						= rm -rf
+CFLAGS					= -MMD
 # CFLAGS					= -Wall -Wextra -Werror -MMD
 
 NAME					= minishell
