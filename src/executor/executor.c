@@ -291,6 +291,7 @@ int	execute(t_command_table *table) // if table == NULL
 		perror_exit("pipe tube1");
 	while (++i < table->commands_num)
 	{
+		// printf("tube1 = %d, tube2 = %d\n", data->tube1, data->tube2);
 		if (pipe(data->tube2))
 			perror_exit("pipe tube2");
 		ft_dup2(table, data, i);
