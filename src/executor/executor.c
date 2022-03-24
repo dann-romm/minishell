@@ -201,6 +201,7 @@ int	set_fork_builtin(t_command_table *table, t_pipex_data *data, int index)
 		close(data->tube2[0]);
 		close(data->tube2[1]);
 		waitpid(pid, &status, 0);
+		// if status != 0;
 	}
 	return (0);
 }
@@ -231,23 +232,38 @@ int	handle_builtin(t_command_table *table, t_pipex_data *data, int index)
 
 int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
 {
+	pid_t	pid;
+
 	if (handle_builtin(table, data, index))
 		return (0);
-	else if (is_executable(table->commands[index]))
-		exec_bin(table, data, index);
-	else
-		printf("minishell: command not found: %s\n", table->commands[index]->cmd);
+	
+	pid = fork();
+	if (pid < 0)
+		// some error
+		;
+	else if (pid == 0)
+	{
+		data->count_running_cmds++;
+		if (is_executable(table->commands[index]))
+		{
+			printf("- here\n");
+			exec_bin(table, data, index);
+		}
+		else
+			printf("minishell: command not found: %s\n", table->commands[index]->cmd);
+	}
 	return (0);
 }
 
-int	ft_waitpid(int i)
+int	ft_waitpid(t_pipex_data *data)
 {
 	int	status;
 	int	error_code;
 
 	error_code = 0;
-	while (i-- >= 0)
+	while (data->count_running_cmds-- > 0)
 	{
+		printf("here\n");
 		waitpid(-1, &status, 0);
 		if (status != 0)
 			error_code = status;
@@ -277,13 +293,15 @@ int	execute(t_command_table *table) // if table == NULL
 	t_pipex_data	*data;
 	int				child_proc;
 	int				i;
-	
+
 	if (!table)
 		return (1);
 	i = -1;
-	data = (t_pipex_data *)malloc(sizeof(t_pipex_data));
+	data = (t_pipex_data *)malloc(sizeof(t_pipex_data)); // вынести инициализацию data в отдельную функцию
 	if (!data)
 		return (1);
+	data->count_running_cmds = 0;
+
 	open_files(table, data);
 	if (table->commands_num == 0)
 		return (0);
@@ -304,5 +322,5 @@ int	execute(t_command_table *table) // if table == NULL
 	// close(data->fd2);
 	// free data
 	// free(child_proc);
-	return (ft_waitpid(i));
+	return (ft_waitpid(data));
 }
