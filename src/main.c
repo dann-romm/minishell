@@ -38,6 +38,7 @@ int	main(int argc, char **argv, char **env)
 			add_history(input);
 		list = create_token_list(input);
 
+		// _DEBUG_print_token_list(list);
 		table = parser(&list);
 		// _DEBUG_print_command_table(table);
 

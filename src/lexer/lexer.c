@@ -35,6 +35,19 @@ int	is_word_char(char c)
 		|| (c == '+'));
 }
 
+void	put_exit_status_into_src(t_source *src)
+{
+	const char	*exit_status = ft_itoa(g_shell->exit_status);
+	int			i;
+
+	printf("exit_status = %s\n", exit_status);
+	if (!exit_status)
+		return ; // error
+	i = 0;
+	while (exit_status[i])
+		save_char(src, exit_status[i++]);
+}
+
 void	put_env_into_src(t_source *src)
 {
 	char	*key;
@@ -170,8 +183,9 @@ t_token	*get_next_token(t_source *src)
 		next_char(src);
 		if (peek(src) == '?')
 		{
-			token->type = T_EXITSTATUS;
-			save_char(src, next_char(src));
+			next_char(src);
+			put_exit_status_into_src(src);
+			token->type = T_ID;
 		}
 		else
 		{

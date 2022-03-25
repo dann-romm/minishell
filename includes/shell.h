@@ -62,8 +62,8 @@ typedef struct s_redirect
 {
 	char	*_stdin;
 	char	*_stdout;
-	int		is_stdin_append; // <<?
-	int		is_stdout_append; // >>?
+	int		is_stdin_append; // <<
+	int		is_stdout_append; // >>
 }	t_redirect;
 
 typedef struct s_command_table
