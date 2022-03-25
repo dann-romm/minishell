@@ -131,8 +131,6 @@ t_command_table	*parser(t_token_list **list)
 	if (handle_redirect(table, list) || handle_parse_error(table, list))
 		return (0); // syntax error
 
-	// _DEBUG_print_token_list(*list);
-
 	i = 0;
 	tmp = *list;
 	while (tmp)

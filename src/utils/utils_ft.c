@@ -151,3 +151,32 @@ int	ft_atoi(char *str)
 	}
 	return (ans);
 }
+
+char	*ft_itoa(int n)
+{
+	char	*str;
+	int		len;
+	int		tmp;
+
+	tmp = n;
+	len = (n <= 0);
+	while (tmp != 0)
+	{
+		len++;
+		tmp /= 10;
+	}
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (0);
+	str[len--] = '\0';
+	str[0] = '-';
+	if (n == 0)
+		str[0] = '0';
+	n = ABS(n);
+	while (n > 0)
+	{
+		str[len--] = '0' + (n % 10);
+		n /= 10;
+	}
+	return (str);
+}

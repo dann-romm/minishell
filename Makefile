@@ -48,7 +48,8 @@ HASHTABLE_SRC			=	$(HASHTABLE_SRCDIR)/hashtable.c \
 
 LEXER_SRC				=	$(LEXER_SRCDIR)/lexer.c \
 							$(LEXER_SRCDIR)/source.c \
-							$(LEXER_SRCDIR)/token.c
+							$(LEXER_SRCDIR)/token.c \
+							$(LEXER_SRCDIR)/wildcard.c
 
 PARSER_SRC				=	$(PARSER_SRCDIR)/parser.c \
 							$(PARSER_SRCDIR)/simple_cmd.c
