@@ -10,10 +10,10 @@ void	signal_handler(int signum)
 	{
 		printf("\n");
 		rl_on_new_line();
-		rl_replace_line("", 1); // 1 - выводит новый промпт, 0 - удаляет из очереди промпт
+		rl_replace_line("", 0); // 1 - выводит новый промпт, 0 - удаляет из очереди промпт
 		rl_redisplay();
 	}
-	// else
+	// else if (signum == SIGINT)
 	// when we caught SIGTERM or SIGQUIT we use kill() (maybe. try it) 
 }
 

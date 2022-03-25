@@ -2,7 +2,7 @@
 #include "hashtable.h"
 #include "libft_funcs.h"
 
-int	check_input(char *str) 
+int	check_input(char *str)
 {
 	int	i;
 	int	count1;
@@ -40,8 +40,7 @@ void	print_export_ht(t_hashtable *ht)
 	}
 }
 
-
-int	ft_export(t_simple_cmd *cmd)
+int	ft_export(t_simple_cmd *cmd) // seg fault
 {
 	int		i;
 	char	*res;

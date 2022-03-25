@@ -157,7 +157,7 @@ void	exec_bin(t_command_table *table, t_pipex_data *data, int index)
 	close(data->tube2[0]);
 	close(data->tube2[1]);
 	if (execve(find_path(table->commands[0]), adapt_cmd_args(table->commands[0]), ht_to_array(g_shell->env_global)) < 0)
-		printf("execve error");
+		printf("execve");
 }
 
 int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
@@ -231,13 +231,27 @@ int	handle_builtin(t_command_table *table, t_pipex_data *data, int index)
 
 int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
 {
+	pid_t	pid;
+	int		status;
+
 	if (handle_builtin(table, data, index))
 		return (0);
-	else if (is_executable(table->commands[index]))
-		exec_bin(table, data, index);
+	if (is_executable(table->commands[index]))
+	{
+		pid = fork();
+		if (pid < 0)
+			exit(1);
+		if (pid == 0)
+			exec_bin(table, data, index);
+		close(data->tube1[0]);
+		close(data->tube1[1]);
+		close(data->tube2[0]);
+		close(data->tube2[1]);
+		waitpid(pid, &status, 0);
+	}
 	else
 		printf("minishell: command not found: %s\n", table->commands[index]->cmd);
-	return (0);
+	return (1);
 }
 
 int	ft_waitpid(int i)
@@ -289,10 +303,10 @@ int	execute(t_command_table *table) // if table == NULL
 		return (0);
 	if (pipe(data->tube1))
 		perror_exit("pipe tube1");
+	printf("%d\n", table->commands_num);
 	while (++i < table->commands_num)
 	{
-		// printf("tube1 = %d, tube2 = %d\n", data->tube1, data->tube2);
-		if (pipe(data->tube2))
+		if (pipe(data->tube2) < 0)
 			perror_exit("pipe tube2");
 		ft_dup2(table, data, i);
 		exec_cmd(table, data, i);
