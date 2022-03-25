@@ -52,21 +52,12 @@ void	put_env_into_src(t_source *src)
 {
 	char	*key;
 	char	*value;
-	int		key_len;
 
-	key_len = 0;
 	while (is_alnum(peek(src)) || peek(src) == '_')
-	{
-		key_len++;
-		next_char(src);
-	}
-	key = (char *)malloc(sizeof(char) * (key_len + 1));
-	while (key_len--)
-		unget_char(src);
-	while (is_alnum(peek(src)) || peek(src) == '_')
-		key[++key_len] = next_char(src);
-	key[++key_len] = '\0';
+		save_char(src, next_char(src));
+	key = ft_strdup(src->str);
 	value = find_hashtable(g_shell->env_global, key);
+	clear_str(src);
 	while (value && *value)
 		save_char(src, *value++);
 	free(key);
