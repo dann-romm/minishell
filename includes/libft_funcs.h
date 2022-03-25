@@ -1,6 +1,8 @@
 #ifndef LIBFT_FUNCS_H
 # define LIBFT_FUNCS_H
 
+# define ABS(x) ((x) > 0 ? (x) : -(x))
+
 # include <stdlib.h>
 # include "shell.h"
 
@@ -15,6 +17,7 @@ char		*ft_strcat(char *dst, char *src);
 char		*ft_strncat(char *s1, const char *s2, unsigned int n);
 int			ft_strcmp(char *s1, char *s2);
 int			ft_atoi(char *str);
+char		*ft_itoa(int n);
 int			ft_numlen(char *str);
 
 char		**ft_split(char const *s, char c);
