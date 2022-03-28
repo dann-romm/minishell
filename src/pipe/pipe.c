@@ -3,6 +3,8 @@
 
 void	ft_dup2(t_command_table *table, t_pipex_data *data, int index)
 {
+	data->_saved_stdin = dup(0);
+	data->_saved_stdout = dup(1);
 	if (index == 0)
 	{
 		if (dup2(data->fd1, 0) < 0)
@@ -33,7 +35,6 @@ int	ft_waitpid(t_pipex_data *data)
 	error_code = 0;
 	while (data->count_running_cmds-- > 0)
 	{
-		write(2, "266\n", 4);
 		waitpid(-1, &status, 0);
 		if (status != 0)
 			error_code = status;

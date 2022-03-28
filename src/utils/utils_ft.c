@@ -199,29 +199,25 @@ char	**adapt_cmd_args(t_simple_cmd *command)
 
 char *three_str_cat(char *s1, char *s2, char *s3)
 {
-	int		len1 = ft_strlen(s1);
-	int		len2 = ft_strlen(s2);
-	int		len3 = ft_strlen(s3);
-	char	*dest = (char *)malloc(sizeof(char) * (len1 + len2 + len3 + 1));
-	int i = 0, j = 0;
-	while (s1[i] && i < (len1 + len2 + len3 + 1))
+	int		len;
+	int		i;
+	int		j;
+	char	*dest;
+	
+	i = 0;
+	j = 0;
+	len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3);
+	dest = (char *)malloc(sizeof(char) * (len + 1));
+	while (s1[i] && i < (len + 1))
 	{
 		dest[i] = s1[i];
 		i++;
 	}
-	while (s2[j] && i < (len1 + len2 + len3 + 1))
-	{
-		dest[i] = s2[j];
-		i++;
-		j++;
-	}
+	while (s2[j] && i < (len + 1))
+		dest[i++] = s2[j++];
 	j = 0;
-	while (s3[j] && i < (len1 + len2 + len3 + 1))
-	{
-		dest[i] = s3[j];
-		i++;
-		j++;
-	}
+	while (s3[j] && i < (len + 1))
+		dest[i++] = s3[j++];
 	dest[i] = '\0';
 	return (dest);
 }
