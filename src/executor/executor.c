@@ -5,151 +5,6 @@
 #include "executor.h"
 #include "debug.h"
 
-char *three_str_cat(char *s1, char *s2, char *s3)
-{
-	int		len1 = ft_strlen(s1);
-	int		len2 = ft_strlen(s2);
-	int		len3 = ft_strlen(s3);
-	char	*dest = (char *)malloc(sizeof(char) * (len1 + len2 + len3 + 1));
-	int i = 0, j = 0;
-	while (s1[i] && i < (len1 + len2 + len3 + 1))
-	{
-		dest[i] = s1[i];
-		i++;
-	}
-	while (s2[j] && i < (len1 + len2 + len3 + 1))
-	{
-		dest[i] = s2[j];
-		i++;
-		j++;
-	}
-	j = 0;
-	while (s3[j] && i < (len1 + len2 + len3 + 1))
-	{
-		dest[i] = s3[j];
-		i++;
-		j++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-char **ht_to_array(t_hashtable *ht)
-{
-	int		i;
-	int		j;
-	char	**env_array;
-	t_pair	*pair;
-
-	i = -1;
-	j = 0;
-	env_array = (char **)malloc(sizeof(char *) * (ht->count + 1));
-	while (++i < ht->size)
-	{
-		pair = ht->table[i];
-		while (pair)
-		{
-			env_array[j] = three_str_cat(pair->key, "=", pair->value);
-			j++;
-			pair = pair->next;
-		}
-	}
-	env_array[j] = 0;
-	return (env_array);
-}
-
-static void	perror_exit(char *message)
-{
-	perror(message);
-	exit(1);
-}
-
-char *find_path(t_simple_cmd *command)
-{
-	int i = 0;
-	int all = -1;
-	char *res = 0;
-	char *cur_dir = find_hashtable(g_shell->env_global, "PWD");
-	cur_dir = three_str_cat(cur_dir, "/", command->cmd);
-	int cur = access(cur_dir, F_OK);
-	if (cur == 0)
-	{
-		res = cur_dir;
-		free(cur_dir);
-		return (res);
-	}
-	char **paths = ft_split(find_hashtable(g_shell->env_global, "PATH"), ':');
-	while (paths[i])
-	{
-		cur_dir = three_str_cat(paths[i], "/", command->cmd);
-		all = access(cur_dir, F_OK);
-		if (all == 0)
-		{
-			res = ft_strdup(cur_dir);
-			free(cur_dir);
-			free_2d_array(paths);
-			return (res);
-		}
-		i++;
-	}
-	free(cur_dir);
-	free_2d_array(paths);
-	return (res);
-}
-
-int is_executable(t_simple_cmd *command)
-{
-	int i = 0;
-	int all = -1;
-	char *path = find_path(command);
-	if (!path)
-	{
-		free(path);
-		return (0);
-	}
-	return (1);
-}
-
-char	**adapt_cmd_args(t_simple_cmd *command)
-{
-	int i = 0, j = 0;
-	char **new = (char **)malloc(sizeof(char *) * (command->args_num + 2));
-	new[i] = ft_strdup(command->cmd);
-	i++;
-	while (i <= command->args_num)
-	{
-		new[i] = ft_strdup(command->cmd_args[j]);
-		i++;
-		j++;
-	}
-	new[i] = 0;
-	return (new);
-}
-
-void	ft_dup2(t_command_table *table, t_pipex_data *data, int index)
-{
-	if (index == 0)
-	{
-		if (dup2(data->fd1, 0) < 0)
-			perror_exit("dup2 134");
-	}
-	else
-	{
-		if (dup2(data->tube1[0], 0) < 0)
-			perror_exit("dup2 139");
-	}
-	if (index == table->commands_num - 1)
-	{
-		if (dup2(data->fd2, 1) < 0)
-			perror_exit("dup2 144");
-	}
-	else
-	{
-		if (dup2(data->tube2[1], 1) < 0)
-			perror_exit("dup2 149");
-	}
-}
-
 void	exec_bin(t_command_table *table, t_pipex_data *data, int index)
 {
 	close(data->tube1[0]);
@@ -182,28 +37,6 @@ int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
 	else if (table->commands[index]->type == CMD_ASSIGNMENT)
 		return (ft_assignment(table->commands[index]));
 	return (1);
-}
-
-int	set_fork_builtin(t_command_table *table, t_pipex_data *data, int index)
-{
-	pid_t	pid;
-	int		status;
-
-	pid = fork();
-	if (pid < 0)
-		exit(1);
-	if (pid == 0)
-		exit(exec_builtin(table, data, index));
-	else
-	{
-		close(data->tube1[0]);
-		close(data->tube1[1]);
-		close(data->tube2[0]);
-		close(data->tube2[1]);
-		waitpid(pid, &status, 0);
-		// if status != 0;
-	}
-	return (0);
 }
 
 int	handle_builtin(t_command_table *table, t_pipex_data *data, int index)
@@ -255,22 +88,6 @@ int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
 	return (1);
 }
 
-int	ft_waitpid(t_pipex_data *data)
-{
-	int	status;
-	int	error_code;
-
-	error_code = 0;
-	while (data->count_running_cmds-- > 0)
-	{
-		printf("here\n");
-		waitpid(-1, &status, 0);
-		if (status != 0)
-			error_code = status;
-	}
-	return (error_code);
-}
-
 void open_files(t_command_table *table, t_pipex_data *data) // add << (it's heredoc)
 {
 	if (table->redirect._stdin != 0)
@@ -312,6 +129,8 @@ int	execute(t_command_table *table) // if table == NULL
 	{
 		if (pipe(data->tube2) < 0)
 			perror_exit("pipe tube2");
+		data->fd1 = 0;
+		data->fd2 = 1;
 		ft_dup2(table, data, i);
 		exec_cmd(table, data, i);
 		close(data->tube1[0]); // закрываем фдшники, полученные из tube2 в цикле (произойдёт в след. операции)
@@ -319,8 +138,8 @@ int	execute(t_command_table *table) // if table == NULL
 		data->tube1[0] = data->tube2[0]; // tube1 присваиваются именно фдшники (не какие-то другие данные) tube2 (что по сути делает pipe, поэтому нам не нужно делать pipe(tube1))
 		data->tube1[1] = data->tube2[1];
 	}
-	// close(data->fd1);
-	// close(data->fd2);
+	close(data->fd1);
+	close(data->fd2);
 	// free data
 	// free(child_proc);
 	return (ft_waitpid(data));

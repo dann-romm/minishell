@@ -16,6 +16,8 @@ PROMPT_SRCDIR			= $(SRCDIR)/prompt
 UTILS_SRCDIR			= $(SRCDIR)/utils
 HISTORY_SRCDIR			= $(SRCDIR)/history
 SIGNAL_SRCDIR			= $(SRCDIR)/signal
+FORK_SRCDIR				= $(SRCDIR)/fork
+PIPE_SRCDIR				= $(SRCDIR)/pipe
 
 OBJDIR					= ./build
 BUILTIN_OBJDIR			= $(OBJDIR)/builtin
@@ -27,6 +29,8 @@ PROMPT_OBJDIR			= $(OBJDIR)/prompt
 UTILS_OBJDIR			= $(OBJDIR)/utils
 HISTORY_OBJDIR			= $(OBJDIR)/history
 SIGNAL_OBJDIR			= $(OBJDIR)/signal
+PIPE_OBJDIR				= $(OBJDIR)/pipe
+FORK_OBJDIR				= $(OBJDIR)/fork
 
 INCDIR					= ./includes
 
@@ -63,8 +67,14 @@ HISTORY_SRC				=	$(HISTORY_SRCDIR)/history.c
 
 SIGNAL_SRC				=	$(SIGNAL_SRCDIR)/signal.c
 
+PIPE_SRC				=	$(PIPE_SRCDIR)/pipe.c
+
+FORK_SRC				=	$(FORK_SRCDIR)/fork.c
+
 SRC						=	$(BUILTIN_SRC) \
 							$(EXECUTOR_SRC) \
+							$(FORK_SRC) \
+							$(PIPE_SRC) \
 							$(HASHTABLE_SRC) \
 							$(LEXER_SRC) \
 							$(PARSER_SRC) \

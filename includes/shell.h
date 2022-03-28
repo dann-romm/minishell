@@ -80,10 +80,19 @@ typedef struct s_shell
 	int32_t		exit_status;
 }	t_shell;
 
+# include "executor.h"
+
 t_shell	*g_shell;
 
 // prompt.c
-char		*read_input(char *prompt);
+char	*read_input(char *prompt);
+
+// pipe.c
+int		ft_waitpid(t_pipex_data *data);
+void	ft_dup2(t_command_table *table, t_pipex_data *data, int index);
+
+// fork.c
+int		set_fork_builtin(t_command_table *table, t_pipex_data *data, int index);
 
 // init_g_shell.c
 void	init_shell();

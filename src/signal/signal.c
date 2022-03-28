@@ -8,18 +8,22 @@ void	signal_handler(int signum)
 {
 	if (signum == SIGINT) // если пользователь нажал клавишу CTRL-C, на экран выводится пустая строка
 	{
-		printf("\n");
+		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0); // 1 - выводит новый промпт, 0 - удаляет из очереди промпт
 		rl_redisplay();
 	}
-	// else if (signum == SIGINT)
+	else if (signum == SIGTERM)
+	{
+		write(1, "exit\n", 5);
+		exit (-1);
+	}
 	// when we caught SIGTERM or SIGQUIT we use kill() (maybe. try it) 
 }
 
 void	setting_signal() //  signal() дает указание Borland С++ выполнить функцию, переданную вторым параметром, в случае получения сигнала 
 {
 	signal(SIGINT, signal_handler);  // CTRL + C - завершение процесса
-	// signal(SIGTERM, signal_handler); // CTRL + D - завершение всей программы
-	// signal(SIGQUIT, signal_handler); // CTRL + / - this signal must be ignored
+	signal(SIGTERM, signal_handler); // CTRL + D - завершение всей программы
+	signal(SIGQUIT, signal_handler); // CTRL + / - this signal must be ignored
 }
