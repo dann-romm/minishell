@@ -7,29 +7,25 @@
 
 char *three_str_cat(char *s1, char *s2, char *s3)
 {
-	int		len1 = ft_strlen(s1);
-	int		len2 = ft_strlen(s2);
-	int		len3 = ft_strlen(s3);
-	char	*dest = (char *)malloc(sizeof(char) * (len1 + len2 + len3 + 1));
-	int i = 0, j = 0;
-	while (s1[i] && i < (len1 + len2 + len3 + 1))
+	int		len;
+	int		i;
+	int		j;
+	char	*dest;
+	
+	i = 0;
+	j = 0;
+	len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3);
+	dest = (char *)malloc(sizeof(char) * (len + 1));
+	while (s1[i] && i < (len + 1))
 	{
 		dest[i] = s1[i];
 		i++;
 	}
-	while (s2[j] && i < (len1 + len2 + len3 + 1))
-	{
-		dest[i] = s2[j];
-		i++;
-		j++;
-	}
+	while (s2[j] && i < (len + 1))
+		dest[i++] = s2[j++];
 	j = 0;
-	while (s3[j] && i < (len1 + len2 + len3 + 1))
-	{
-		dest[i] = s3[j];
-		i++;
-		j++;
-	}
+	while (s3[j] && i < (len + 1))
+		dest[i++] = s3[j++];
 	dest[i] = '\0';
 	return (dest);
 }
@@ -128,6 +124,8 @@ char	**adapt_cmd_args(t_simple_cmd *command)
 
 void	ft_dup2(t_command_table *table, t_pipex_data *data, int index)
 {
+	data->_saved_stdin = dup(0);
+	data->_saved_stdout = dup(1);
 	if (index == 0)
 	{
 		if (dup2(data->fd1, 0) < 0)
@@ -193,16 +191,15 @@ int	set_fork_builtin(t_command_table *table, t_pipex_data *data, int index)
 	if (pid < 0)
 		exit(1);
 	if (pid == 0)
-		exit(exec_builtin(table, data, index));
-	else
 	{
 		close(data->tube1[0]);
 		close(data->tube1[1]);
 		close(data->tube2[0]);
 		close(data->tube2[1]);
-		waitpid(pid, &status, 0);
-		// if status != 0;
+		exit(exec_builtin(table, data, index));
 	}
+	waitpid(pid, &status, 0);
+	// if status != 0;
 	return (0);
 }
 
@@ -244,10 +241,6 @@ int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
 			exit(1);
 		if (pid == 0)
 			exec_bin(table, data, index);
-		close(data->tube1[0]);
-		close(data->tube1[1]);
-		close(data->tube2[0]);
-		close(data->tube2[1]);
 		waitpid(pid, &status, 0);
 	}
 	else
@@ -263,7 +256,6 @@ int	ft_waitpid(t_pipex_data *data)
 	error_code = 0;
 	while (data->count_running_cmds-- > 0)
 	{
-		printf("here\n");
 		waitpid(-1, &status, 0);
 		if (status != 0)
 			error_code = status;
@@ -301,27 +293,34 @@ int	execute(t_command_table *table) // if table == NULL
 	if (!data)
 		return (1);
 	data->count_running_cmds = 0;
-
 	open_files(table, data);
 	if (table->commands_num == 0)
 		return (0);
 	if (pipe(data->tube1))
 		perror_exit("pipe tube1");
-	printf("%d\n", table->commands_num);
 	while (++i < table->commands_num)
 	{
 		if (pipe(data->tube2) < 0)
 			perror_exit("pipe tube2");
 		ft_dup2(table, data, i);
 		exec_cmd(table, data, i);
+
+		dup2(data->_saved_stdin, 0);
+		dup2(data->_saved_stdout, 1);
+		close(data->_saved_stdin);
+		close(data->_saved_stdout);
+
 		close(data->tube1[0]); // закрываем фдшники, полученные из tube2 в цикле (произойдёт в след. операции)
 		close(data->tube1[1]);
 		data->tube1[0] = data->tube2[0]; // tube1 присваиваются именно фдшники (не какие-то другие данные) tube2 (что по сути делает pipe, поэтому нам не нужно делать pipe(tube1))
 		data->tube1[1] = data->tube2[1];
 	}
-	// close(data->fd1);
-	// close(data->fd2);
-	// free data
-	// free(child_proc);
+	close(data->tube2[0]);
+	close(data->tube2[1]);
+	if (data->fd1 != 0)
+		close(data->fd1);
+	if (data->fd2 != 1)
+		close(data->fd2);
+
 	return (ft_waitpid(data));
 }

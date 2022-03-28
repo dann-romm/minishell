@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **env)
 
 		// _DEBUG_print_token_list(list);
 		table = parser(&list);
-		// _DEBUG_print_command_table(table);
+		_DEBUG_print_command_table(table);
 
 		if (table)
 			execute(table);
@@ -50,37 +50,62 @@ int	main(int argc, char **argv, char **env)
 		free(input);
 	}
 
-	// ft_pwd();
-	// table->commands_num = 1;
-	// t_simple_cmd *cmd1 = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
-	// cmd1->cmd = ft_strdup("ls");
-	// cmd1->args_num = 1;
-	// cmd1->cmd_args = (char **)malloc(sizeof(char *));
-	// cmd1->cmd_args[0] = ft_strdup("la");
-	// printf("%s\n", find_path(cmd1));
-	// execute(table);
-	// ft_pwd();
-	// // printf("\n\n");
-	// ft_env();
-	// printf("\n\n");
-	// cmd1->cmd = ft_strdup("cd");
-	// cmd1->args_num = 1;
-	// ft_cd(cmd1);
-	// // ft_pwd();
-	// ft_env();
-	// cmd1->cmd = ft_strdup("unset");
-	// cmd1->cmd_args = (char **)malloc(sizeof(char *));
-	// cmd1->cmd_args[0] = ft_strdup("DISPLAY");
-	// cmd1->args_num = 1;
-	// ft_unset(cmd1);
-	// ft_exit();
+	// printf("start\n");
+	// pid_t	pid;
+	// int fd1 = 0;
+	// int fd2 = 1;
+	// int tube1[2];
+	// int tube2[2];
+	// int _saved_stdin;
+	// int _saved_stdout;
+
+	// pipe(tube1);
+	// pipe(tube2);
+
+	// _saved_stdin = dup(0);
+	// _saved_stdout = dup(1);
+
+	// dup2(0, 0);
+	// dup2(tube2[1], 1);
+	// printf("cmd1\n");
+
+	// dup2(_saved_stdin, 0);
+	// dup2(_saved_stdout, 1);
 	
-	// cmd1->cmd_args[0] = ft_strdup("s;djf;sl");
-	// ft_echo(cmd1->cmd_args, cmd1->args_num);
-	// _DEBUG_assert_right_hashtable(ht);
-	// char **av = (char **)malloc(sizeof(char *) * 2);
-	// av = ft_split(argv[2], '=');
-	// ft_export(g_shell->env, cmd1, argv[2]);
-	// ft_env(g_shell->env);
-	// delete_hashtable(&ht);
+	// close(tube1[0]);
+	// close(tube1[1]);
+	// tube1[0] = tube2[0];
+	// tube1[1] = tube2[1];
+	// pipe(tube2);
+
+	// dup2(0, 0);
+	// dup2(1, 1);
+
+	// if ((pid = fork()) == 0)
+	// {
+	// 	char buf[6];
+
+	// 	dup2(tube1[0], 0);
+	// 	dup2(1, 1);
+
+	// 	close(tube1[0]);
+	// 	close(tube1[1]);
+	// 	close(tube2[0]);
+	// 	close(tube2[1]);
+
+	// 	read(0, buf, 5);
+	// 	buf[5] = 0;
+	// 	printf("%s", buf);
+	// 	printf("cmd2\n");
+
+	// 	exit(0);
+	// }
+
+	// close(tube1[0]);
+	// close(tube1[1]);
+	// tube1[0] = tube2[0];
+	// tube1[1] = tube2[1];
+	
+	// close(tube1[0]);
+	// close(tube1[1]);
 }
