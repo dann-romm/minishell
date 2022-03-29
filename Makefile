@@ -102,6 +102,12 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 
+test: all
+	./minishell
+
+norm:
+	norminette $(SRCDIR) 
+
 re: fclean all
 
 -include $(DEP)

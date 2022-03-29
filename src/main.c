@@ -33,16 +33,14 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		input = read_input("");
-		setting_signal();
-		if (!input)
-		{
-			write(1, "\033[1A", 5);
-            write(1, "\033[9C >", 6);
-            write(1, " exit\n", 6);
-			exit(0);
-		}
-		if (input)
-			add_history(input);
+		// if (!input)
+		// {
+		// 	write(1, "\033[1A", 5);
+		// 	write(1, "\033[9C >", 6);
+		// 	write(1, " exit\n", 6);
+		// 	exit(0);
+		// }
+		add_history(input);
 		list = create_token_list(input);
 
 		// _DEBUG_print_token_list(list);

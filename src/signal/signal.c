@@ -1,9 +1,5 @@
 #include "shell.h"
 
-// лишнее, потому что эти хедеры уже подключены из shell.h
-// #include <signal.h> 
-// #include <readline/readline.h>
-
 void	signal_handler(int signum)
 {
 	if (signum == SIGINT) // если пользователь нажал клавишу CTRL-C, на экран выводится пустая строка
@@ -12,6 +8,11 @@ void	signal_handler(int signum)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+	}
+	else if (signum == SIGTERM)
+	{
+		write(1, "exit\n", 5);
+		exit(1);
 	}
 }
 

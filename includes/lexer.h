@@ -94,5 +94,6 @@ int				remove_token_list(t_token_list **head, t_token_list **node);
 int				delete_token_list(t_token_list **head);
 
 // wildcard.c
+void			handle_wildcard(t_source *src);
 
 #endif

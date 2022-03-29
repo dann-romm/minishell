@@ -3,8 +3,8 @@
 
 void	ft_dup2(t_command_table *table, t_pipex_data *data, int index)
 {
-	data->_saved_stdin = dup(0);
-	data->_saved_stdout = dup(1);
+	data->_saved_stdin = dup(data->fd1);
+	data->_saved_stdout = dup(data->fd2);
 	if (index == 0)
 	{
 		if (dup2(data->fd1, 0) < 0)
