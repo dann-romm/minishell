@@ -6,7 +6,12 @@ char	*print_prompt1(void)
 
 	input = readline(find_hashtable(g_shell->env_global, "PS1"));
 	if (!input)
+	{
+		printf("\033[1A");
+		printf("\033[9C >");
+		printf(" exit\n");
 		exit(130);
+	}
 	return (input);
 }
 
