@@ -16,6 +16,7 @@ char		*ft_strdup(char *str);
 char		*ft_strcat(char *dst, char *src);
 char		*ft_strncat(char *s1, const char *s2, unsigned int n);
 int			ft_strcmp(char *s1, char *s2);
+int			ft_strncmp(const char *s1, const char *s2, size_t n);
 int			ft_atoi(char *str);
 char		*ft_itoa(int n);
 int			ft_numlen(char *str);
@@ -27,7 +28,7 @@ void		ft_putendl(char *s);
 
 // in fact, just utils
 int			free_2d_array(char **arr);
-char 		*three_str_cat(char *s1, char *s2, char *s3);
+char		*three_str_cat(char *s1, char *s2, char *s3);
 char		**adapt_cmd_args(t_simple_cmd *command);
 int			is_executable(t_simple_cmd *command);
 char		*find_path(t_simple_cmd *command);
