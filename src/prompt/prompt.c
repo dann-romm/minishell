@@ -1,10 +1,25 @@
 #include "shell.h"
 
-// TODO: get env PS1 variable and display that
-char	*read_input(char *prompt)
+char	*print_prompt1(void)
 {
-	(void)prompt;
-	const char	*input = "minishell > ";
+	char 	*input;
 
-	return (readline(input));
+	input = readline(find_hashtable(g_shell->env_global, "PS1"));
+	if (!input)
+		exit(130);
+	return (input);
+}
+
+char	*print_prompt2(char *input)
+{
+	int	i;
+
+	i = 0;
+	while (input[i])
+		{
+			if (ft_strcmp(&input[i], "\\") == 0)
+				input = readline(find_hashtable(g_shell->env_global, "PS2"));
+			i++;
+		}
+	return (input);
 }

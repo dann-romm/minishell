@@ -5,6 +5,7 @@
 #include "builtin.h"
 #include "parser.h"
 #include "executor.h"
+#include "prompt.h"
 #include "debug.h"
 
 void	init_shell(char **env)
@@ -17,13 +18,15 @@ void	init_shell(char **env)
 	}
 	g_shell->env_global = init_hashtable(10);
 	g_shell->env_local = init_hashtable(10);
-	g_shell->exit_status = 0;
 	fill_hashtable(env);
+	insert_hashtable(g_shell->env_global, "PS1", "minishell > ");
+	insert_hashtable(g_shell->env_global, "PS2", "> ");
+	g_shell->exit_status = 0;
 }
-
 int	main(int argc, char **argv, char **env)
 {
 	char			*input;
+	int				i = 0;
 	t_token_list	*list;
 	t_command_table	*table = (t_command_table *)malloc(sizeof(t_command_table));
 
@@ -32,14 +35,7 @@ int	main(int argc, char **argv, char **env)
 	setting_signal();
 	while (1)
 	{
-		input = read_input("");
-		// if (!input)
-		// {
-		// 	write(1, "\033[1A", 5);
-		// 	write(1, "\033[9C >", 6);
-		// 	write(1, " exit\n", 6);
-		// 	exit(0);
-		// }
+		input = print_prompt1();
 		add_history(input);
 		list = create_token_list(input);
 
