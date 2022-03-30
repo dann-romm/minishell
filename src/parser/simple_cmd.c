@@ -3,12 +3,12 @@
 #include "parser.h"
 #include "libft_funcs.h"
 
-int32_t	count_cmd_args(t_token_list *list)
+int32_t	count_cmd_args(t_token *list)
 {
 	int32_t	i;
 
 	i = 0;
-	while (list && list->token->type != T_PIPE)
+	while (list && list->type != T_PIPE)
 	{
 		i++;
 		list = list->next;
@@ -16,7 +16,7 @@ int32_t	count_cmd_args(t_token_list *list)
 	return (i);
 }
 
-t_simple_cmd	*init_simple_cmd(t_token_list *list)
+t_simple_cmd	*init_simple_cmd(t_token *list)
 {
 	t_simple_cmd	*command;
 
@@ -60,9 +60,9 @@ int	delete_simple_cmd(t_simple_cmd **cmd)
 
 // 0 - no assignment found
 // 1 - assignment handled successful
-int	handle_assignment(t_simple_cmd **command, t_token_list *list)
+int	handle_assignment(t_simple_cmd **command, t_token *list)
 {
-	if (list->next && list->next->token->type == T_EQUALS)
+	if (list->next && list->next->type == T_EQUALS)
 		*command = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
 	else
 		return (0);
@@ -78,8 +78,8 @@ int	handle_assignment(t_simple_cmd **command, t_token_list *list)
 		*command = NULL;
 		return (1);
 	}
-	(*command)->cmd_args[0] = ft_strdup(list->token->value);
-	(*command)->cmd_args[1] = ft_strdup(list->next->next->token->value);
+	(*command)->cmd_args[0] = ft_strdup(list->value);
+	(*command)->cmd_args[1] = ft_strdup(list->next->next->value);
 	return (1);
 }
 
@@ -111,7 +111,7 @@ int	define_cmd_type(t_simple_cmd *command)
 	return (0);
 }
 
-t_simple_cmd	*get_simple_cmd(t_token_list *list)
+t_simple_cmd	*get_simple_cmd(t_token *list)
 {
 	t_simple_cmd	*command;
 	int32_t			i;
@@ -119,12 +119,12 @@ t_simple_cmd	*get_simple_cmd(t_token_list *list)
 	if (handle_assignment(&command, list))
 		return (command);
 	command = init_simple_cmd(list);
-	command->cmd = ft_strdup(list->token->value);
+	command->cmd = ft_strdup(list->value);
 	list = list->next;
 	i = 0;
-	while (list && list->token->type != T_PIPE)
+	while (list && list->type != T_PIPE)
 	{
-		command->cmd_args[i++] = ft_strdup(list->token->value);
+		command->cmd_args[i++] = ft_strdup(list->value);
 		list = list->next;
 	}
 	define_cmd_type(command);

@@ -1,4 +1,5 @@
 #include "shell.h"
+#include "libft_funcs.h"
 
 char	*print_prompt1(void)
 {

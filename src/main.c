@@ -26,8 +26,7 @@ void	init_shell(char **env)
 int	main(int argc, char **argv, char **env)
 {
 	char			*input;
-	int				i = 0;
-	t_token_list	*list;
+	t_token			*list;
 	t_command_table	*table = (t_command_table *)malloc(sizeof(t_command_table));
 
 	init_shell(env);
@@ -39,15 +38,15 @@ int	main(int argc, char **argv, char **env)
 		add_history(input);
 		list = create_token_list(input);
 
-		// _DEBUG_print_token_list(list);
-		table = parser(&list);
-		_DEBUG_print_command_table(table);
+		_DEBUG_print_token_list(list);
+		// table = parser(&list);
+		// _DEBUG_print_command_table(table);
 
-		if (table)
-			execute(table);
+		// if (table)
+		// 	execute(table);
 
+		// delete_command_table(&table);
 		delete_token_list(&list);
-		delete_command_table(&table);
 		free(input);
 	}
 

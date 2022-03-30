@@ -24,6 +24,7 @@ t_token	*init_token(t_token_type type, char *str)
 		errno = ENOMEM;
 		return (NULL);
 	}
+	token->next = NULL;
 	return (token);
 }
 
@@ -41,28 +42,13 @@ int	delete_token(t_token **token)
 	return (0);
 }
 
-t_token_list	*init_token_list(t_token *token)
+t_token	*create_token_list(char *input)
 {
-	t_token_list	*node;
-	
-	node = (t_token_list *)malloc(sizeof(t_token_list));
-	if (!node)
-	{
-		errno = ENOMEM;
-		return (NULL);
-	}
-	node->token = token;
-	node->next = NULL;
-	return (node);
-}
+	t_source	*src;
+	t_token		*token;
+	t_token		*head;
 
-t_token_list	*create_token_list(char *input)
-{
-	t_source		*src;
-	t_token			*token;
-	t_token_list	*list;
-
-	list = NULL;
+	head = NULL;
 	src = init_source(input);
 	if (!src)
 		return (0);
@@ -76,22 +62,21 @@ t_token_list	*create_token_list(char *input)
 	{
 		if (token->type == T_ERROR) // raise error
 		{
-			delete_token(&token);
 			delete_source(&src);
-			delete_token_list(&list);
+			delete_token_list(&head);
 			return (0);
 		}
-		push_back_token_list(&list, init_token_list(token));
+		push_back_token_list(&head, token);
 		token = get_next_token(src);
 	}
 	delete_token(&token);
 	delete_source(&src);
-	return (list);
+	return (head);
 }
 
-int	push_back_token_list(t_token_list **head, t_token_list *node)
+int	push_back_token_list(t_token **head, t_token *node)
 {
-	t_token_list	*tmp;
+	t_token	*tmp;
 
 	if (!head || !node)
 		return (1);
@@ -107,36 +92,35 @@ int	push_back_token_list(t_token_list **head, t_token_list *node)
 	return (0);
 }
 
-int	remove_token_list(t_token_list **head, t_token_list **node)
+int	remove_token_list(t_token **head, t_token **node)
 {
 	if (!head || !(*head) || !node || !(*node))
 		return (1);
-	delete_token(&((*node)->token));
 	if (!(*node)->next)
 	{
 		if (*head == *node)
 		{
-			free(*head);
-			*head = NULL;
+			delete_token(head);
 			return (0);
 		}
 		while (*head && (*head)->next != (*node))
 			head = &((*head)->next);
-		free(*node);
-		*node = NULL;
+		delete_token(node);
 		(*head)->next = NULL;
 		return (0);
 	}
-	(*node)->token = (*node)->next->token;
+	(*node)->type = (*node)->next->type;
+	free((*node)->value);
+	(*node)->value = (*node)->next->value;
 	head = &((*node)->next->next);
 	free((*node)->next);
 	(*node)->next = *head;
 	return (0);
 }
 
-int	delete_token_list(t_token_list **head)
+int	delete_token_list(t_token **head)
 {
-	t_token_list	*tmp;
+	t_token	*tmp;
 
 	if (!head)
 		return (1);
@@ -144,8 +128,7 @@ int	delete_token_list(t_token_list **head)
 	{
 		tmp = *head;
 		*head = tmp->next;
-		delete_token(&(tmp->token));
-		free(tmp);
+		delete_token(&tmp);
 	}
 	return (0);
 }

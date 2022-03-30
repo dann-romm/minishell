@@ -22,6 +22,7 @@ int	is_word_char(char c)
 		|| (c == '/')
 		|| (c == '?')
 		|| (c == '!')
+		|| (c == '*')
 		|| (c == '@')
 		|| (c == '#')
 		|| (c == '%')
@@ -66,6 +67,7 @@ void	put_env_into_src(t_source *src)
 t_token	*get_next_token(t_source *src)
 {
 	t_token		*token;
+	int			is_wildcard;
 	int			require_bracket;
 
 	token = init_token(T_ERROR, NULL);
@@ -293,9 +295,15 @@ t_token	*get_next_token(t_source *src)
 	}
 	else if (is_word_char(peek(src)))
 	{
+		is_wildcard = 0;
 		token->type = T_ID;
 		while (is_word_char(peek(src)))
+		{
+			is_wildcard = is_wildcard || (peek(src) == '*');
 			save_char(src, next_char(src));
+		}
+		if (is_wildcard)
+			return (handle_wildcard(src, token));
 	}
 	else
 		token->type = T_ERROR;

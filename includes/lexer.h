@@ -62,13 +62,8 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	struct s_token	*next;
 }	t_token;
-
-typedef struct s_token_list
-{
-	t_token				*token;
-	struct s_token_list	*next;
-}	t_token_list;
 
 // source.c
 t_source		*init_source(char *str);
@@ -87,13 +82,12 @@ t_token			*get_next_token(t_source *src);
 // token.c
 t_token			*init_token(t_token_type type, char *str);
 int				delete_token(t_token **token);
-t_token_list	*init_token_list(t_token *token);
-t_token_list	*create_token_list(char *input);
-int				push_back_token_list(t_token_list **head, t_token_list *node);
-int				remove_token_list(t_token_list **head, t_token_list **node);
-int				delete_token_list(t_token_list **head);
+t_token			*create_token_list(char *input);
+int				push_back_token_list(t_token **head, t_token *node);
+int				remove_token_list(t_token **head, t_token **node);
+int				delete_token_list(t_token **head);
 
 // wildcard.c
-void			handle_wildcard(t_source *src);
+t_token			*handle_wildcard(t_source *src, t_token *token);
 
 #endif

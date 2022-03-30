@@ -5,7 +5,7 @@
 
 #include "debug.h" // to remove
 
-int32_t	count_commands_num(t_token_list *list)
+int32_t	count_commands_num(t_token *list)
 {
 	int32_t	i;
 
@@ -14,13 +14,13 @@ int32_t	count_commands_num(t_token_list *list)
 	i = 1;
 	while (list)
 	{
-		i += (list->token->type == T_PIPE);
+		i += (list->type == T_PIPE);
 		list = list->next;
 	}
 	return (i);
 }
 
-t_command_table	*init_command_table(t_token_list *list)
+t_command_table	*init_command_table(t_token *list)
 {
 	t_command_table	*table;
 
@@ -67,25 +67,25 @@ int	delete_command_table(t_command_table **table)
 	return (0);
 }
 
-int	handle_redirect(t_command_table *table, t_token_list **list)
+int	handle_redirect(t_command_table *table, t_token **list)
 {
-	t_token_list	*tmp;
+	t_token	*tmp;
 
 	tmp = *list;
 	while (tmp)
 	{
-		if (tmp->token->type == T_GREAT || tmp->token->type == T_DGREAT
-			|| tmp->token->type == T_LESS || tmp->token->type == T_DLESS)
+		if (tmp->type == T_GREAT || tmp->type == T_DGREAT
+			|| tmp->type == T_LESS || tmp->type == T_DLESS)
 		{
-			if (!tmp->next || tmp->next->token->type != T_ID)
+			if (!tmp->next || tmp->next->type != T_ID)
 				return (1); // syntax error
-			if (tmp->token->type == T_GREAT || tmp->token->type == T_DGREAT)
-				table->redirect._stdout = ft_strdup(tmp->next->token->value);
-			if (tmp->token->type == T_LESS || tmp->token->type == T_DLESS)
-				table->redirect._stdin = ft_strdup(tmp->next->token->value);
-			if (tmp->token->type == T_DGREAT)
+			if (tmp->type == T_GREAT || tmp->type == T_DGREAT)
+				table->redirect._stdout = ft_strdup(tmp->next->value);
+			if (tmp->type == T_LESS || tmp->type == T_DLESS)
+				table->redirect._stdin = ft_strdup(tmp->next->value);
+			if (tmp->type == T_DGREAT)
 				table->redirect.is_stdout_append = 1;
-			else if (tmp->token->type == T_DLESS)
+			else if (tmp->type == T_DLESS)
 				table->redirect.is_stdin_append = 1;
 			remove_token_list(list, &tmp);
 			remove_token_list(list, &tmp);
@@ -96,32 +96,32 @@ int	handle_redirect(t_command_table *table, t_token_list **list)
 	return (0);
 }
 
-int	handle_parse_error(t_command_table *table, t_token_list **list)
+int	handle_parse_error(t_command_table *table, t_token **list)
 {
-	t_token_list	*tmp;
-	int32_t			is_cmd;
+	t_token	*tmp;
+	int32_t	is_cmd;
 
 	is_cmd = 0;
 	tmp = *list;
 	while (tmp)
 	{
-		if (tmp->token->type == T_EQUALS && (is_cmd == 0 || !tmp->next || tmp->next->token->type != T_ID || (tmp->next->next != 0 && tmp->next->next->token->type != T_PIPE)))
+		if (tmp->type == T_EQUALS && (is_cmd == 0 || !tmp->next || tmp->next->type != T_ID || (tmp->next->next != 0 && tmp->next->next->type != T_PIPE)))
 			return (1);
-		if (tmp->token->type == T_PIPE && is_cmd == 0)
+		if (tmp->type == T_PIPE && is_cmd == 0)
 			return (1);
-		if (tmp->token->type == T_ID)
+		if (tmp->type == T_ID)
 			is_cmd++;
-		if (tmp->token->type == T_PIPE)
+		if (tmp->type == T_PIPE)
 			is_cmd = 0;
 		tmp = tmp->next;
 	}
 	return (!is_cmd);
 }
 
-t_command_table	*parser(t_token_list **list)
+t_command_table	*parser(t_token **list)
 {
 	t_command_table	*table;
-	t_token_list	*tmp;
+	t_token			*tmp;
 	int32_t			i;
 
 	table = init_command_table(*list);
@@ -136,7 +136,7 @@ t_command_table	*parser(t_token_list **list)
 	while (tmp)
 	{
 		table->commands[i++] = get_simple_cmd(tmp);
-		while (tmp && tmp->token->type != T_PIPE)
+		while (tmp && tmp->type != T_PIPE)
 			tmp = tmp->next;
 		if (tmp)
 			tmp = tmp->next;

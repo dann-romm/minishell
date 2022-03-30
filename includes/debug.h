@@ -123,9 +123,9 @@ __attribute__((weak)) void	_DEBUG_print_token(t_token *token)
 	printf("token:\n   type:  %s\n   value: %s\n", _DEBUG_token_type_to_str(token->type), token->value);
 }
 
-__attribute__((weak)) void	_DEBUG_print_token_list(t_token_list *list)
+__attribute__((weak)) void	_DEBUG_print_token_list(t_token *list)
 {
-	t_token_list	*tmp;
+	t_token	*tmp;
 
 	printf("<-------------- DEBUG PRINT TOKEN LIST -------------->\n");
 	if (!list)
@@ -136,7 +136,7 @@ __attribute__((weak)) void	_DEBUG_print_token_list(t_token_list *list)
 	tmp = list;
 	while (tmp)
 	{
-		_DEBUG_print_token(tmp->token);
+		_DEBUG_print_token(tmp);
 		tmp = tmp->next;
 	}
 }
