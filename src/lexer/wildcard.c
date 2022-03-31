@@ -20,33 +20,73 @@ int	find_substr(char *str, char *substr) // протестировать раб�
 		str++;
 		i++;
 	}
-	return (0);
+	return (-1);
 }
+
+int find_head_matching(char *pattern, struct dirent *file, t_source *src)
+{
+	while (*pattern && *pattern != '*')
+		save_char(src, *pattern++);
+	if (*pattern)
+		pattern++;
+
+	if (!ft_strncmp(src->str, file->d_name, src->strlen))
+		return (src->strlen);
+	return (-1);
+}
+
+int find_tail_matching(char *pattern, struct dirent *file, t_source *src)
+{
+	while (*pattern)
+	{
+		save_char(src, *pattern);
+		if (*pattern == '*')
+			clear_str(src);
+		pattern++;
+	}
+	if (!ft_strncmp(src->str, &(file->d_name[file->d_namlen - src->strlen]), src->strlen))
+		return (src->strlen);
+	return (-1);
+}
+
+// sca*ne*.h
 
 int	is_pattern_matched(char *pattern, struct dirent *file, t_source *src)
 {
-	int	i;
+	int	index;
 
-	while (*pattern != '*')
-		save_char(src, *pattern++);
-	pattern++;
+	printf("filename: %s\n", file->d_name);
 
-	i = 0;
-	while (src->str[i])
-	{
-		if (src->str[i] != file->d_name[i])
-		{
-			clear_str(src);
-			return (0);
-		}
-		i++;
-	}
-	printf("first part: (%s)\n", src->str);
+	index = find_head_matching(pattern, file, src);
 	clear_str(src);
-	printf("pattern after first look: (%s)\n", pattern);
+	if (index == -1)
+		return (0);
+	ft_memmove(file->d_name, file->d_name + index, file->d_namlen);
+	pattern += index + 1;
+	file->d_namlen -= index;
 
-	// find_substr для всех серединных частей
 
+	index = find_tail_matching(pattern, file, src);
+	clear_str(src);
+	if (index == -1)
+		return (0);
+	file->d_name[file->d_namlen - index] = '\0';
+	file->d_namlen -= index;
+
+	// while (*pattern)
+	// {
+	// 	if (*pattern == '*')
+	// 	{
+			
+	// 	}
+	// 	save_char(src, *pattern);
+	// 	pattern++;
+	// }
+
+	printf("filename : %s\n", file->d_name);
+	printf("pattern: (%s)\n", pattern);
+
+	printf("________________\n");
 	return (0);
 }
 
