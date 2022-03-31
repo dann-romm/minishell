@@ -303,7 +303,10 @@ t_token	*get_next_token(t_source *src)
 			save_char(src, next_char(src));
 		}
 		if (is_wildcard)
-			return (handle_wildcard(src, token));
+		{
+			free(token);
+			return (handle_wildcard(src, NULL));
+		}
 	}
 	else
 		token->type = T_ERROR;
