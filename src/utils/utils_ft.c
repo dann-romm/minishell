@@ -141,6 +141,30 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		return (0);
 }
 
+void	*ft_memmove(void *dst, const void *src, size_t len)
+{
+	size_t	i;
+
+	if (!dst && !src)
+		return (dst);
+	if ((unsigned long long)dst < (unsigned long long)src)
+	{
+		i = 0;
+		while (i < len)
+		{
+			((char *)dst)[i] = ((char *)src)[i];
+			i++;
+		}
+	}
+	else
+	{
+		while (len--)
+			((char *)dst)[len] = ((char *)src)[len];
+	}
+	return (dst);
+}
+
+
 int	ft_atoi(char *str)
 {
 	int	i;

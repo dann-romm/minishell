@@ -17,6 +17,7 @@ char		*ft_strcat(char *dst, char *src);
 char		*ft_strncat(char *s1, const char *s2, unsigned int n);
 int			ft_strcmp(char *s1, char *s2);
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
+void		*ft_memmove(void *dst, const void *src, size_t len);
 int			ft_atoi(char *str);
 char		*ft_itoa(int n);
 int			ft_numlen(char *str);
