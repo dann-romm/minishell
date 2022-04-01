@@ -226,6 +226,8 @@ char	**adapt_cmd_args(t_simple_cmd *command)
 {
 	int i = 0, j = 0;
 	char **new = (char **)malloc(sizeof(char *) * (command->args_num + 2));
+	if (new == 0)
+		return (0);
 	new[i] = ft_strdup(command->cmd);
 	i++;
 	while (i <= command->args_num)
@@ -336,5 +338,6 @@ int is_executable(t_simple_cmd *command)
 		free(path);
 		return (0);
 	}
+	free(path);
 	return (1);
 }

@@ -34,11 +34,7 @@ void	print_export_ht(t_hashtable *ht)
 	i = 0;
 	array_env = sort_hashtable(ht);
 	while (array_env[i])
-		i++;
-	while (array_env[i])
 	{
-		// while (array_env[i])
-		// 	i++;
 		parts_of_array = ft_split(array_env[i], '=');
 		printf("declare -x %s=\"%s\"\n", parts_of_array[0], parts_of_array[1]);
 		free_2d_array(parts_of_array);
