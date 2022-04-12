@@ -39,6 +39,8 @@ int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
 	return (-1);
 }
 
+//TODO: fix redirects
+
 void open_files(t_command_table *table, t_pipex_data *data) // add << (it's heredoc)
 {
 	if (table->redirect._stdin != 0)

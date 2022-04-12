@@ -11,6 +11,8 @@ int	check_input(char *str)
 	i = -1;
 	count1 = 0;
 	count2 = 0;
+	if ((str[0] >= 'a' && str[0] <= 'z') || (str[0] >= 'A' && str[0] <= 'Z'))
+		return (0);
 	while (str[++i])
 	{
 		if (str[0] != '_' && ((!is_numeric(str[i]) && !is_alpha(str[i])) || is_numeric(str[0])))

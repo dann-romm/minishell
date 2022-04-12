@@ -75,6 +75,8 @@ int32_t	insert_hashtable(t_hashtable *ht, char *key, char *value)
 	uint32_t	index;
 	t_pair		*pair;
 
+	if (!value)
+		return (1);
 	index = ht->hash(key, ht->size);
 	pair = find_pair(ht->table[index], key);
 	if (pair)

@@ -323,6 +323,11 @@ char *find_path(t_simple_cmd *command)
 		}
 		i++;
 	}
+	if (all == -1)
+	{
+		printf("minishell: %s: command not found\n", command->cmd);
+		exit(0);
+	}
 	free(cur_dir);
 	free_2d_array(paths);
 	return (res);
