@@ -4,7 +4,7 @@
 
 t_hashtable	*init_hashtable(uint32_t size)
 {
-	t_hashtable static	*ht;
+	t_hashtable	*ht;
 
 	ht = malloc(sizeof(t_hashtable));
 	if (!ht)
@@ -29,24 +29,24 @@ t_hashtable	*init_hashtable(uint32_t size)
 
 int partition(char **str, int l, int r)
 {
-    char	*mid = str[(l + r) / 2];
+	char	*mid = str[(l + r) / 2];
 	int		i = l;
 	int		j = r;
 	char	*tmp;
-    while (i <= j) 
+	while (i <= j) 
 	{
 		while (ft_strcmp(str[i], mid) < 0)
 			i++;
-        while (ft_strcmp(str[j], mid) > 0)
-           j--;
+		while (ft_strcmp(str[j], mid) > 0)
+			j--;
 		if (i > j)
-		   	break;
+			break;
 		tmp = str[i];
 		str[i] = str[j];
 		str[j] = tmp;
 		i++;
 	}
-    return j;
+	return j;
 }
 
 void quick_sort(char **str, int l, int r)

@@ -88,7 +88,7 @@ t_shell	*g_shell;
 char	*read_input(char *prompt);
 
 // pipe.c
-int		ft_waitpid(t_pipex_data *data);
+int		ft_wait(t_pipex_data *data);
 void	ft_dup2(t_command_table *table, t_pipex_data *data, int index);
 
 // fork.c

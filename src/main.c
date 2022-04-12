@@ -23,6 +23,18 @@ void	init_shell(char **env)
 	insert_hashtable(g_shell->env_global, "PS2", "> ");
 	g_shell->exit_status = 0;
 }
+
+void	test(t_hashtable *ht, uint32_t size)
+{
+	ht->hash = djb2_hash;
+	ht->count = 0;
+	ht->size = size;
+	ht->table = malloc(sizeof(t_pair *) * ht->size);
+	while (size)
+		ht->table[--size] = NULL;
+}
+
+
 int	main(int argc, char **argv, char **env)
 {
 	char			*input;
@@ -49,63 +61,4 @@ int	main(int argc, char **argv, char **env)
 		delete_token_list(&list);
 		free(input);
 	}
-
-	// printf("start\n");
-	// pid_t	pid;
-	// int fd1 = 0;
-	// int fd2 = 1;
-	// int tube1[2];
-	// int tube2[2];
-	// int _saved_stdin;
-	// int _saved_stdout;
-
-	// pipe(tube1);
-	// pipe(tube2);
-
-	// _saved_stdin = dup(0);
-	// _saved_stdout = dup(1);
-
-	// dup2(0, 0);
-	// dup2(tube2[1], 1);
-	// printf("cmd1\n");
-
-	// dup2(_saved_stdin, 0);
-	// dup2(_saved_stdout, 1);
-	
-	// close(tube1[0]);
-	// close(tube1[1]);
-	// tube1[0] = tube2[0];
-	// tube1[1] = tube2[1];
-	// pipe(tube2);
-
-	// dup2(0, 0);
-	// dup2(1, 1);
-
-	// if ((pid = fork()) == 0)
-	// {
-	// 	char buf[6];
-
-	// 	dup2(tube1[0], 0);
-	// 	dup2(1, 1);
-
-	// 	close(tube1[0]);
-	// 	close(tube1[1]);
-	// 	close(tube2[0]);
-	// 	close(tube2[1]);
-
-	// 	read(0, buf, 5);
-	// 	buf[5] = 0;
-	// 	printf("%s", buf);
-	// 	printf("cmd2\n");
-
-	// 	exit(0);
-	// }
-
-	// close(tube1[0]);
-	// close(tube1[1]);
-	// tube1[0] = tube2[0];
-	// tube1[1] = tube2[1];
-	
-	// close(tube1[0]);
-	// close(tube1[1]);
 }

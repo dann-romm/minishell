@@ -39,52 +39,6 @@ int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
 	return (1);
 }
 
-
-int	handle_builtin(t_command_table *table, t_pipex_data *data, int index)
-{
-	if (table->commands[index]->type == CMD_PWD
-		|| table->commands[index]->type == CMD_ECHO
-		|| table->commands[index]->type == CMD_ENV)
-	{
-		set_fork_builtin(table, data, index);
-		return (1);
-	}
-	else if (table->commands[index]->type == CMD_EXIT && table->commands_num != 1)
-		return (1);
-	else if (table->commands[index]->type == CMD_CD
-		|| table->commands[index]->type == CMD_EXPORT
-		|| table->commands[index]->type == CMD_EXIT
-		|| table->commands[index]->type == CMD_UNSET
-		|| table->commands[index]->type == CMD_ASSIGNMENT)
-	{
-		exec_builtin(table, data, index);
-		return (1);
-	}
-	else
-		return (0);
-}
-
-int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
-{
-	pid_t	pid;
-	int		status;
-
-	if (handle_builtin(table, data, index))
-		return (0);
-	if (is_executable(table->commands[index]))
-	{
-		pid = fork();
-		if (pid < 0)
-			exit(1);
-		if (pid == 0)
-			exec_bin(table, data, index);
-		waitpid(pid, &status, 0);
-	}
-	else
-		printf("minishell: command not found: %s\n", table->commands[index]->cmd);
-	return (1);
-}
-
 void open_files(t_command_table *table, t_pipex_data *data) // add << (it's heredoc)
 {
 	if (table->redirect._stdin != 0)
@@ -102,7 +56,7 @@ void open_files(t_command_table *table, t_pipex_data *data) // add << (it's here
 		data->fd2 = STDOUT_FILENO;
 }
 
-int	execute(t_command_table *table) // if table == NULL
+int	execute(t_command_table *table)
 {
 	t_pipex_data	*data;
 	int				child_proc;
@@ -124,8 +78,6 @@ int	execute(t_command_table *table) // if table == NULL
 	{
 		if (pipe(data->tube2) < 0)
 			perror_exit("pipe tube2");
-		data->fd1 = 0;
-		data->fd2 = 1;
 		ft_dup2(table, data, i);
 		exec_cmd(table, data, i);
 
@@ -146,5 +98,5 @@ int	execute(t_command_table *table) // if table == NULL
 	if (data->fd2 != 1)
 		close(data->fd2);
 
-	return (ft_waitpid(data));
+	return (ft_wait(data));
 }

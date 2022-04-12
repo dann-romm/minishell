@@ -27,7 +27,7 @@ void	ft_dup2(t_command_table *table, t_pipex_data *data, int index)
 	}
 }
 
-int	ft_waitpid(t_pipex_data *data)
+int	ft_wait(t_pipex_data *data)
 {
 	int	status;
 	int	error_code;

@@ -16,6 +16,5 @@ typedef struct s_pipex_data
 }		t_pipex_data;
 
 int		execute(t_command_table *table);
-int		exec_builtin(t_command_table *table, t_pipex_data *data, int index);
 
 #endif
