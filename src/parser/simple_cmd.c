@@ -59,7 +59,7 @@ int	delete_simple_cmd(t_simple_cmd **cmd)
 }
 
 // 0 - no assignment found
-// 1 - assignment handled successful
+// 1 - assignment handled successfully
 int	handle_assignment(t_simple_cmd **command, t_token *list)
 {
 	if (list->next && list->next->type == T_EQUALS)
