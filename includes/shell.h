@@ -4,6 +4,7 @@
 # define PATH_MAX 4096
 # define ERRCHAR 0
 # define ESCCHAR '\\'
+# define HEREDOC_FILENAME ".minishell_heredoc"
 
 // errno
 # include <errno.h>
@@ -62,8 +63,8 @@ typedef struct s_redirect
 {
 	char	*_stdin;
 	char	*_stdout;
-	int		is_stdin_append; // <<
-	int		is_stdout_append; // >>
+	int		is_stdin_append;
+	int		is_stdout_append;
 }	t_redirect;
 
 typedef struct s_command_table
@@ -93,6 +94,9 @@ void	ft_dup2(t_command_table *table, t_pipex_data *data, int index);
 
 // fork.c
 int		set_fork_builtin(t_command_table *table, t_pipex_data *data, int index);
+
+// heredoc.c
+void	handle_heredoc(t_command_table *table);
 
 // init_g_shell.c
 void	init_shell();

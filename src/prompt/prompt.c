@@ -1,7 +1,7 @@
 #include "shell.h"
 #include "libft_funcs.h"
 
-char	*print_prompt1(void) //fix the output
+char	*prompt1(void) //fix the output
 {
 	char 	*input;
 
@@ -16,16 +16,7 @@ char	*print_prompt1(void) //fix the output
 	return (input);
 }
 
-char	*print_prompt2(char *input)
+char	*prompt2(void)
 {
-	int	i;
-
-	i = 0;
-	while (input[i])
-		{
-			if (ft_strcmp(&input[i], "\\") == 0)
-				input = readline(find_hashtable(g_shell->env_global, "PS2"));
-			i++;
-		}
-	return (input);
+	return (readline(find_hashtable(g_shell->env_global, "PS2")));
 }

@@ -6,7 +6,7 @@
 #include "parser.h"
 #include "executor.h"
 #include "prompt.h"
-#include "signal.h"
+#include "signals.h"
 #include "debug.h"
 
 void	init_shell(char **env)
@@ -48,7 +48,7 @@ int	main(int argc, char **argv, char **env)
 	{
 		signal(SIGINT, signal_handler);
 		signal(SIGTERM, signal_handler);
-		input = print_prompt1();
+		input = prompt1();
 		add_history(input);
 		list = create_token_list(input);
 
@@ -60,7 +60,7 @@ int	main(int argc, char **argv, char **env)
 		if (table)
 			execute(table);
 
-		// delete_command_table(&table);
+		delete_command_table(&table);
 		delete_token_list(&list);
 		free(input);
 	}

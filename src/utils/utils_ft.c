@@ -224,7 +224,8 @@ char	*ft_itoa(int n)
 
 char	**adapt_cmd_args(t_simple_cmd *command)
 {
-	int i = 0, j = 0;
+	int i = 0;
+	int j = 0;
 	char **new = (char **)malloc(sizeof(char *) * (command->args_num + 2));
 	if (new == 0)
 		return (0);
@@ -274,7 +275,7 @@ char **ht_to_array(t_hashtable *ht)
 
 	i = -1;
 	j = 0;
-	env_array = (char **)malloc(sizeof(char *) * (ht->count + 1));
+	env_array = (char **)malloc(sizeof(char *) * (length_hashtable(ht) + 1));
 	while (++i < ht->size)
 	{
 		pair = ht->table[i];
@@ -295,42 +296,33 @@ void	perror_exit(char *message)
 	exit(1);
 }
 
-char *find_path(t_simple_cmd *command)
+char	*find_path(t_simple_cmd *command)
 {
-	int i = 0;
+	int i = -1;
 	int all = -1;
-	char *res = 0;
 	char *cur_dir = find_hashtable(g_shell->env_global, "PWD");
 	cur_dir = three_str_cat(cur_dir, "/", command->cmd);
-	int cur = access(cur_dir, F_OK);
-	if (cur == 0)
-	{
-		res = cur_dir;
-		free(cur_dir);
-		return (res);
-	}
+	all = access(cur_dir, F_OK);
+	if (all == 0)
+		return (cur_dir);
+	free(cur_dir);
 	char **paths = ft_split(find_hashtable(g_shell->env_global, "PATH"), ':');
-	while (paths[i])
+	while (paths[++i])
 	{
 		cur_dir = three_str_cat(paths[i], "/", command->cmd);
 		all = access(cur_dir, F_OK);
 		if (all == 0)
 		{
-			res = ft_strdup(cur_dir);
-			free(cur_dir);
 			free_2d_array(paths);
-			return (res);
+			return (cur_dir);
 		}
-		i++;
+		free(cur_dir);
 	}
-	if (all == -1)
-	{
-		printf("minishell: %s: command not found\n", command->cmd);
-		exit(0);
-	}
-	free(cur_dir);
+	// сюда попадаем, когда ни одна директория из PATH не содержит бинарника
 	free_2d_array(paths);
-	return (res);
+	printf("minishell: %s: command not found\n", command->cmd);
+	return (0);
+
 }
 
 int is_executable(t_simple_cmd *command)

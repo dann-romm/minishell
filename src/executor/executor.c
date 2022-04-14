@@ -7,12 +7,24 @@
 
 void	exec_bin(t_command_table *table, t_pipex_data *data, int index)
 {
+	char	*path = 0;
+	char	**args = 0;
+	char	**env = 0;
+
 	close(data->tube1[0]);
 	close(data->tube1[1]);
 	close(data->tube2[0]);
 	close(data->tube2[1]);
-	if (execve(find_path(table->commands[index]), adapt_cmd_args(table->commands[index]), ht_to_array(g_shell->env_global)) < 0)
+
+	path = find_path(table->commands[index]);
+	args = adapt_cmd_args(table->commands[index]);
+	env = ht_to_array(g_shell->env_global);
+
+	if (execve(path, args, env) < 0)
+	{
 		printf("execve");
+		exit(1);
+	}
 }
 
 int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
@@ -38,8 +50,6 @@ int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
 		return (ft_assignment(table->commands[index]));
 	return (-1);
 }
-
-//TODO: fix redirects
 
 void open_files(t_command_table *table, t_pipex_data *data) // add << (it's heredoc)
 {
@@ -72,7 +82,7 @@ t_pipex_data	*init_data(t_command_table *table)
 	data->tube1[1] = -1;
 	data->tube2[0] = -1;
 	data->tube2[1] = -1;
-	data->limiter = NULL;
+	handle_heredoc(table);
 	data->count_running_cmds = 0;
 	open_files(table, data);
 	return (data);
@@ -80,8 +90,8 @@ t_pipex_data	*init_data(t_command_table *table)
 
 void	restore_saved_iostream(t_pipex_data *data)
 {
-	dup2(data->_saved_stdin, 0);
-	dup2(data->_saved_stdout, 1);
+	dup2(data->_saved_stdin, STDIN_FILENO);
+	dup2(data->_saved_stdout, STDOUT_FILENO);
 	close(data->_saved_stdin);
 	close(data->_saved_stdout);
 }
@@ -95,7 +105,7 @@ int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
 	pid = fork();
 	if (pid == -1) // error
 		return (1);
-	if (pid == 0)
+	else if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);

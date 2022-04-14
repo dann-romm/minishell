@@ -1,11 +1,11 @@
 #include "shell.h"
 #include "libft_funcs.h"
-#include "signal.h"
+#include "signals.h"
 
 void	ft_dup2(t_command_table *table, t_pipex_data *data, int index)
 {
-	data->_saved_stdin = dup(data->fd1);
-	data->_saved_stdout = dup(data->fd2);
+	data->_saved_stdin = dup(STDIN_FILENO);
+	data->_saved_stdout = dup(STDOUT_FILENO);
 	if (index == 0)
 	{
 		if (dup2(data->fd1, 0) < 0)
@@ -31,7 +31,6 @@ void	ft_dup2(t_command_table *table, t_pipex_data *data, int index)
 int	ft_wait(t_pipex_data *data)
 {
 	int	status;
-	int	error_code;
 
 	if (data->fd1 != 0)
 		close(data->fd1);
@@ -39,12 +38,24 @@ int	ft_wait(t_pipex_data *data)
 		close(data->fd2);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-	error_code = 0;
+	
 	while (data->count_running_cmds-- > 0)
+		wait(&status);
+	
+	if (WIFEXITED(status))
 	{
-		waitpid(-1, &status, 0);
-		if (status != 0)
-			error_code = status;
+		if (!status)
+			return (0);
+		if (WEXITSTATUS(status) == 255)
+			return (127);
 	}
-	return (error_code);
+	else if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == 2)
+			return (130);
+		else if (WTERMSIG(status) == 3)
+			return (131);
+		return (WEXITSTATUS(status));
+	}
+	return (WEXITSTATUS(status));
 }

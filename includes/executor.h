@@ -12,7 +12,6 @@ typedef struct s_pipex_data
 	int		tube1[2];
 	int		tube2[2];
 	int		count_running_cmds; // количество команд, завершение которых мы ждём waitpid'ом
-	char	*limiter;
 }		t_pipex_data;
 
 int		execute(t_command_table *table);
