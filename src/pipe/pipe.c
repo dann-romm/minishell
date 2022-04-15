@@ -9,22 +9,22 @@ void	ft_dup2(t_command_table *table, t_pipex_data *data, int index)
 	if (index == 0)
 	{
 		if (dup2(data->fd1, 0) < 0)
-			perror_exit("dup2 134");
+			printf("minishell: dup2: %s\n", strerror(errno));
 	}
 	else
 	{
 		if (dup2(data->tube1[0], 0) < 0)
-			perror_exit("dup2 139");
+			printf("minishell: dup2: %s\n", strerror(errno));
 	}
 	if (index == table->commands_num - 1)
 	{
 		if (dup2(data->fd2, 1) < 0)
-			perror_exit("dup2 144");
+			printf("minishell: dup2: %s\n", strerror(errno));
 	}
 	else
 	{
 		if (dup2(data->tube2[1], 1) < 0)
-			perror_exit("dup2 149");
+			printf("minishell: dup2: %s\n", strerror(errno));
 	}
 }
 
@@ -38,10 +38,8 @@ int	ft_wait(t_pipex_data *data)
 		close(data->fd2);
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
-	
 	while (data->count_running_cmds-- > 0)
 		wait(&status);
-	
 	if (WIFEXITED(status))
 	{
 		if (!status)

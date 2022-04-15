@@ -31,7 +31,6 @@ void		ft_putendl(char *s);
 int			free_2d_array(char **arr);
 char		*three_str_cat(char *s1, char *s2, char *s3);
 char		**adapt_cmd_args(t_simple_cmd *command);
-int			is_executable(t_simple_cmd *command);
 char		*find_path(t_simple_cmd *command);
 void		perror_exit(char *message);
 char		**ht_to_array(t_hashtable *ht);

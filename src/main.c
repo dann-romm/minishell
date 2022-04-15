@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **env)
 
 		signal(SIGINT, SIG_IGN);
 		if (table)
-			execute(table);
+			g_shell->exit_status = execute(table);
 
 		delete_command_table(&table);
 		delete_token_list(&list);

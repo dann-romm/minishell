@@ -322,19 +322,4 @@ char	*find_path(t_simple_cmd *command)
 	free_2d_array(paths);
 	printf("minishell: %s: command not found\n", command->cmd);
 	return (0);
-
-}
-
-int is_executable(t_simple_cmd *command)
-{
-	int i = 0;
-	int all = -1;
-	char *path = find_path(command);
-	if (!path)
-	{
-		free(path);
-		return (0);
-	}
-	free(path);
-	return (1);
 }

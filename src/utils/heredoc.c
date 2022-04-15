@@ -8,12 +8,12 @@ void	handle_heredoc(t_command_table *table)
 	const char	*limiter = table->redirect._stdin;
 	int			fd;
 	char		*str;
-	
+
 	if (!limiter || table->redirect.is_stdin_append == 0)
 		return ;
 	fd = open(HEREDOC_FILENAME, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (fd < 0)
-		return ; // TODO: handle error
+		return ;
 	table->redirect._stdin = ft_strdup(HEREDOC_FILENAME);
 	str = prompt2();
 	while (str && ft_strcmp(str, (char *)limiter))

@@ -7,24 +7,20 @@
 
 void	exec_bin(t_command_table *table, t_pipex_data *data, int index)
 {
-	char	*path = 0;
-	char	**args = 0;
-	char	**env = 0;
+	char	*path;
+	char	**args;
+	char	**env;
 
 	close(data->tube1[0]);
 	close(data->tube1[1]);
 	close(data->tube2[0]);
 	close(data->tube2[1]);
-
 	path = find_path(table->commands[index]);
+	if (!path)
+		exit(127);
 	args = adapt_cmd_args(table->commands[index]);
 	env = ht_to_array(g_shell->env_global);
-
-	if (execve(path, args, env) < 0)
-	{
-		printf("execve");
-		exit(1);
-	}
+	execve(path, args, env);
 }
 
 int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
@@ -51,7 +47,7 @@ int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
 	return (-1);
 }
 
-void open_files(t_command_table *table, t_pipex_data *data) // add << (it's heredoc)
+void	open_files(t_command_table *table, t_pipex_data *data) // add << (it's heredoc)
 {
 	if (table->redirect._stdin != 0)
 		data->fd1 = open(table->redirect._stdin, O_RDONLY);
@@ -66,6 +62,10 @@ void open_files(t_command_table *table, t_pipex_data *data) // add << (it's here
 	}
 	else
 		data->fd2 = STDOUT_FILENO;
+	if (data->fd1 < 0)
+		printf("minishell: %s: %s\n", table->redirect._stdin, strerror(errno));
+	if (data->fd2 < 0)
+		printf("minishell: %s: %s\n", table->redirect._stdout, strerror(errno));
 }
 
 t_pipex_data	*init_data(t_command_table *table)
@@ -85,6 +85,11 @@ t_pipex_data	*init_data(t_command_table *table)
 	handle_heredoc(table);
 	data->count_running_cmds = 0;
 	open_files(table, data);
+	if (errno)
+	{
+		free(data);
+		return (0);
+	}
 	return (data);
 }
 
@@ -127,7 +132,7 @@ int	execute(t_command_table *table)
 	data = init_data(table);
 	if (!data || table->commands_num == 0
 		|| (table->commands_num == 1 && exec_builtin(table, data, 0) != -1))
-		return (0);
+		return (errno);
 	if (pipe(data->tube1))
 		perror_exit("pipe tube1");
 	i = -1;
