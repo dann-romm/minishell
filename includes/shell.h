@@ -41,7 +41,7 @@
 typedef enum e_cmd_type
 {
 	CMD_NONE = -1,
-	CMD_CD,
+	CMD_CD = 0,
 	CMD_PWD,
 	CMD_ECHO,
 	CMD_EXPORT,

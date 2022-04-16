@@ -40,7 +40,6 @@ int	main(int argc, char **argv, char **env)
 {
 	char			*input;
 	t_token			*list;
-	t_command_table	*table = (t_command_table *)malloc(sizeof(t_command_table));
 
 	init_shell(env);
 
@@ -53,14 +52,13 @@ int	main(int argc, char **argv, char **env)
 		list = create_token_list(input);
 
 		// _DEBUG_print_token_list(list);
-		table = parser(&list);
-		// _DEBUG_print_command_table(table);
+		parser(&list);
+		// g_shell->exit_status = errno;
 
-		signal(SIGINT, SIG_IGN);
-		if (table)
-			g_shell->exit_status = execute(table);
+		// signal(SIGINT, SIG_IGN);
+		// if (table)
+		// 	g_shell->exit_status = execute(table);
 
-		delete_command_table(&table);
 		delete_token_list(&list);
 		free(input);
 	}
