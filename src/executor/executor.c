@@ -123,7 +123,7 @@ int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
 	return (0);
 }
 
-int	execute(t_command_table *table)
+int	run_cmd_block(t_command_table *table)
 {
 	t_pipex_data	*data;
 	int				child_proc;
@@ -148,6 +148,32 @@ int	execute(t_command_table *table)
 	}
 	close(data->tube2[0]);
 	close(data->tube2[1]);
-
 	return (ft_wait(data));
+}
+
+int	execute(t_cmd_block *cmd_block)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	status = run_cmd_block(cmd_block[i].table);
+	while (cmd_block[i].delimiter != CMDBL_END)
+	{
+		if (cmd_block[i].delimiter == CMDBL_AND)
+		{
+			++i;
+			if (!status)
+				status = run_cmd_block(cmd_block[i].table);
+		}
+		else if (cmd_block[i].delimiter == CMDBL_OR)
+		{
+			++i;
+			if (status)
+				status = run_cmd_block(cmd_block[i].table);
+		}
+		else
+			status = run_cmd_block(cmd_block[++i].table);
+	}
+	return (status);
 }

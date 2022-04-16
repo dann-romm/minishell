@@ -110,7 +110,7 @@ int	handle_parse_error(t_command_table *table, t_token **list)
 		if (tmp->type == T_PIPE)
 			is_cmd = 0;
 		tmp = tmp->next;
-	}
+	} // display parse error
 	return (!is_cmd);
 }
 
@@ -126,7 +126,8 @@ t_command_table	*create_command_table(t_token **list)
 	if (handle_redirect(table, list) || handle_parse_error(table, list))
 	{
 		errno = 258;
-		return (NULL); // display syntax error message
+		delete_command_table(&table);
+		return (NULL);
 	}
 	i = 0;
 	tmp = *list;
@@ -165,28 +166,39 @@ int	count_cmd_blocks(t_token *token)
 			token = token->next;
 		if (token)
 		{
-			token = token->next;
-			if (!token) // TODO: there's no error when ';' at the end
+			if (!token->next && token->type != T_SEMI)
 			{
 				printf("minishell: syntax error near unexpected token `newline'\n");
 				errno = 258;
 				return (-1);
 			}
+			token = token->next;
 		}
 		count++;
 	}
 	return (count);
 }
 
-int	init_cmd_block(t_token **list, t_cmd_block *cmd_blocks, int index)
+int	init_cmd_block(t_token **list, t_cmd_block *cmd_blocks, int index, t_token *delimiter)
 {
 	t_command_table	*table;
 
 	table = create_command_table(list);
-	cmd_blocks[++index].table = table;
-	cmd_blocks[++index].delimiter = CMDBL_AND; // fix delimiter initialization
-	_DEBUG_print_command_table(table);
-	delete_command_table(&table);
+
+	cmd_blocks[index].table = table;
+	if (!delimiter || (delimiter->type == T_SEMI && !delimiter->next))
+		cmd_blocks[index].delimiter = CMDBL_END;
+	else if (delimiter->type == T_ANDAND)
+		cmd_blocks[index].delimiter = CMDBL_AND;
+	else if (delimiter->type == T_OROR)
+		cmd_blocks[index].delimiter = CMDBL_OR;
+	else if (delimiter->type == T_SEMI)
+		cmd_blocks[index].delimiter = CMDBL_SEMI;
+	else
+	{
+		errno = 1; // unknown error
+		return (1);
+	}
 	return (0);
 }
 
@@ -200,13 +212,15 @@ t_cmd_block	*parser(t_token **list)
 	t_token			*tmp2;
 
 	count_cmdbl = count_cmd_blocks(*list);
-	printf("count_cmd_blocks = %d\n", count_cmdbl);
+	// printf("count_cmd_blocks = %d\n", count_cmdbl);
 	if (count_cmdbl < 1)
 		return (NULL);
 
 	cmd_blocks = (t_cmd_block *)malloc(sizeof(t_cmd_block) * count_cmdbl);
+	if (!cmd_blocks)
+		return (NULL);
+	
 	i = -1;
-
 	while (*list)
 	{
 		tmp = *list;
@@ -215,17 +229,16 @@ t_cmd_block	*parser(t_token **list)
 		tmp2 = tmp->next;
 		tmp->next = NULL;
 
-		init_cmd_block(list, cmd_blocks, i);
-		
+		init_cmd_block(list, cmd_blocks, ++i, tmp2);
+		// _DEBUG_print_command_table(cmd_blocks[i].table);
+		// dprintf(2, "cmd_blocks[i].delimiter = %d\n", cmd_blocks[i].delimiter);
+
 		tmp->next = tmp2;
 		list = &(tmp2);
 		if (tmp2)
 			list = &(tmp2->next);
 	}
-	// _DEBUG_print_token(*list);
-	// _DEBUG_print_token(tmp);
-	// _DEBUG_print_token(tmp2);
-	return (NULL); // remove
+	return (cmd_blocks);
 }
 
 // ls | cat && ls2 | cat2

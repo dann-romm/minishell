@@ -40,6 +40,7 @@ int	main(int argc, char **argv, char **env)
 {
 	char			*input;
 	t_token			*list;
+	t_cmd_block		*cmd_block;
 
 	init_shell(env);
 
@@ -52,12 +53,12 @@ int	main(int argc, char **argv, char **env)
 		list = create_token_list(input);
 
 		// _DEBUG_print_token_list(list);
-		parser(&list);
-		// g_shell->exit_status = errno;
+		cmd_block = parser(&list);
+		if (!cmd_block)
+			g_shell->exit_status = errno;
 
-		// signal(SIGINT, SIG_IGN);
-		// if (table)
-		// 	g_shell->exit_status = execute(table);
+		signal(SIGINT, SIG_IGN);
+		g_shell->exit_status = execute(cmd_block);
 
 		delete_token_list(&list);
 		free(input);
