@@ -9,6 +9,8 @@ void	upd_pwd(char *path)
 	insert_hashtable(g_shell->env_global, "PWD", path);
 }
 
+// echo "asdf" > out1
+
 int	change_dir(t_simple_cmd *cd)
 {
 	char *cur_dir;
@@ -21,16 +23,19 @@ int	change_dir(t_simple_cmd *cd)
 		if (access(cd->cmd_args[0], F_OK) == -1)
 		{
 			printf("minishell: cd: %s: no such file or directory\n", cd->cmd_args[0]);
+			errno = 2;
 			return (1);
 		}
 		else if (access(cd->cmd_args[0], R_OK) == -1)
 		{
 			printf("minishell: cd: %s: permission denied\n", cd->cmd_args[0]);
+			errno = 13;
 			return (1);
 		}
 		else
 		{
 			printf("minishell: cd: %s: not a directory\n", cd->cmd_args[0]);
+			errno = 20;
 			return (1);
 		}
 	}
@@ -44,12 +49,12 @@ int	change_dir(t_simple_cmd *cd)
 
 int	ft_cd(t_simple_cmd *cd)
 {
+	const char	*path = getenv("HOME");
+
 	if (!cd->args_num)
 	{
-		const char	*path = getenv("HOME");
 		chdir(path);
 		upd_pwd((char *)path);
-		// print_hashtable(g_shell->env_global);
 	}
 	else
 		return (change_dir(cd));

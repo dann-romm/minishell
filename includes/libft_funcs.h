@@ -26,6 +26,8 @@ char		**ft_split(char const *s, char c);
 char		*ft_strjoin(char *s1, char *s2);
 void		ft_putstr(char *s);
 void		ft_putendl(char *s);
+int			is_str_numeric(char *str);
+int			check_input(char *str);
 
 // in fact, just utils
 int			free_2d_array(char **arr);

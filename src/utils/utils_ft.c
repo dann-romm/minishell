@@ -164,7 +164,6 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	return (dst);
 }
 
-
 int	ft_atoi(char *str)
 {
 	int	i;
@@ -321,5 +320,41 @@ char	*find_path(t_simple_cmd *command)
 	// сюда попадаем, когда ни одна директория из PATH не содержит бинарника
 	free_2d_array(paths);
 	printf("minishell: %s: command not found\n", command->cmd);
+	return (0);
+}
+
+int	is_str_numeric(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (str[i] < '0' || str[i] > '9')
+			return (0);
+	}
+	return (1);
+}
+
+int	check_input(char *str)
+{
+	int	i;
+	int	count1;
+	int	count2;
+
+	i = -1;
+	count1 = 0;
+	count2 = 0;
+	if ((str[0] >= 'a' && str[0] <= 'z') || (str[0] >= 'A' && str[0] <= 'Z'))
+		return (0);
+	while (str[++i])
+	{
+		if (str[0] != '_' && ((!is_numeric(str[i]) && !is_alpha(str[i])) || is_numeric(str[0])))
+			return (1);
+		else if (is_numeric(str[i]))
+			count1++;
+	}
+	if (str[0] == '\0' || count1 == i - 1)
+		return (1);
 	return (0);
 }
