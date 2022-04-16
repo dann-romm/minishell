@@ -53,12 +53,12 @@ int	main(int argc, char **argv, char **env)
 		list = create_token_list(input);
 
 		// _DEBUG_print_token_list(list);
+		signal(SIGINT, SIG_IGN);
 		cmd_block = parser(&list);
 		if (!cmd_block)
 			g_shell->exit_status = errno;
-
-		signal(SIGINT, SIG_IGN);
-		g_shell->exit_status = execute(cmd_block);
+		else
+			g_shell->exit_status = execute(cmd_block);
 
 		delete_token_list(&list);
 		free(input);
