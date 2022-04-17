@@ -28,6 +28,7 @@ int	is_word_char(char c)
 		|| (c == '%')
 		|| (c == '^')
 		|| (c == '&')
+		|| (c == '$')
 		|| (c == '(')
 		|| (c == ')')
 		|| (c == '[')
@@ -50,17 +51,20 @@ void	put_exit_status_into_src(t_source *src)
 
 void	put_env_into_src(t_source *src)
 {
-	char	*key;
-	char	*value;
+	t_source	*tmp;
+	char		*key;
+	char		*value;
 
+	tmp = init_source("");
 	while (is_alnum(peek(src)) || peek(src) == '_')
-		save_char(src, next_char(src));
-	key = ft_strdup(src->str);
+		save_char(tmp, next_char(src));
+	key = ft_strdup(tmp->str);
 	value = find_hashtable(g_shell->env_global, key);
-	clear_str(src);
+	clear_str(tmp);
 	while (value && *value)
 		save_char(src, *value++);
 	free(key);
+	delete_source(&tmp);
 }
 
 t_token	*get_next_token(t_source *src)
@@ -299,7 +303,13 @@ t_token	*get_next_token(t_source *src)
 		while (is_word_char(peek(src)))
 		{
 			is_wildcard = is_wildcard || (peek(src) == '*');
-			save_char(src, next_char(src));
+			if (peek(src) == '$')
+			{
+				next_char(src);
+				put_env_into_src(src);
+			}
+			else
+				save_char(src, next_char(src));
 		}
 		if (is_wildcard)
 		{
