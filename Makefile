@@ -52,6 +52,7 @@ HASHTABLE_SRC			=	$(HASHTABLE_SRCDIR)/hashtable.c \
 							$(HASHTABLE_SRCDIR)/sort_hashtable.c
 
 LEXER_SRC				=	$(LEXER_SRCDIR)/lexer.c \
+							$(LEXER_SRCDIR)/get_next_token.c \
 							$(LEXER_SRCDIR)/source.c \
 							$(LEXER_SRCDIR)/source_utils.c \
 							$(LEXER_SRCDIR)/token.c \

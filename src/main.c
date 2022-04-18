@@ -6,10 +6,7 @@
 #include "executor.h"
 #include "prompt.h"
 #include "signals.h"
-#include "debug.h"
-
-// echo 123$PWD
-// echo 123 $PWD
+// #include "debug.h"
 
 void	update_shlvl(void)
 {
@@ -55,7 +52,7 @@ int	main(int argc, char **argv, char **env)
 		signal(SIGTERM, signal_handler);
 		input = prompt1();
 		add_history(input);
-		list = create_token_list(input);
+		list = lexer(input);
 		signal(SIGINT, SIG_IGN);
 		cmd_block = parser(&list);
 		if (!cmd_block)

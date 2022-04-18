@@ -8,7 +8,7 @@ void	signal_handler(int signum)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_clear_visible_line();
-		rl_redisplay();
+		// rl_redisplay();
 		signal(SIGINT, signal_handler);
 	}
 	else if (signum == SIGTERM)

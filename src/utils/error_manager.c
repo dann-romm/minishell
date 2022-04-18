@@ -8,5 +8,7 @@ int	error_manager(t_error_type type, const char *msg, int error_code)
 	else if (type == ERRT_PWD_ERR)
 		printf("%s: %s\n", find_hashtable(g_shell->env_global, "PWD"),
 			strerror(errno));
+	else if (type == ERRT_UNSUPPORTED)
+		printf("`%s': is not supported in this version of minishell\n", msg);
 	return (error_code);
 }

@@ -2,7 +2,7 @@
 #include "libft_funcs.h"
 #include "shell.h"
 
-int	find_substr(char *str, char *substr)
+static int	find_substr(char *str, char *substr)
 {
 	int	i;
 	int	len;
@@ -23,7 +23,7 @@ int	find_substr(char *str, char *substr)
 	return (-1);
 }
 
-int	is_head_matched(char **pattern, struct dirent *file, t_source *src)
+static int	is_head_matched(char **pattern, struct dirent *file, t_source *src)
 {
 	int	index;
 
@@ -46,7 +46,7 @@ int	is_head_matched(char **pattern, struct dirent *file, t_source *src)
 	return (1);
 }
 
-int	is_tail_matched(char *pattern, struct dirent *file, t_source *src)
+static int	is_tail_matched(char *pattern, struct dirent *file, t_source *src)
 {
 	int	index;
 
@@ -70,7 +70,8 @@ int	is_tail_matched(char *pattern, struct dirent *file, t_source *src)
 	return (1);
 }
 
-int	is_pattern_matched(char *pattern, struct dirent *file, t_source *src)
+static int	is_pattern_matched(char *pattern,
+	struct dirent *file, t_source *src)
 {
 	int	index;
 
@@ -98,7 +99,7 @@ int	is_pattern_matched(char *pattern, struct dirent *file, t_source *src)
 	return (1);
 }
 
-int	handle_wildcard(t_source *src, t_token **token)
+void	handle_wildcard(t_source *src, t_token **token)
 {
 	char			*pattern;
 	DIR				*dir;
@@ -111,7 +112,7 @@ int	handle_wildcard(t_source *src, t_token **token)
 	if (!dir)
 	{
 		free(pattern);
-		return (error_manager(ERRT_PWD_ERR, 0, 0));
+		return ((void)error_manager(ERRT_PWD_ERR, 0, 0));
 	}
 	file = readdir(dir);
 	while (file)

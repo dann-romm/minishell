@@ -34,38 +34,6 @@ int	delete_token(t_token **token)
 	return (0);
 }
 
-t_token	*create_token_list(char *input)
-{
-	t_source	*src;
-	t_token		*token;
-	t_token		*head;
-
-	head = NULL;
-	src = init_source(input);
-	if (!src)
-		return (0);
-	token = get_next_token(src);
-	if (!token)
-	{
-		delete_source(&src);
-		return (0);
-	}
-	while (token->type != T_EOF)
-	{
-		if (token->type == T_ERROR) // raise error
-		{
-			delete_source(&src);
-			delete_token_list(&head);
-			return (0);
-		}
-		push_back_token_list(&head, token);
-		token = get_next_token(src);
-	}
-	delete_token(&token);
-	delete_source(&src);
-	return (head);
-}
-
 int	push_back_token_list(t_token **head, t_token *node)
 {
 	t_token	*tmp;

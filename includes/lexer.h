@@ -83,14 +83,14 @@ void			clear_str(t_source *src);
 t_token			*get_next_token(t_source *src);
 
 // token.c
+t_token			*lexer(char *input);
 t_token			*init_token(t_token_type type, char *str);
 int				delete_token(t_token **token);
-t_token			*create_token_list(char *input);
 int				push_back_token_list(t_token **head, t_token *node);
 int				remove_token_list(t_token **head, t_token **node);
 int				delete_token_list(t_token **head);
 
 // wildcard.c
-int				handle_wildcard(t_source *src, t_token **token);
+void			handle_wildcard(t_source *src, t_token **token);
 
 #endif
