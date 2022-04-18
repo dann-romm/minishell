@@ -57,7 +57,8 @@ int	is_tail_matched(char *pattern, struct dirent *file, t_source *src)
 			clear_str(src);
 		pattern++;
 	}
-	if (!ft_strncmp(src->str, &(file->d_name[file->d_namlen - src->strlen]), src->strlen))
+	if (!ft_strncmp(src->str,
+			&(file->d_name[file->d_namlen - src->strlen]), src->strlen))
 		index = src->strlen;
 	else
 		index = -1;
@@ -87,7 +88,8 @@ int	is_pattern_matched(char *pattern, struct dirent *file, t_source *src)
 				return (0);
 			}
 			clear_str(src);
-			ft_memmove(file->d_name, file->d_name + index + src->strlen, file->d_namlen);
+			ft_memmove(file->d_name,
+				file->d_name + index + src->strlen, file->d_namlen);
 		}
 		else
 			save_char(src, *pattern);
@@ -96,7 +98,7 @@ int	is_pattern_matched(char *pattern, struct dirent *file, t_source *src)
 	return (1);
 }
 
-t_token	*handle_wildcard(t_source *src, t_token *token)
+int	handle_wildcard(t_source *src, t_token **token)
 {
 	char			*pattern;
 	DIR				*dir;
@@ -108,21 +110,19 @@ t_token	*handle_wildcard(t_source *src, t_token *token)
 	dir = opendir(find_hashtable(g_shell->env_global, "PWD"));
 	if (!dir)
 	{
-		// error
 		free(pattern);
-		return (0);
+		return (error_manager(ERRT_PWD_ERR, 0, 0));
 	}
 	file = readdir(dir);
 	while (file)
 	{
 		filename = ft_strdup(file->d_name);
 		if (is_pattern_matched(pattern, file, src))
-			push_back_token_list(&token, init_token(T_ID, filename));
+			push_back_token_list(token, init_token(T_ID, filename));
 		free(filename);
 		file = readdir(dir);
 	}
-	if (!token)
-		token = init_token(T_ID, pattern);
+	if (!(*token))
+		*token = init_token(T_ID, pattern);
 	free(pattern);
-	return (token);
 }

@@ -377,7 +377,8 @@ int	tokenize_word(t_source *src, t_token *token)
 		if (is_wildcard)
 		{
 			free(token);
-			return (handle_wildcard(src, NULL)); // TODO: how to return token ??
+			token = 0;
+			handle_wildcard(src, &token);
 		}
 		return (1);
 	}

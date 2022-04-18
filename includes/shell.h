@@ -97,7 +97,8 @@ typedef struct s_cmd_block
 
 typedef enum e_error_type
 {
-	ERRT_SYNTAX
+	ERRT_SYNTAX,
+	ERRT_PWD_ERR
 }	t_error_type;
 
 # include "executor.h"
