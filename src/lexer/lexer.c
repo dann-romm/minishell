@@ -67,16 +67,20 @@ void	put_env_into_src(t_source *src)
 	delete_source(&tmp);
 }
 
-t_token	*get_next_token(t_source *src)
+int	tokenize_end_of_file(t_source *src, t_token *token)
 {
-	t_token		*token;
-	int			is_wildcard;
-	int			require_bracket;
+	if (peek(src) == EOF || peek(src) == '\0')
+	{
+		token->type = T_EOF;
+		save_char(src, '\0');
+		next_char(src);
+		return (1);
+	}
+	return (0);
+}
 
-	token = init_token(T_ERROR, NULL);
-	if (!token)
-		return (NULL);
-	skip_comments(src);
+int	tokenize_ampersand(t_source *src, t_token *token)
+{
 	if (peek(src) == '&')
 	{
 		token->type = T_AND;
@@ -86,8 +90,14 @@ t_token	*get_next_token(t_source *src)
 			token->type = T_ANDAND;
 			save_char(src, next_char(src));
 		}
+		return (1);
 	}
-	else if (peek(src) == '|')
+	return (0);
+}
+
+int	tokenize_pipe(t_source *src, t_token *token)
+{
+	if (peek(src) == '|')
 	{
 		token->type = T_PIPE;
 		save_char(src, next_char(src));
@@ -96,8 +106,14 @@ t_token	*get_next_token(t_source *src)
 			token->type = T_OROR;
 			save_char(src, next_char(src));
 		}
+		return (1);
 	}
-	else if (peek(src) == '<')
+	return (0);
+}
+
+int	tokenize_less_than(t_source *src, t_token *token)
+{
+	if (peek(src) == '<')
 	{
 		token->type = T_LESS;
 		save_char(src, next_char(src));
@@ -121,8 +137,14 @@ t_token	*get_next_token(t_source *src)
 				save_char(src, next_char(src));
 			}
 		}
+		return (1);
 	}
-	else if (peek(src) == '>')
+	return (0);
+}
+
+int	tokenize_greater_than(t_source *src, t_token *token)
+{
+	if (peek(src) == '>')
 	{
 		token->type = T_GREAT;
 		save_char(src, next_char(src));
@@ -141,13 +163,25 @@ t_token	*get_next_token(t_source *src)
 			token->type = T_CLOBBER;
 			save_char(src, next_char(src));
 		}
+		return (1);
 	}
-	else if (peek(src) == '=')
+	return (0);
+}
+
+int	tokenize_equals(t_source *src, t_token *token)
+{
+	if (peek(src) == '=')
 	{
 		token->type = T_EQUALS;
 		save_char(src, next_char(src));
+		return (1);
 	}
-	else if (peek(src) == ';')
+	return (0);
+}
+
+int	tokenize_semicolon(t_source *src, t_token *token)
+{
+	if (peek(src) == ';')
 	{
 		token->type = T_SEMI;
 		save_char(src, next_char(src));
@@ -156,24 +190,44 @@ t_token	*get_next_token(t_source *src)
 			token->type = T_DSEMI;
 			save_char(src, next_char(src));
 		}
+		return (1);
 	}
-	else if (peek(src) == '`')
+	return (0);
+}
+
+int	tokenize_backtick(t_source *src, t_token *token)
+{
+	if (peek(src) == '`')
 	{
-		token->type = T_TICK;
-		save_char(src, next_char(src));
+		next_char(src);
+		while (peek(src) != EOF && peek(src) != '`')
+			save_char(src, next_char(src));
+		token->type = T_BACKTICK;
+		if (peek(src) == EOF)
+			token->type = T_ERROR;
+		else
+			next_char(src);
+		return (1);
 	}
-	else if (peek(src) == '\n')
+	return (0);
+}
+
+int	tokenize_newline(t_source *src, t_token *token)
+{
+	if (peek(src) == '\n')
 	{
 		token->type = T_NEWLINE;
 		save_char(src, next_char(src));
+		return (1);
 	}
-	else if (peek(src) == EOF || peek(src) == '\0')
-	{
-		token->type = T_EOF;
-		save_char(src, '\0');
-		next_char(src);
-	}
-	else if (peek(src) == '$')
+	return (0);
+}
+
+int	tokenize_dollar(t_source *src, t_token *token)
+{
+	int	require_bracket;
+
+	if (peek(src) == '$')
 	{
 		require_bracket = 0;
 		next_char(src);
@@ -183,22 +237,28 @@ t_token	*get_next_token(t_source *src)
 			put_exit_status_into_src(src);
 			token->type = T_ID;
 		}
-		else
+		else // TODO: special parameter https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
 		{
 			if (peek(src) == '{')
 			{
 				require_bracket = 1;
 				next_char(src);
 			}
-			put_env_into_src(src); // TODO: special parameter https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_06_02
+			put_env_into_src(src);
 			if (require_bracket && peek(src) != '}')
 				token->type = T_ERROR;
 			else if (require_bracket)
 				next_char(src);
 			token->type = T_ID;
 		}
+		return (1);
 	}
-	else if (peek(src) == '"')
+	return (0);
+}
+
+int	tokenize_double_quotes(t_source *src, t_token *token)
+{
+	if (peek(src) == '"')
 	{
 		token->type = T_ID;
 		next_char(src);
@@ -255,19 +315,14 @@ t_token	*get_next_token(t_source *src)
 			token->type = T_ERROR;
 		else if (peek(src) == '"')
 			next_char(src);
+		return (1);
 	}
-	else if (peek(src) == '`')
-	{
-		next_char(src);
-		while (peek(src) != EOF && peek(src) != '`')
-			save_char(src, next_char(src));
-		token->type = T_TICK;
-		if (peek(src) == EOF)
-			token->type = T_ERROR;
-		else
-			next_char(src);
-	}
-	else if (peek(src) == '\'')
+	return (0);
+}
+
+int	tokenize_quotes(t_source *src, t_token *token)
+{
+	if (peek(src) == '\'')
 	{
 		token->type = T_ID;
 		next_char(src);
@@ -295,15 +350,23 @@ t_token	*get_next_token(t_source *src)
 			token->type = T_ERROR;
 		else if (peek(src) == '\'')
 			next_char(src);
+		return (1);
 	}
-	else if (is_word_char(peek(src)))
+	return (0);
+}
+
+int	tokenize_word(t_source *src, t_token *token)
+{
+	int	is_wildcard;
+
+	if (is_word_char(peek(src)))
 	{
 		is_wildcard = 0;
 		token->type = T_ID;
 		while (is_word_char(peek(src)))
 		{
 			is_wildcard = is_wildcard || (peek(src) == '*');
-			if (peek(src) == '$')
+			if (peek(src) == '$') // tokenize_dollar
 			{
 				next_char(src);
 				put_env_into_src(src);
@@ -314,8 +377,72 @@ t_token	*get_next_token(t_source *src)
 		if (is_wildcard)
 		{
 			free(token);
-			return (handle_wildcard(src, NULL));
+			return (handle_wildcard(src, NULL)); // TODO: how to return token ??
 		}
+		return (1);
+	}
+	return (0);
+}
+
+t_token	*get_next_token(t_source *src)
+{
+	t_token		*token;
+
+	token = init_token(T_ERROR, NULL);
+	if (!token)
+		return (NULL);
+	skip_comments(src);
+	if (tokenize_ampersand(src, token))
+	{
+
+	}
+	else if (tokenize_pipe(src, token))
+	{
+		
+	}
+	else if (tokenize_less_than(src, token))
+	{
+
+	}
+	else if (tokenize_greater_than(src, token))
+	{
+
+	}
+	else if (tokenize_equals(src, token))
+	{
+		
+	}
+	else if (tokenize_semicolon(src, token))
+	{
+		
+	}
+	else if (tokenize_backtick(src, token))
+	{
+		
+	}
+	else if (tokenize_newline(src, token))
+	{
+		
+	}
+	else if (tokenize_end_of_file(src, token))
+	{
+
+	}
+	else if (tokenize_dollar(src, token))
+	{
+
+	}
+	else if (tokenize_double_quotes(src, token))
+	{
+		
+	}
+	else if (tokenize_quotes(src, token))
+	{
+
+	}
+	else if (tokenize_word(src, token))
+	{
+		
 	}
 	else
 		token->type = T_ERROR;

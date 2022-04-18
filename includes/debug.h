@@ -77,8 +77,8 @@ __attribute__((weak)) char	*_DEBUG_token_type_to_str(t_token_type type)
 			return ("T_SEMI");
 		case T_DSEMI:
 			return ("T_DSEMI");
-		case T_TICK:
-			return ("T_TICK");
+		case T_BACKTICK:
+			return ("T_BACKTICK");
 		case T_NEWLINE:
 			return ("T_NEWLINE");
 		default:
