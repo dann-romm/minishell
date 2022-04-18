@@ -3,6 +3,8 @@
 #include "readline/readline.h"
 #include "libft_funcs.h"
 
+// if there is a heredoc, writes input into HEREDOC_FILENAME file
+// and fills t_command_table fields
 void	handle_heredoc(t_command_table *table)
 {
 	const char	*limiter = table->redirect._stdin;

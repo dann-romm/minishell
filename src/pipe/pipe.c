@@ -36,7 +36,7 @@ int	ft_wait(t_pipex_data *data)
 		close(data->fd1);
 	if (data->fd2 != 1)
 		close(data->fd2);
-	unlink(HEREDOC_FILENAME);
+	// unlink(HEREDOC_FILENAME); TODO: remove heredoc file if there was a heredoc (how to know?)
 	signal(SIGINT, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
 	while (data->count_running_cmds-- > 0)

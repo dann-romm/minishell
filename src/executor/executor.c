@@ -3,7 +3,6 @@
 #include "libft_funcs.h"
 #include "builtin.h"
 #include "executor.h"
-#include "debug.h"
 
 void	exec_bin(t_command_table *table, t_pipex_data *data, int index)
 {

@@ -8,16 +8,12 @@ t_source	*init_source(char *str)
 
 	source = (t_source *)malloc(sizeof(t_source));
 	if (!source)
-	{
-		errno = ENOMEM;
 		return (NULL);
-	}
 	source->pos = -1;
 	source->bufsize = ft_strlen(str);
 	source->buffer = ft_strdup(str);
 	if (!source->buffer)
 	{
-		errno = ENOMEM;
 		free(source);
 		return (NULL);
 	}
@@ -26,7 +22,6 @@ t_source	*init_source(char *str)
 	source->str = (char *)malloc(sizeof(char) * 10);
 	if (!source->str)
 	{
-		errno = ENOMEM;
 		free(source->buffer);
 		free(source);
 		return (NULL);
@@ -38,10 +33,7 @@ t_source	*init_source(char *str)
 char	peek(t_source *src)
 {
 	if (!src || !src->buffer)
-	{
-		errno = ENODATA;
 		return (ERRCHAR);
-	}
 	if (src->pos + 1 >= src->bufsize)
 		return (EOF);
 	return (src->buffer[src->pos + 1]);
@@ -50,10 +42,7 @@ char	peek(t_source *src)
 char	peek2(t_source *src)
 {
 	if (!src || !src->buffer)
-	{
-		errno = ENODATA;
 		return (ERRCHAR);
-	}
 	if (src->pos + 2 >= src->bufsize)
 		return (EOF);
 	return (src->buffer[src->pos + 2]);
@@ -110,10 +99,7 @@ void	reallocate_str(t_source *src)
 	src->strsize *= 2;
 	tmp = (char *)malloc(sizeof(char) * (src->strsize + 1));
 	if (!tmp)
-	{
-		errno = ENOMEM;
 		return ;
-	}
 	src->str[src->strlen] = '\0';
 	ft_strcpy(tmp, src->str);
 	free(src->str);

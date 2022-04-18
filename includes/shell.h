@@ -95,9 +95,17 @@ typedef struct s_cmd_block
 	t_cmd_block_delimiter	delimiter;
 }	t_cmd_block;
 
+typedef enum e_error_type
+{
+	ERRT_SYNTAX
+}	t_error_type;
+
 # include "executor.h"
 
 t_shell	*g_shell;
+
+// error_managment.c
+int		error_manager(t_error_type type, const char *msg, int error_code);
 
 // prompt.c
 char	*read_input(char *prompt);

@@ -117,20 +117,20 @@ __attribute__((weak)) void	_DEBUG_print_token(t_token *token)
 {
 	if (!token)
 	{
-		printf("token is NULL\n");
+		dprintf(2, "token is NULL\n");
 		return ;
 	}
-	printf("token:\n   type:  %s\n   value: %s\n", _DEBUG_token_type_to_str(token->type), token->value);
+	dprintf(2, "token:\n   type:  %s\n   value: %s\n", _DEBUG_token_type_to_str(token->type), token->value);
 }
 
 __attribute__((weak)) void	_DEBUG_print_token_list(t_token *list)
 {
 	t_token	*tmp;
 
-	printf("<-------------- DEBUG PRINT TOKEN LIST -------------->\n");
+	dprintf(2, "<-------------- DEBUG PRINT TOKEN LIST -------------->\n");
 	if (!list)
 	{
-		printf("token list is NULL\n");
+		dprintf(2, "token list is NULL\n");
 		return ;
 	}
 	tmp = list;
@@ -154,7 +154,7 @@ __attribute__((weak)) int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
 		{
 			if (ht->hash(pair->key, ht->size) != index)
 			{
-				printf("ERROR: (%u) hash at index %u\n", ht->hash(pair->key, ht->size), index);
+				dprintf(2, "ERROR: (%u) hash at index %u\n", ht->hash(pair->key, ht->size), index);
 				exit(1);
 			}
 			pair = pair->next;
@@ -163,33 +163,32 @@ __attribute__((weak)) int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
 	return (0);
 }
 
-__attribute__((weak)) int	_DEBUG_print_command_table(t_command_table *table)
+__attribute__((weak)) void	_DEBUG_print_command_table(t_command_table *table)
 {
-	printf("<-------------- DEBUG PRINT CMD TABLE -------------->\n");
+	dprintf(2, "<-------------- DEBUG PRINT CMD TABLE -------------->\n");
 	if (!table)
 	{
-		printf("table is NULL\n");
-		return (0);
+		dprintf(2, "table is NULL\n");
+		return ;
 	}
-	printf("is_append: %d | stdin file:  %s\n", table->redirect.is_stdin_append, table->redirect._stdin);
-	printf("is_append: %d | stdout file: %s\n", table->redirect.is_stdout_append, table->redirect._stdout);
-	printf("commands: %d\n", table->commands_num);
+	dprintf(2, "is_append: %d | stdin file:  %s\n", table->redirect.is_stdin_append, table->redirect._stdin);
+	dprintf(2, "is_append: %d | stdout file: %s\n", table->redirect.is_stdout_append, table->redirect._stdout);
+	dprintf(2, "commands: %d\n", table->commands_num);
 	for (int i = 0; i < table->commands_num; i++)
 	{
-		printf("\t<===== SIMPLE COMMAND =====>\n");
+		dprintf(2, "\t<===== SIMPLE COMMAND =====>\n");
 		if (table->commands[i])
 		{
-			printf("\tbinary: %s\n", table->commands[i]->cmd);
-			printf("\ttype: %s\n", _DEBUG_cmd_type_to_str(table->commands[i]->type));
-			printf("\targs (%d):", table->commands[i]->args_num);
+			dprintf(2, "\tbinary: %s\n", table->commands[i]->cmd);
+			dprintf(2, "\ttype: %s\n", _DEBUG_cmd_type_to_str(table->commands[i]->type));
+			dprintf(2, "\targs (%d):", table->commands[i]->args_num);
 			for (int j = 0; j < table->commands[i]->args_num; j++)
-				printf(" %s", table->commands[i]->cmd_args[j]);
-			printf("\n");
+				dprintf(2, " %s", table->commands[i]->cmd_args[j]);
+			dprintf(2, "\n");
 		}
 		else
-			printf("\tsimple cmd is NULL\n");
+			dprintf(2, "\tsimple cmd is NULL\n");
 	}
-	return (0);
 }
 
 __attribute__((weak)) void	_DEBUG_print_hashtable(t_hashtable *ht)
@@ -198,19 +197,58 @@ __attribute__((weak)) void	_DEBUG_print_hashtable(t_hashtable *ht)
 	int		i;
 
 	i = -1;
-	printf("HASHTABLE: size=%d, count=%d, load_ratio=%.3f\n", ht->size, ht->count, (float)ht->count / ht->size);
+	dprintf(2, "HASHTABLE: size=%d, count=%d, load_ratio=%.3f\n", ht->size, ht->count, (float)ht->count / ht->size);
 	while (++i < ht->size)
 	{
 		pair = ht->table[i];
-		printf("table[%d]", i);
+		dprintf(2, "table[%d]", i);
 		while (pair)
 		{
-			printf(" -> (%s; %s)", pair->key, pair->value);
+			dprintf(2, " -> (%s; %s)", pair->key, pair->value);
 			pair = pair->next;
 		}
-		printf("\n");
+		dprintf(2, "\n");
 	}
-	printf("\n");
+	dprintf(2, "\n");
+}
+
+__attribute__((weak)) void	_DEBUG_print_cmd_blocks(t_cmd_block *cmd_blocks)
+{
+	dprintf(2, "<------------- DEBUG PRINT CMD BLOCKS ------------->\n");
+	if (!cmd_blocks)
+	{
+		dprintf(2, "cmd blocks is NULL\n");
+		return ;
+	}
+	int j = 0;
+	do
+	{
+		dprintf(2, "delimiter: %d\n", cmd_blocks[j].delimiter);
+		dprintf(2, "\t<====== DEBUG PRINT CMD TABLE ======>\n");
+		if (!cmd_blocks[j].table)
+		{
+			dprintf(2, "\ttable is NULL\n");
+			return ;
+		}
+		dprintf(2, "\tis_append: %d | stdin file:  %s\n", cmd_blocks[j].table->redirect.is_stdin_append, cmd_blocks[j].table->redirect._stdin);
+		dprintf(2, "\tis_append: %d | stdout file: %s\n", cmd_blocks[j].table->redirect.is_stdout_append, cmd_blocks[j].table->redirect._stdout);
+		dprintf(2, "\tcommands: %d\n", cmd_blocks[j].table->commands_num);
+		for (int i = 0; i < cmd_blocks[j].table->commands_num; i++)
+		{
+			dprintf(2, "\t\t<== SIMPLE COMMAND ==>\n");
+			if (cmd_blocks[j].table->commands[i])
+			{
+				dprintf(2, "\t\tbinary: %s\n", cmd_blocks[j].table->commands[i]->cmd);
+				dprintf(2, "\t\ttype: %s\n", _DEBUG_cmd_type_to_str(cmd_blocks[j].table->commands[i]->type));
+				dprintf(2, "\t\targs (%d):", cmd_blocks[j].table->commands[i]->args_num);
+				for (int k = 0; k < cmd_blocks[j].table->commands[i]->args_num; k++)
+					dprintf(2, " %s", cmd_blocks[j].table->commands[i]->cmd_args[k]);
+				dprintf(2, "\n");
+			}
+			else
+				dprintf(2, "\t\tsimple cmd is NULL\n");
+		}
+	} while (cmd_blocks[j++].delimiter != CMDBL_END);
 }
 
 #endif

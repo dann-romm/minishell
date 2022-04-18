@@ -2,8 +2,6 @@
 #include "shell.h"
 #include "libft_funcs.h"
 
-#include "debug.h" // to remove
-
 t_token	*init_token(t_token_type type, char *str)
 {
 	t_token	*token;

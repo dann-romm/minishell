@@ -57,12 +57,15 @@ LEXER_SRC				=	$(LEXER_SRCDIR)/lexer.c \
 							$(LEXER_SRCDIR)/wildcard.c
 
 PARSER_SRC				=	$(PARSER_SRCDIR)/parser.c \
+							$(PARSER_SRCDIR)/command_table.c \
 							$(PARSER_SRCDIR)/heredoc.c \
+							$(PARSER_SRCDIR)/parser_utils.c \
 							$(PARSER_SRCDIR)/simple_cmd.c
 
 PROMPT_SRC				=	$(PROMPT_SRCDIR)/prompt.c
 
 UTILS_SRC				=	$(UTILS_SRCDIR)/ft_split.c \
+							$(UTILS_SRCDIR)/error_manager.c \
 							$(UTILS_SRCDIR)/utils_ft.c
 
 HISTORY_SRC				=	$(HISTORY_SRCDIR)/history.c

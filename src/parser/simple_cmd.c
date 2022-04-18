@@ -3,6 +3,9 @@
 #include "parser.h"
 #include "libft_funcs.h"
 
+// calculate argument number before pipe
+// e.g. <echo> <1> <|> <ls> -> 2 (echo and 1)
+// e.g. <make> <re> -> 2 (make and re)
 int32_t	count_cmd_args(t_token *list)
 {
 	int32_t	i;
@@ -16,117 +19,96 @@ int32_t	count_cmd_args(t_token *list)
 	return (i);
 }
 
+// calculate space for t_simple_cmd struct and initialize it
 t_simple_cmd	*init_simple_cmd(t_token *list)
 {
-	t_simple_cmd	*command;
+	t_simple_cmd	*cmd;
 
 	if (!list)
 		return (NULL);
-	command = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
-	if (!command)
+	cmd = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
+	if (!cmd)
 		return (NULL);
-	command->args_num = count_cmd_args(list) - 1;
-	if (command->args_num)
-		command->cmd_args = (char **)malloc(sizeof(char *) * command->args_num);
+	cmd->args_num = count_cmd_args(list) - 1;
+	if (cmd->args_num)
+		cmd->cmd_args = (char **)malloc(sizeof(char *) * cmd->args_num);
 	else
-		command->cmd_args = NULL;
-	return (command);
-}
-
-int	delete_simple_cmd(t_simple_cmd **cmd)
-{
-	if (!cmd || !(*cmd))
-		return (1);
-
-	if ((*cmd)->cmd)
-	{
-		free((*cmd)->cmd);
-		(*cmd)->cmd = NULL;
-	}
-	while ((*cmd)->args_num--)
-	{
-		if ((*cmd)->cmd_args[(*cmd)->args_num])
-		{
-			free((*cmd)->cmd_args[(*cmd)->args_num]);
-			(*cmd)->cmd_args[(*cmd)->args_num] = NULL;
-		}
-	}
-	free((*cmd)->cmd_args);
-	(*cmd)->cmd_args = NULL;
-	free((*cmd));
-	*cmd = NULL;
-	return (0);
+		cmd->cmd_args = NULL;
+	return (cmd);
 }
 
 // 0 - no assignment found
 // 1 - assignment handled successfully
-int	handle_assignment(t_simple_cmd **command, t_token *list)
+// if there is an assignment, initialize cmd
+int	handle_assignment(t_simple_cmd **cmd, t_token *list)
 {
-	if (list->next && list->next->type == T_EQUALS)
-		*command = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
-	else
+	if (!list->next || list->next->type != T_EQUALS)
 		return (0);
-	if (!(*command))
+	*cmd = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
+	if (!(*cmd))
 		return (1);
-	(*command)->args_num = 2;
-	(*command)->cmd = NULL;
-	(*command)->type = CMD_ASSIGNMENT;
-	(*command)->cmd_args = (char **)malloc(sizeof(char *) * 2);
-	if (!(*command)->cmd_args)
+	(*cmd)->args_num = 2;
+	(*cmd)->cmd = NULL;
+	(*cmd)->type = CMD_ASSIGNMENT;
+	(*cmd)->cmd_args = (char **)malloc(sizeof(char *) * 2);
+	if (!(*cmd)->cmd_args)
 	{
-		free(*command);
-		*command = NULL;
+		free(*cmd);
+		*cmd = NULL;
 		return (1);
 	}
-	(*command)->cmd_args[0] = ft_strdup(list->value);
-	(*command)->cmd_args[1] = ft_strdup(list->next->next->value);
+	(*cmd)->cmd_args[0] = ft_strdup(list->value);
+	(*cmd)->cmd_args[1] = ft_strdup(list->next->next->value);
 	return (1);
 }
 
-int	define_cmd_type(t_simple_cmd *command)
+// defines t_simple_cmd type according to it's command name
+// e.g. if command->cmd == "pwd" then cmd_type == CMD_PWD
+int	define_cmd_type(t_simple_cmd *cmd)
 {
-	if (!command)
+	if (!cmd)
 		return (1);
-	if (!command->cmd)
+	if (!cmd->cmd)
 	{
-		command->type = CMD_NONE;
+		cmd->type = CMD_NONE;
 		return (0);
 	}
-	if (!ft_strcmp(command->cmd, "cd"))
-		command->type = CMD_CD;
-	else if (!ft_strcmp(command->cmd, "echo"))
-		command->type = CMD_ECHO;
-	else if (!ft_strcmp(command->cmd, "env"))
-		command->type = CMD_ENV;
-	else if (!ft_strcmp(command->cmd, "exit"))
-		command->type = CMD_EXIT;
-	else if (!ft_strcmp(command->cmd, "export"))
-		command->type = CMD_EXPORT;
-	else if (!ft_strcmp(command->cmd, "pwd"))
-		command->type = CMD_PWD;
-	else if (!ft_strcmp(command->cmd, "unset"))
-		command->type = CMD_UNSET;
+	if (!ft_strcmp(cmd->cmd, "cd"))
+		cmd->type = CMD_CD;
+	else if (!ft_strcmp(cmd->cmd, "echo"))
+		cmd->type = CMD_ECHO;
+	else if (!ft_strcmp(cmd->cmd, "env"))
+		cmd->type = CMD_ENV;
+	else if (!ft_strcmp(cmd->cmd, "exit"))
+		cmd->type = CMD_EXIT;
+	else if (!ft_strcmp(cmd->cmd, "export"))
+		cmd->type = CMD_EXPORT;
+	else if (!ft_strcmp(cmd->cmd, "pwd"))
+		cmd->type = CMD_PWD;
+	else if (!ft_strcmp(cmd->cmd, "unset"))
+		cmd->type = CMD_UNSET;
 	else
-		command->type = CMD_NONE;
+		cmd->type = CMD_NONE;
 	return (0);
 }
 
+// create t_simple_cmd from token list
 t_simple_cmd	*get_simple_cmd(t_token *list)
 {
-	t_simple_cmd	*command;
+	t_simple_cmd	*cmd;
 	int32_t			i;
 
-	if (handle_assignment(&command, list))
-		return (command);
-	command = init_simple_cmd(list);
-	command->cmd = ft_strdup(list->value);
+	if (handle_assignment(&cmd, list))
+		return (cmd);
+	cmd = init_simple_cmd(list);
+	cmd->cmd = ft_strdup(list->value);
 	list = list->next;
 	i = 0;
 	while (list && list->type != T_PIPE)
 	{
-		command->cmd_args[i++] = ft_strdup(list->value);
+		cmd->cmd_args[i++] = ft_strdup(list->value);
 		list = list->next;
 	}
-	define_cmd_type(command);
-	return (command);
+	define_cmd_type(cmd);
+	return (cmd);
 }
