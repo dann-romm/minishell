@@ -38,8 +38,7 @@ t_command_table	*init_command_table(t_token *list)
 		free(table);
 		return (NULL);
 	}
-	for (int i = 0; i < table->commands_num; i++) // replace with memset
-		table->commands[i] = NULL; // replace with memset
+	ft_memset(table->commands, 0, sizeof(t_simple_cmd *) * table->commands_num);
 	return (table);
 }
 
@@ -74,7 +73,10 @@ int	handle_redirect(t_command_table *table, t_token **list)
 			|| tmp->type == T_LESS || tmp->type == T_DLESS)
 		{
 			if (!tmp->next || tmp->next->type != T_ID)
-				return (1); // syntax error
+			{
+				printf("minishell: syntax error near unexpected token `%s'\n", tmp->value);
+				return (1);
+			}
 			if (tmp->type == T_GREAT || tmp->type == T_DGREAT)
 				table->redirect._stdout = ft_strdup(tmp->next->value);
 			if (tmp->type == T_LESS || tmp->type == T_DLESS)
@@ -203,11 +205,7 @@ int	init_cmd_block(t_token **list, t_cmd_block *cmd_blocks, int index, t_token *
 
 	table = create_command_table(list);
 	if (!table)
-	{
-
 		return (1);
-	}
-
 	cmd_blocks[index].table = table;
 	if (!delimiter || (delimiter->type == T_SEMI && !delimiter->next))
 		cmd_blocks[index].delimiter = CMDBL_END;
@@ -219,7 +217,7 @@ int	init_cmd_block(t_token **list, t_cmd_block *cmd_blocks, int index, t_token *
 		cmd_blocks[index].delimiter = CMDBL_SEMI;
 	else
 	{
-		errno = 1; // unknown error
+		errno = 1;
 		return (1);
 	}
 	return (0);
@@ -235,17 +233,18 @@ t_cmd_block	*parser(t_token **list)
 	t_token			*tmp2;
 
 	count_cmdbl = count_cmd_blocks(*list);
-	// printf("count_cmd_blocks = %d\n", count_cmdbl);
 	if (count_cmdbl < 1)
+	{
+		errno = 258;
 		return (NULL);
+	}
 
-	cmd_blocks = (t_cmd_block *)malloc(sizeof(t_cmd_block) * count_cmdbl); // calloc to set all fields with NULL
+	cmd_blocks = (t_cmd_block *)malloc(sizeof(t_cmd_block) * count_cmdbl);
 	if (!cmd_blocks)
 		return (NULL);
 
-	for (int j = 0; j < sizeof(t_cmd_block) * count_cmdbl; j++)
-		((char *)cmd_blocks)[j] = 0;
-	
+	ft_memset(cmd_blocks, 0, sizeof(t_cmd_block) * count_cmdbl);
+
 	i = -1;
 	while (*list)
 	{
@@ -254,16 +253,11 @@ t_cmd_block	*parser(t_token **list)
 			tmp = tmp->next;
 		tmp2 = tmp->next;
 		tmp->next = NULL;
-
 		if (init_cmd_block(list, cmd_blocks, ++i, tmp2))
 		{
 			free(cmd_blocks);
 			return (NULL);
 		}
-
-		// _DEBUG_print_command_table(cmd_blocks[i].table);
-		// dprintf(2, "cmd_blocks[i].delimiter = %d\n", cmd_blocks[i].delimiter);
-
 		tmp->next = tmp2;
 		list = &(tmp2);
 		if (tmp2)

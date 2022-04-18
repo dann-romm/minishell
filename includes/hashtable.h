@@ -5,7 +5,6 @@
 
 # include <stdlib.h>
 # include <errno.h>
-# include <string.h> // remove and write own memset()
 
 typedef struct s_pair
 {

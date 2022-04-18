@@ -25,18 +25,18 @@ void	exec_bin(t_command_table *table, t_pipex_data *data, int index)
 
 int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
 {
-	if (table->commands[index]->type == CMD_CD) //
+	if (table->commands[index]->type == CMD_CD)
 		return (ft_cd(table->commands[index]));
-	else if (table->commands[index]->type == CMD_EXPORT) //
+	else if (table->commands[index]->type == CMD_EXPORT)
 		return (ft_export(table->commands[index]));
-	else if (table->commands[index]->type == CMD_UNSET) //
+	else if (table->commands[index]->type == CMD_UNSET)
 		return (ft_unset(table->commands[index]));
-	else if (table->commands[index]->type == CMD_EXIT) //
+	else if (table->commands[index]->type == CMD_EXIT)
 	{
 		ft_exit(table->commands[index]->cmd_args, table->commands[index]->args_num);
 		return (0);
 	}
-	else if (table->commands[index]->type == CMD_ASSIGNMENT) //
+	else if (table->commands[index]->type == CMD_ASSIGNMENT)
 		return (ft_assignment(table->commands[index]));
 
 	else if (table->commands_num == 1)
@@ -52,7 +52,7 @@ int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
 	return (-1);
 }
 
-void	open_files(t_command_table *table, t_pipex_data *data) // add << (it's heredoc)
+void	open_files(t_command_table *table, t_pipex_data *data)
 {
 	if (table->redirect._stdin != 0)
 		data->fd1 = open(table->redirect._stdin, O_RDONLY);
@@ -162,8 +162,6 @@ int	execute(t_cmd_block *cmd_block)
 	int	status;
 
 	i = 0;
-	// _DEBUG_print_command_table(cmd_block[i].table);
-	// dprintf(2, "delimiter = %d\n", cmd_block[i].delimiter);
 	status = run_cmd_block(cmd_block[i].table);
 	while (cmd_block[i].delimiter != CMDBL_END)
 	{

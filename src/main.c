@@ -42,17 +42,6 @@ void	init_shell(char **env)
 	update_shlvl();
 }
 
-void	test(t_hashtable *ht, uint32_t size)
-{
-	ht->hash = djb2_hash;
-	ht->count = 0;
-	ht->size = size;
-	ht->table = malloc(sizeof(t_pair *) * ht->size);
-	while (size)
-		ht->table[--size] = NULL;
-}
-
-
 int	main(int argc, char **argv, char **env)
 {
 	char			*input;
@@ -60,7 +49,6 @@ int	main(int argc, char **argv, char **env)
 	t_cmd_block		*cmd_block;
 
 	init_shell(env);
-
 	while (1)
 	{
 		signal(SIGINT, signal_handler);
@@ -68,15 +56,12 @@ int	main(int argc, char **argv, char **env)
 		input = prompt1();
 		add_history(input);
 		list = create_token_list(input);
-
-		// _DEBUG_print_token_list(list);
 		signal(SIGINT, SIG_IGN);
 		cmd_block = parser(&list);
 		if (!cmd_block)
 			g_shell->exit_status = errno;
 		else
 			g_shell->exit_status = execute(cmd_block);
-
 		delete_token_list(&list);
 		free(input);
 	}
