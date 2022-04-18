@@ -7,21 +7,16 @@ t_pair	*init_pair(char *key, char *value)
 
 	pair = malloc(sizeof(t_pair));
 	if (!pair)
-	{
-		errno = ENOMEM;
 		return (NULL);
-	}
 	pair->key = ft_strdup(key);
 	if (!pair->key)
 	{
-		errno = ENOMEM;
 		free(pair);
 		return (NULL);
 	}
 	pair->value = ft_strdup(value);
 	if (!pair)
 	{
-		errno = ENOMEM;
 		free(pair->key);
 		free(pair);
 		return (NULL);

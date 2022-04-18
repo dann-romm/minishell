@@ -22,6 +22,7 @@ int			ft_atoi(char *str);
 char		*ft_itoa(int n);
 int			ft_numlen(char *str);
 
+void		*ft_memset(void *b, int c, size_t len);
 char		**ft_split(char const *s, char c);
 char		*ft_strjoin(char *s1, char *s2);
 void		ft_putstr(char *s);

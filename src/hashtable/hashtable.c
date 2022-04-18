@@ -6,68 +6,20 @@ t_hashtable	*init_hashtable(uint32_t size)
 {
 	t_hashtable	*ht;
 
-	ht = malloc(sizeof(t_hashtable));
+	ht = (t_hashtable *)malloc(sizeof(t_hashtable));
 	if (!ht)
-	{
-		errno = ENOMEM;
 		return (NULL);
-	}
 	ht->hash = djb2_hash;
 	ht->count = 0;
 	ht->size = size;
 	ht->table = malloc(sizeof(t_pair *) * ht->size);
 	if (!ht->table)
 	{
-		errno = ENOMEM;
 		free(ht);
 		return (NULL);
 	}
-	while (size)
-		ht->table[--size] = NULL;
+	ft_memset(ht->table, 0, sizeof(t_pair *) * ht->size);
 	return (ht);
-}
-
-int partition(char **str, int l, int r)
-{
-	char	*mid = str[(l + r) / 2];
-	int		i = l;
-	int		j = r;
-	char	*tmp;
-	while (i <= j) 
-	{
-		while (ft_strcmp(str[i], mid) < 0)
-			i++;
-		while (ft_strcmp(str[j], mid) > 0)
-			j--;
-		if (i > j)
-			break;
-		tmp = str[i];
-		str[i] = str[j];
-		str[j] = tmp;
-		i++;
-	}
-	return j;
-}
-
-void quick_sort(char **str, int l, int r)
-{
-	int diff = 0;
-	if (l < r)
-	{
-		diff = partition(str, l, r);
-		quick_sort(str, l, diff);
-		quick_sort(str, diff + 1, r);
-	}
-}
-
-char	**sort_hashtable(t_hashtable *ht)
-{
-	char **tmp = ht_to_array(ht);
-	int strlen = 0, i = 3;
-	while (tmp[strlen])
-		strlen++;
-	quick_sort(tmp, i, strlen - 1);
-	return (tmp);
 }
 
 int32_t	insert_hashtable(t_hashtable *ht, char *key, char *value)
@@ -146,8 +98,6 @@ void	delete_hashtable(t_hashtable **ht)
 	free(*ht);
 	*ht = NULL;
 }
-
-#include <stdio.h>
 
 uint32_t	rehashing(t_hashtable *ht)
 {

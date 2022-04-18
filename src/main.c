@@ -2,12 +2,28 @@
 #include "lexer.h"
 #include "hashtable.h"
 #include "libft_funcs.h"
-#include "builtin.h"
 #include "parser.h"
 #include "executor.h"
 #include "prompt.h"
 #include "signals.h"
 #include "debug.h"
+
+// echo 123$PWD
+// echo 123 $PWD
+
+void	update_shlvl(void)
+{
+	char	*shlvl;
+
+	shlvl = find_hashtable(g_shell->env_global, "SHLVL");
+	if (!shlvl)
+	{
+		errno = 1;
+		return ;
+	}
+	shlvl = ft_itoa(ft_atoi(shlvl) + 1);
+	insert_hashtable(g_shell->env_global, "SHLVL", shlvl);
+}
 
 void	init_shell(char **env)
 {
@@ -23,18 +39,8 @@ void	init_shell(char **env)
 	insert_hashtable(g_shell->env_global, "PS1", "minishell > ");
 	insert_hashtable(g_shell->env_global, "PS2", "> ");
 	g_shell->exit_status = 0;
+	update_shlvl();
 }
-
-void	test(t_hashtable *ht, uint32_t size)
-{
-	ht->hash = djb2_hash;
-	ht->count = 0;
-	ht->size = size;
-	ht->table = malloc(sizeof(t_pair *) * ht->size);
-	while (size)
-		ht->table[--size] = NULL;
-}
-
 
 int	main(int argc, char **argv, char **env)
 {
@@ -43,7 +49,6 @@ int	main(int argc, char **argv, char **env)
 	t_cmd_block		*cmd_block;
 
 	init_shell(env);
-
 	while (1)
 	{
 		signal(SIGINT, signal_handler);
@@ -51,15 +56,12 @@ int	main(int argc, char **argv, char **env)
 		input = prompt1();
 		add_history(input);
 		list = create_token_list(input);
-
-		// _DEBUG_print_token_list(list);
 		signal(SIGINT, SIG_IGN);
 		cmd_block = parser(&list);
 		if (!cmd_block)
 			g_shell->exit_status = errno;
 		else
 			g_shell->exit_status = execute(cmd_block);
-
 		delete_token_list(&list);
 		free(input);
 	}

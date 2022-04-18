@@ -23,6 +23,18 @@ int	is_space(char c)
 		|| c == '\f' || c == '\r' || c == ' ');
 }
 
+void	*ft_memset(void *b, int c, size_t len)
+{
+	unsigned int	i;
+	char			*str;
+
+	str = (char *) b;
+	i = 0;
+	while (i < len)
+		str[i++] = (unsigned char) c;
+	return (b);
+}
+
 char	*ft_strcpy(char *dest, char *src)
 {
 	int	i;

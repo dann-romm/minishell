@@ -48,7 +48,8 @@ EXECUTOR_SRC			=	$(EXECUTOR_SRCDIR)/executor.c
 HASHTABLE_SRC			=	$(HASHTABLE_SRCDIR)/hashtable.c \
 							$(HASHTABLE_SRCDIR)/pair.c \
 							$(HASHTABLE_SRCDIR)/hash.c \
-							$(HASHTABLE_SRCDIR)/fill_hashtable.c
+							$(HASHTABLE_SRCDIR)/fill_hashtable.c \
+							$(HASHTABLE_SRCDIR)/sort_hashtable.c
 
 LEXER_SRC				=	$(LEXER_SRCDIR)/lexer.c \
 							$(LEXER_SRCDIR)/source.c \
@@ -56,12 +57,12 @@ LEXER_SRC				=	$(LEXER_SRCDIR)/lexer.c \
 							$(LEXER_SRCDIR)/wildcard.c
 
 PARSER_SRC				=	$(PARSER_SRCDIR)/parser.c \
+							$(PARSER_SRCDIR)/heredoc.c \
 							$(PARSER_SRCDIR)/simple_cmd.c
 
 PROMPT_SRC				=	$(PROMPT_SRCDIR)/prompt.c
 
 UTILS_SRC				=	$(UTILS_SRCDIR)/ft_split.c \
-							$(UTILS_SRCDIR)/heredoc.c \
 							$(UTILS_SRCDIR)/utils_ft.c
 
 HISTORY_SRC				=	$(HISTORY_SRCDIR)/history.c
