@@ -66,14 +66,17 @@ typedef struct s_token
 }	t_token;
 
 // source.c
-t_source		*init_source(char *str);
-void			delete_source(t_source **src);
 char			peek(t_source *src);
 char			peek2(t_source *src);
 char			next_char(t_source *src);
 void			unget_char(t_source *src);
-void			skip_whitespaces(t_source *src);
 void			save_char(t_source *src, char c);
+
+// source_utils.c
+t_source		*init_source(char *str);
+void			delete_source(t_source **src);
+void			reallocate_str(t_source *src);
+void			skip_whitespaces(t_source *src);
 void			clear_str(t_source *src);
 
 // lexer.c
