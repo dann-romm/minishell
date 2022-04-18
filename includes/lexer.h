@@ -54,7 +54,7 @@ typedef enum e_token_type
 	T_CLOBBER, // >|
 	T_SEMI, // ;
 	T_DSEMI, // ;;
-	T_TICK, // `
+	T_BACKTICK, // `
 	T_NEWLINE // \n
 }	t_token_type;
 
