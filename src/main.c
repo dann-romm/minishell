@@ -2,12 +2,28 @@
 #include "lexer.h"
 #include "hashtable.h"
 #include "libft_funcs.h"
-#include "builtin.h"
 #include "parser.h"
 #include "executor.h"
 #include "prompt.h"
 #include "signals.h"
 #include "debug.h"
+
+// echo 123$PWD
+// echo 123 $PWD
+
+void	update_shlvl(void)
+{
+	char	*shlvl;
+
+	shlvl = find_hashtable(g_shell->env_global, "SHLVL");
+	if (!shlvl)
+	{
+		errno = 1;
+		return ;
+	}
+	shlvl = ft_itoa(ft_atoi(shlvl) + 1);
+	insert_hashtable(g_shell->env_global, "SHLVL", shlvl);
+}
 
 void	init_shell(char **env)
 {
@@ -23,6 +39,7 @@ void	init_shell(char **env)
 	insert_hashtable(g_shell->env_global, "PS1", "minishell > ");
 	insert_hashtable(g_shell->env_global, "PS2", "> ");
 	g_shell->exit_status = 0;
+	update_shlvl();
 }
 
 void	test(t_hashtable *ht, uint32_t size)
