@@ -46,15 +46,8 @@ int	handle_parse_error(t_command_table *table, t_token **list)
 	tmp = *list;
 	while (tmp)
 	{
-		if (tmp->type == T_EQUALS && !tmp->next)
-			return (error_manager(ERRT_SYNTAX, "newline", 1));
-		else if (is_cmd == 0 && (tmp->type == T_PIPE || tmp->type == T_EQUALS))
+		if (is_cmd == 0 && tmp->type == T_PIPE)
 			return (error_manager(ERRT_SYNTAX, tmp->value, 1));
-		else if (tmp->type == T_EQUALS && tmp->next->type != T_ID)
-			return (error_manager(ERRT_SYNTAX, tmp->next->value, 1));
-		else if ((tmp->type == T_EQUALS && tmp->next->next != 0
-				&& tmp->next->next->type != T_PIPE))
-			return (error_manager(ERRT_SYNTAX, "|", 1));
 		else if (tmp->type == T_ID)
 			is_cmd = 1;
 		else if (tmp->type == T_PIPE)

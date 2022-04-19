@@ -40,26 +40,26 @@ t_simple_cmd	*init_simple_cmd(t_token *list)
 // 0 - no assignment found
 // 1 - assignment handled successfully
 // if there is an assignment, initialize cmd
-int	handle_assignment(t_simple_cmd **cmd, t_token *list)
+int	handle_assignment(t_simple_cmd **cmd, t_token *list) // TODO: handle assignment
 {
-	if (!list->next || list->next->type != T_EQUALS)
+	// if (!list->next || list->next->type != T_EQUALS)
 		return (0);
-	*cmd = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
-	if (!(*cmd))
-		return (1);
-	(*cmd)->args_num = 2;
-	(*cmd)->cmd = NULL;
-	(*cmd)->type = CMD_ASSIGNMENT;
-	(*cmd)->cmd_args = (char **)malloc(sizeof(char *) * 2);
-	if (!(*cmd)->cmd_args)
-	{
-		free(*cmd);
-		*cmd = NULL;
-		return (1);
-	}
-	(*cmd)->cmd_args[0] = ft_strdup(list->value);
-	(*cmd)->cmd_args[1] = ft_strdup(list->next->next->value);
-	return (1);
+	// *cmd = (t_simple_cmd *)malloc(sizeof(t_simple_cmd));
+	// if (!(*cmd))
+	// 	return (1);
+	// (*cmd)->args_num = 2;
+	// (*cmd)->cmd = NULL;
+	// (*cmd)->type = CMD_ASSIGNMENT;
+	// (*cmd)->cmd_args = (char **)malloc(sizeof(char *) * 2);
+	// if (!(*cmd)->cmd_args)
+	// {
+	// 	free(*cmd);
+	// 	*cmd = NULL;
+	// 	return (1);
+	// }
+	// (*cmd)->cmd_args[0] = ft_strdup(list->value);
+	// (*cmd)->cmd_args[1] = ft_strdup(list->next->next->value);
+	// return (1);
 }
 
 // defines t_simple_cmd type according to it's command name
