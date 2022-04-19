@@ -5,7 +5,7 @@ char	*prompt1(void) //fix the output
 {
 	char 	*input;
 
-	input = readline(find_hashtable(g_shell->env_global, "PS1"));
+	input = readline(find_hashtable(g_shell->env_local, "PS1"));
 	if (!input)
 	{
 		rl_redisplay();
@@ -18,5 +18,5 @@ char	*prompt1(void) //fix the output
 
 char	*prompt2(void)
 {
-	return (readline(find_hashtable(g_shell->env_global, "PS2")));
+	return (readline(find_hashtable(g_shell->env_local, "PS2")));
 }

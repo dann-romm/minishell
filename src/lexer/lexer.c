@@ -18,8 +18,6 @@ static int	is_valid_token(t_token *token)
 	return (1);
 }
 
-#include "debug.h"
-
 t_token	*lexer(char *input)
 {
 	t_source	*src;

@@ -35,22 +35,24 @@ char	next_char(t_source *src)
 	return (src->buffer[src->pos]);
 }
 
-void	unget_char(t_source *src)
+int	unget_char(t_source *src)
 {
 	if (src->pos < 0)
-		return ;
+		return (1);
 	src->pos--;
+	return (0);
 }
 
-void	save_char(t_source *src, char c)
+int	save_char(t_source *src, char c)
 {
 	if (!src || !src->str)
 	{
 		errno = ENODATA;
-		return ;
+		return (1);
 	}
 	src->str[src->strlen++] = c;
 	if (src->strlen == src->strsize)
 		reallocate_str(src);
 	src->str[src->strlen] = '\0';
+	return (0);
 }

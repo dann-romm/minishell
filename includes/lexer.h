@@ -69,21 +69,29 @@ typedef struct s_token
 char			peek(t_source *src);
 char			peek2(t_source *src);
 char			next_char(t_source *src);
-void			unget_char(t_source *src);
-void			save_char(t_source *src, char c);
+int				unget_char(t_source *src);
+int				save_char(t_source *src, char c);
 
 // source_utils.c
 t_source		*init_source(char *str);
-void			delete_source(t_source **src);
-void			reallocate_str(t_source *src);
-void			skip_whitespaces(t_source *src);
-void			clear_str(t_source *src);
+int				delete_source(t_source **src);
+int				reallocate_str(t_source *src);
+int				skip_whitespaces(t_source *src);
+int				clear_str(t_source *src);
 
 // lexer.c
+t_token			*lexer(char *input);
+
+// get_next_token.c
 t_token			*get_next_token(t_source *src);
 
+// tokenize_dollar.c
+int				tokenize_dollar(t_source *src, t_token *token);
+
+// tokenize_word.c
+int				tokenize_word(t_source *src, t_token *token);
+
 // token.c
-t_token			*lexer(char *input);
 t_token			*init_token(t_token_type type, char *str);
 int				delete_token(t_token **token);
 int				push_back_token_list(t_token **head, t_token *node);

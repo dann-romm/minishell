@@ -33,8 +33,8 @@ void	init_shell(char **env)
 	g_shell->env_global = init_hashtable(10);
 	g_shell->env_local = init_hashtable(10);
 	fill_hashtable(env);
-	insert_hashtable(g_shell->env_global, "PS1", "minishell > ");
-	insert_hashtable(g_shell->env_global, "PS2", "> ");
+	insert_hashtable(g_shell->env_local, "PS1", "minishell > ");
+	insert_hashtable(g_shell->env_local, "PS2", "> ");
 	insert_hashtable(g_shell->env_global, "_", "/usr/bin/env");
 	g_shell->exit_status = 0;
 	update_shlvl();

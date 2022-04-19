@@ -30,53 +30,49 @@ t_source	*init_source(char *str)
 	return (source);
 }
 
-void	reallocate_str(t_source *src)
+int	reallocate_str(t_source *src)
 {
 	char	*tmp;
 
 	if (!src || !src->str)
 	{
 		errno = ENODATA;
-		return ;
+		return (1);
 	}
 	src->strsize *= 2;
 	tmp = (char *)malloc(sizeof(char) * (src->strsize + 1));
 	if (!tmp)
-		return ;
+		return (1);
 	src->str[src->strlen] = '\0';
 	ft_strcpy(tmp, src->str);
 	free(src->str);
 	src->str = tmp;
+	return (0);
 }
 
-void	skip_whitespaces(t_source *src)
+int	skip_whitespaces(t_source *src)
 {
-	char	c;
-
 	if (!src || !src->buffer)
 	{
 		errno = ENODATA;
-		return ;
+		return (1);
 	}
-	c = peek(src);
-	while (c == '\t' || c == '\n' || c == '\v'
-		|| c == '\f' || c == '\r' || c == ' ')
-	{
+	while (is_space(peek(src)))
 		next_char(src);
-		c = peek(src);
-	}
+	return (0);
 }
 
-void	clear_str(t_source *src)
+int	clear_str(t_source *src)
 {
 	src->strlen = 0;
 	src->str[0] = '\0';
+	return (0);
 }
 
-void	delete_source(t_source **src)
+int	delete_source(t_source **src)
 {
 	if (!src)
-		return ;
+		return (1);
 	if (*src)
 	{
 		if ((*src)->buffer)
@@ -86,4 +82,5 @@ void	delete_source(t_source **src)
 		free(*src);
 		*src = NULL;
 	}
+	return (0);
 }
