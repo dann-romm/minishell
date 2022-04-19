@@ -19,6 +19,17 @@ void	print_export_ht(t_hashtable *ht)
 	}
 }
 
+// TODO:
+
+// пример параметра t_simple_cmd:
+// type = CMD_EXPORT
+// cmd = "export"
+// args_num = 4
+// args[4] = ["a", "b", "123rr", "-123"]
+
+// перенести (если есть) все переменные args из local_env (если они там есть) в global_env
+// на каждую невалидную переменную вывести ошибку
+
 int	ft_export(t_simple_cmd *cmd)
 {
 	int		i;

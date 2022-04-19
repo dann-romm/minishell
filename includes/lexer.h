@@ -88,6 +88,13 @@ int				tokenize_end_of_line(t_source *src, t_token *token);
 int				tokenize_pipe(t_source *src, t_token *token);
 int				tokenize_tilde(t_source *src, t_token *token);
 
+// tokenize_utils.c
+int				tokenize_ampersand(t_source *src, t_token *token);
+int				tokenize_less_than(t_source *src, t_token *token);
+int				tokenize_greater_than(t_source *src, t_token *token);
+int				tokenize_semicolon(t_source *src, t_token *token);
+int				tokenize_backtick(t_source *src, t_token *token);
+
 // tokenize_dollar.c
 int				tokenize_dollar(t_source *src, t_token *token);
 

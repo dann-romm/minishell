@@ -3,29 +3,31 @@
 
 int	partition(char **str, int l, int r)
 {
-	char	*mid = str[(l + r) / 2];
-	int		i = l;
-	int		j = r;
+	char	*mid;
 	char	*tmp;
-	while (i <= j) 
+
+	mid = str[(l + r) / 2];
+	while (l <= r)
 	{
-		while (ft_strcmp(str[i], mid) < 0)
-			i++;
-		while (ft_strcmp(str[j], mid) > 0)
-			j--;
-		if (i > j)
+		while (ft_strcmp(str[l], mid) < 0)
+			l++;
+		while (ft_strcmp(str[r], mid) > 0)
+			r--;
+		if (l > r)
 			break;
-		tmp = str[i];
-		str[i] = str[j];
-		str[j] = tmp;
-		i++;
+		tmp = str[l];
+		str[l] = str[r];
+		str[r] = tmp;
+		l++;
 	}
-	return j;
+	return (r);
 }
 
 void	quick_sort(char **str, int l, int r)
 {
-	int diff = 0;
+	int	diff;
+
+	diff = 0;
 	if (l < r)
 	{
 		diff = partition(str, l, r);
@@ -36,8 +38,13 @@ void	quick_sort(char **str, int l, int r)
 
 char	**sort_hashtable(t_hashtable *ht)
 {
-	char **tmp = ht_to_array(ht);
-	int strlen = 0, i = 3;
+	char	**tmp;
+	int		strlen;
+	int		i;
+
+	tmp = ht_to_array(ht);
+	strlen = 0;
+	i = 3;
 	while (tmp[strlen])
 		strlen++;
 	quick_sort(tmp, i, strlen - 1);
