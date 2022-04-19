@@ -13,13 +13,29 @@ void	skip_comments(t_source *src)
 	}
 }
 
+// * ? [ ]
+// ( )
+// $ & | ; < >
+int	is_char_word(char c)
+{
+	return (is_alnum(c) || ( !is_space(c)
+		&& c > 0
+		&& c != '&'
+		&& c != '|'
+		&& c != ';'
+		&& c != '<'
+		&& c != '>'
+		&& c != '('
+		&& c != ')'));
+}
+
 void	put_exit_status_into_src(t_source *src)
 {
 	const char	*exit_status = ft_itoa(g_shell->exit_status);
 	int			i;
 
 	if (!exit_status)
-		return ; // error
+		return ;
 	i = 0;
 	while (exit_status[i])
 		save_char(src, exit_status[i++]);
@@ -279,10 +295,9 @@ int	tokenize_double_quotes(t_source *src, t_token *token)
 				else
 					save_char(src, next_char(src));
 			}
-			else if (peek(src) == '$')
+			else if (tokenize_dollar(src, token))
 			{
-				next_char(src);
-				put_env_into_src(src);
+
 			}
 			else
 				save_char(src, next_char(src));
@@ -337,7 +352,7 @@ int	tokenize_word(t_source *src, t_token *token)
 
 	is_wildcard = 0;
 	token->type = T_ID;
-	while (peek(src) != EOF && !is_space(peek(src)))
+	while (is_char_word(peek(src)))
 	{
 		is_wildcard = is_wildcard || (peek(src) == '*');
 		if (tokenize_dollar(src, token))
