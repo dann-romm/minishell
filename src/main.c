@@ -6,7 +6,7 @@
 #include "executor.h"
 #include "prompt.h"
 #include "signals.h"
-// #include "debug.h"
+#include "debug.h"
 
 void	update_shlvl(void)
 {
@@ -35,6 +35,7 @@ void	init_shell(char **env)
 	fill_hashtable(env);
 	insert_hashtable(g_shell->env_global, "PS1", "minishell > ");
 	insert_hashtable(g_shell->env_global, "PS2", "> ");
+	insert_hashtable(g_shell->env_global, "_", "/usr/bin/env");
 	g_shell->exit_status = 0;
 	update_shlvl();
 }

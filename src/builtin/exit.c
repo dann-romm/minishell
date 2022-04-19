@@ -11,7 +11,7 @@ int	ft_exit(char **cmd_args, int args_num) //TODO: free all structures and array
 	{
 		if (!is_str_numeric(cmd_args[0]))
 		{
-			printf("minishell: exit: %s: numeric argument required\n", cmd_args[0]);
+			printf("minishell: exit: %s: Numeric argument required\n", cmd_args[0]);
 			errno = 255;
 			exit(errno);
 		}
@@ -20,7 +20,7 @@ int	ft_exit(char **cmd_args, int args_num) //TODO: free all structures and array
 	}
 	else
 	{
-		printf("minishell: exit: too many arguments\n");
+		printf("minishell: exit: Too many arguments\n");
 		errno = 1;
 	}
 	return (0);
