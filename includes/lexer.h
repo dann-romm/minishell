@@ -44,7 +44,6 @@ typedef enum e_token_type
 	T_OROR, // ||
 	T_LESS, // <
 	T_GREAT, // >
-	T_EQUALS, // =
 	T_DGREAT, // >>
 	T_DLESS, // <<
 	T_LESSAND, // <&

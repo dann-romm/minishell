@@ -12,7 +12,7 @@ void	print_export_ht(t_hashtable *ht)
 	array_env = sort_hashtable(ht);
 	while (array_env[i])
 	{
-		parts_of_array = ft_split(array_env[i], '=');
+		parts_of_array = ft_split(array_env[i], '='); // TODO: test with a='==='
 		printf("declare -x %s=\"%s\"\n", parts_of_array[0], parts_of_array[1]);
 		free_2d_array(parts_of_array);
 		i++;

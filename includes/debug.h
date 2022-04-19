@@ -57,8 +57,6 @@ __attribute__((weak)) char	*_DEBUG_token_type_to_str(t_token_type type)
 			return ("T_LESS");
 		case T_GREAT:
 			return ("T_GREAT");
-		case T_EQUALS:
-			return ("T_EQUALS");
 		case T_DGREAT:
 			return ("T_DGREAT");
 		case T_DLESS:
@@ -163,6 +161,22 @@ __attribute__((weak)) int	_DEBUG_assert_right_hashtable(t_hashtable *ht)
 	return (0);
 }
 
+__attribute__((weak)) void	_DEBUG_print_simple_cmd(t_simple_cmd *cmd)
+{
+	dprintf(2, "<------------ DEBUG PRINT SIMPLE COMMAND ------------>\n");
+	if (cmd)
+	{
+		dprintf(2, "binary: %s\n", cmd->cmd);
+		dprintf(2, "type: %s\n", _DEBUG_cmd_type_to_str(cmd->type));
+		dprintf(2, "args (%d):", cmd->args_num);
+		for (int j = 0; j < cmd->args_num; j++)
+			dprintf(2, " %s", cmd->cmd_args[j]);
+		dprintf(2, "\n");
+	}
+	else
+		dprintf(2, "simple cmd is NULL\n");
+}
+
 __attribute__((weak)) void	_DEBUG_print_command_table(t_command_table *table)
 {
 	dprintf(2, "<-------------- DEBUG PRINT CMD TABLE -------------->\n");
@@ -224,7 +238,7 @@ __attribute__((weak)) void	_DEBUG_print_cmd_blocks(t_cmd_block *cmd_blocks)
 	do
 	{
 		dprintf(2, "delimiter: %d\n", cmd_blocks[j].delimiter);
-		dprintf(2, "\t<====== DEBUG PRINT CMD TABLE ======>\n");
+		dprintf(2, "\t<========= CMD TABLE =========>\n");
 		if (!cmd_blocks[j].table)
 		{
 			dprintf(2, "\ttable is NULL\n");
