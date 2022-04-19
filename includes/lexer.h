@@ -83,6 +83,10 @@ t_token			*lexer(char *input);
 
 // get_next_token.c
 t_token			*get_next_token(t_source *src);
+void			skip_comments(t_source *src);
+int				tokenize_end_of_line(t_source *src, t_token *token);
+int				tokenize_pipe(t_source *src, t_token *token);
+int				tokenize_tilde(t_source *src, t_token *token);
 
 // tokenize_dollar.c
 int				tokenize_dollar(t_source *src, t_token *token);
