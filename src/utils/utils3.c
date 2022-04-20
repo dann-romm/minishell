@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:13:30 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/20 23:46:47 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 02:25:12 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,41 +34,6 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-char	*ft_strcat(char *dst, char *src)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	while (dst[i] != '\0')
-		i++;
-	len = i;
-	i = -1;
-	while (src[++i] != '\0')
-		dst[i + len] = src[i];
-	dst[i + len] = '\0';
-	return (dst);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	char	*arr;
-	int		len_s1;
-	int		len_s2;
-
-	if (s1 == 0 || s2 == 0)
-		return (0);
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	arr = (char *)malloc(sizeof(char) * (len_s1 + len_s2) + 1);
-	if (arr == 0)
-		return (0);
-	arr[0] = 0;
-	ft_strcat(arr, s1);
-	ft_strcat(arr, s2);
-	return (arr);
-}
-
 char	*ft_strdup(char *str)
 {
 	char	*p;
@@ -83,4 +48,39 @@ char	*ft_strdup(char *str)
 		p[i] = str[i];
 	p[i] = '\0';
 	return (p);
+}
+
+void	*ft_memset(void *b, int c, size_t len)
+{
+	unsigned int	i;
+	char			*str;
+
+	str = (char *) b;
+	i = 0;
+	while (i < len)
+		str[i++] = (unsigned char) c;
+	return (b);
+}
+
+void	*ft_memmove(void *dst, const void *src, size_t len)
+{
+	size_t	i;
+
+	if (!dst && !src)
+		return (dst);
+	if ((unsigned long long)dst < (unsigned long long)src)
+	{
+		i = 0;
+		while (i < len)
+		{
+			((char *)dst)[i] = ((char *)src)[i];
+			i++;
+		}
+	}
+	else
+	{
+		while (len--)
+			((char *)dst)[len] = ((char *)src)[len];
+	}
+	return (dst);
 }

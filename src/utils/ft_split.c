@@ -6,11 +6,11 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 13:11:30 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/03/16 17:36:43 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 02:37:37 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "shell.h"
+#include <stdlib.h>
 
 static int	ft_seps(char const *s, char c)
 {

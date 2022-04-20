@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:42:56 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/20 22:42:57 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 01:51:42 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,19 @@ static void	delete_shell(void)
 	delete_hashtable(&(g_shell->env_global));
 	delete_hashtable(&(g_shell->env_local));
 	free(g_shell);
+}
+
+static int	is_str_numeric(char *str)
+{
+	int	i;
+
+	i = -1;
+	while (str[++i])
+	{
+		if (!is_numeric(str[i]))
+			return (0);
+	}
+	return (1);
 }
 
 int	ft_exit(char **cmd_args, int args_num)

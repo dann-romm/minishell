@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/21 02:29:28 by doalbaco          #+#    #+#             */
+/*   Updated: 2022/04/21 02:29:50 by doalbaco         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "lexer.h"
 #include "hashtable.h"
@@ -7,7 +19,6 @@
 #include "prompt.h"
 #include "signals.h"
 #include "history.h"
-#include "debug.h"
 
 static void	update_shlvl(void)
 {

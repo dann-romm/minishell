@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:01:49 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/20 22:35:13 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 02:21:23 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_export(t_simple_cmd *cmd)
 			cmd->cmd_args[i][eq++ - cmd->cmd_args[i]] = 0;
 		else
 			eq = find_hashtable(g_shell->env_local, cmd->cmd_args[i]);
-		if (check_input(cmd->cmd_args[i]))
+		if (!is_variable_valid(cmd->cmd_args[i]))
 		{
 			errno = error_manager(ERRT_EXPORT_ERR, cmd->cmd_args[i], 1);
 			continue ;

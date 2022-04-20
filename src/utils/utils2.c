@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:13:33 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/20 23:49:46 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 02:26:34 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,10 @@ int	is_space(char c)
 		|| c == '\f' || c == '\r' || c == ' ');
 }
 
-void	*ft_memset(void *b, int c, size_t len)
+int	int32_abs(int n)
 {
-	unsigned int	i;
-	char			*str;
-
-	str = (char *) b;
-	i = 0;
-	while (i < len)
-		str[i++] = (unsigned char) c;
-	return (b);
+	if (n < 0)
+		return (-n);
+	else
+		return (n);
 }

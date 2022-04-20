@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_hashtable.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/21 02:30:13 by doalbaco          #+#    #+#             */
+/*   Updated: 2022/04/21 02:41:23 by doalbaco         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "hashtable.h"
 #include "libft_funcs.h"
 
@@ -14,7 +26,7 @@ static int	partition(char **str, int l, int r)
 		while (ft_strcmp(str[r], mid) > 0)
 			r--;
 		if (l > r)
-			break;
+			break ;
 		tmp = str[l];
 		str[l] = str[r];
 		str[r] = tmp;
@@ -42,7 +54,7 @@ char	**sort_hashtable(t_hashtable *ht)
 	int		strlen;
 	int		i;
 
-	tmp = ht_to_array(ht);
+	tmp = hashtable_to_array(ht);
 	strlen = 0;
 	i = 3;
 	while (tmp[strlen])

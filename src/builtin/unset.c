@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 21:16:34 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/20 21:45:53 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 02:21:23 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_unset(t_simple_cmd *cmd)
 	i = 0;
 	while (i < cmd->args_num)
 	{
-		if (check_input(cmd->cmd_args[i]))
+		if (!is_variable_valid(cmd->cmd_args[i]))
 			errno = error_manager(ERRT_UNSET_ERR, cmd->cmd_args[i], 1);
 		else
 		{

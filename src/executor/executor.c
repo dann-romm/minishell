@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:40:55 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 00:29:12 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/21 02:43:47 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,26 +17,7 @@
 #include "signals.h"
 #include "executor.h"
 
-void	exec_bin(t_command_table *table, t_pipex_data *data, int index)
-{
-	char	*path;
-	char	**args;
-	char	**env;
-
-	close(data->tube1[0]);
-	close(data->tube1[1]);
-	close(data->tube2[0]);
-	close(data->tube2[1]);
-	path = find_path(table->commands[index]);
-	if (!path)
-		exit(127);
-	args = adapt_cmd_args(table->commands[index]);
-	env = ht_to_array(g_shell->env_global);
-	execve(path, args, env);
-	exit(errno);
-}
-
-int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
+static int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
 {
 	if (table->commands[index]->type == CMD_CD)
 		return (ft_cd(table->commands[index]));
@@ -60,7 +41,7 @@ int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
 	return (-1);
 }
 
-int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
+static int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
 {
 	pid_t	pid;
 
@@ -87,7 +68,7 @@ int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
 	return (errno);
 }
 
-int	run_cmd_block(t_command_table *table)
+static int	run_cmd_block(t_command_table *table)
 {
 	t_pipex_data	*data;
 	int				i;

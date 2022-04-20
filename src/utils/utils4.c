@@ -6,30 +6,11 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:13:26 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/20 23:46:56 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 02:26:08 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft_funcs.h"
-
-char	*ft_strncat(char *s1, const char *s2, unsigned int n)
-{
-	char	*dest;
-
-	dest = s1;
-	if (!s1 && !s2)
-		return (NULL);
-	while (*dest != '\0')
-		dest++;
-	while (n--)
-	{
-		*dest++ = *s2++;
-		if (!dest)
-			return (s1);
-	}
-	*dest = '\0';
-	return (s1);
-}
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -58,27 +39,13 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 		return (0);
 }
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+char	*ft_strchr(const char *s, int c)
 {
-	size_t	i;
-
-	if (!dst && !src)
-		return (dst);
-	if ((unsigned long long)dst < (unsigned long long)src)
-	{
-		i = 0;
-		while (i < len)
-		{
-			((char *)dst)[i] = ((char *)src)[i];
-			i++;
-		}
-	}
-	else
-	{
-		while (len--)
-			((char *)dst)[len] = ((char *)src)[len];
-	}
-	return (dst);
+	while (*s && *s != (char) c)
+		s++;
+	if (*s == (char) c)
+		return ((char *) s);
+	return (0);
 }
 
 int	ft_atoi(char *str)
@@ -107,4 +74,33 @@ int	ft_atoi(char *str)
 		i++;
 	}
 	return (ans);
+}
+
+char	*ft_itoa(int n)
+{
+	char	*str;
+	int		len;
+	int		tmp;
+
+	tmp = n;
+	len = (n <= 0);
+	while (tmp != 0)
+	{
+		len++;
+		tmp /= 10;
+	}
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (!str)
+		return (0);
+	str[len--] = '\0';
+	str[0] = '-';
+	if (n == 0)
+		str[0] = '0';
+	n = int32_abs(n);
+	while (n > 0)
+	{
+		str[len--] = '0' + (n % 10);
+		n /= 10;
+	}
+	return (str);
 }

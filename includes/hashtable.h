@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:25:31 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 00:38:02 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 02:48:10 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,14 @@ int			push_front_pair(t_pair **head, t_pair *pair);
 int			remove_pair(t_pair **head, char *key);
 t_pair		*find_pair(t_pair *head, char *key);
 
+// hashtable.c
 t_hashtable	*init_hashtable(uint32_t size);
 int32_t		remove_hashtable(t_hashtable *ht, char *key);
 char		*find_hashtable(t_hashtable *ht, char *key);
 void		clear_hashtable(t_hashtable *ht);
 void		delete_hashtable(t_hashtable **ht);
-int32_t		length_hashtable(t_hashtable *ht);
 
-// hashtable2.c
+// insert_hashtable.c
 int32_t		insert_hashtable(t_hashtable *ht, char *key, char *value);
 
 // sort_hashtable.c

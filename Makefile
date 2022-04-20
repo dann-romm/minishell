@@ -41,11 +41,11 @@ BUILTIN_SRC				=	$(BUILTIN_SRCDIR)/assignment.c \
 
 EXECUTOR_SRC			=	$(EXECUTOR_SRCDIR)/executor.c \
 							$(EXECUTOR_SRCDIR)/executor_data.c \
-							$(EXECUTOR_SRCDIR)/executor_utils.c
+							$(EXECUTOR_SRCDIR)/executor_utils.c \
+							$(EXECUTOR_SRCDIR)/exec_bin.c
 
 HASHTABLE_SRC			=	$(HASHTABLE_SRCDIR)/hashtable.c \
-							$(HASHTABLE_SRCDIR)/hashtable2.c \
-							$(HASHTABLE_SRCDIR)/hashtable_utils.c \
+							$(HASHTABLE_SRCDIR)/insert_hashtable.c \
 							$(HASHTABLE_SRCDIR)/pair.c \
 							$(HASHTABLE_SRCDIR)/hash.c \
 							$(HASHTABLE_SRCDIR)/sort_hashtable.c
@@ -72,8 +72,7 @@ UTILS_SRC				=	$(UTILS_SRCDIR)/ft_split.c \
 							$(UTILS_SRCDIR)/utils.c \
 							$(UTILS_SRCDIR)/utils2.c \
 							$(UTILS_SRCDIR)/utils3.c \
-							$(UTILS_SRCDIR)/utils4.c \
-							$(UTILS_SRCDIR)/utils5.c
+							$(UTILS_SRCDIR)/utils4.c
 
 HISTORY_SRC				=	$(HISTORY_SRCDIR)/history.c
 
