@@ -62,7 +62,7 @@ int	handle_assignment(t_simple_cmd **cmd, t_token *list)
 	while (list)
 	{
 		if (!ft_strchr(list->value, '=') && !delete_simple_cmd(cmd))
-			return (1);
+			return (0);
 		(*cmd)->cmd_args[i++] = ft_strdup(list->value);
 		list = list->next;
 	}
