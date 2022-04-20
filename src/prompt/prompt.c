@@ -1,14 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prompt.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 23:58:46 by mgwyness          #+#    #+#             */
+/*   Updated: 2022/04/20 23:58:47 by mgwyness         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft_funcs.h"
 
-char	*prompt1(void) // TODO: fix the output
+char	*prompt1(void)
 {
-	char 	*input;
+	char	*input;
 
 	input = readline(find_hashtable(g_shell->env_local, "PS1"));
 	if (!input)
 	{
-		// write(2, "exit\n", 5);
 		rl_redisplay();
 		exit(130);
 	}
