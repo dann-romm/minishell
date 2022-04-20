@@ -1,7 +1,7 @@
 #include "hashtable.h"
 #include "libft_funcs.h"
 
-int	partition(char **str, int l, int r)
+static int	partition(char **str, int l, int r)
 {
 	char	*mid;
 	char	*tmp;
@@ -23,7 +23,7 @@ int	partition(char **str, int l, int r)
 	return (r);
 }
 
-void	quick_sort(char **str, int l, int r)
+static void	quick_sort(char **str, int l, int r)
 {
 	int	diff;
 

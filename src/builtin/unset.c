@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 21:16:34 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/20 21:42:55 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/20 21:45:53 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,18 @@
 
 int	ft_unset(t_simple_cmd *cmd)
 {
-	int		i;
+	int	i;
 
-	i = 0;
 	if (!cmd->args_num)
 		return (0);
+	i = 0;
 	while (i < cmd->args_num)
 	{
 		if (check_input(cmd->cmd_args[i]))
-		{
-			printf("minishell: unset: `%s': not a valid identifier\n", \
-				cmd->cmd_args[i]);
-			errno = 1;
-		}
+			errno = error_manager(ERRT_UNSET_ERR, cmd->cmd_args[i], 1);
 		else
 		{
-			if (find_hashtable(g_shell->env_global, cmd->cmd_args[i]) != 0)
+			if (find_hashtable(g_shell->env_global, cmd->cmd_args[i]))
 				remove_hashtable(g_shell->env_global, cmd->cmd_args[i]);
 		}
 		i++;
