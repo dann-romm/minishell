@@ -10,6 +10,7 @@ t_cmd_block		*parser(t_token **list);
 // command_table.c
 
 t_command_table	*create_command_table(t_token **list);
+int				delete_simple_cmd(t_simple_cmd **cmd);
 
 // parser_utils.c
 

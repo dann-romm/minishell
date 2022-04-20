@@ -25,7 +25,7 @@ void	print_export_ht(t_hashtable *ht)
 // type = CMD_EXPORT
 // cmd = "export"
 // args_num = 4
-// args[4] = ["a", "b", "123rr", "-123"]
+// args[4] = [ "a=value" ('a', 'value'), "b===value" ('b', '==value'), "123rr=value==" ('123rr', 'value=='), "-123=value" ('-123', 'value') ]
 
 // перенести (если есть) все переменные args из local_env (если они там есть) в global_env
 // на каждую невалидную переменную вывести ошибку

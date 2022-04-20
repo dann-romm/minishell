@@ -370,3 +370,13 @@ int	check_input(char *str)
 		return (1);
 	return (0);
 }
+
+
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s && *s != (char) c)
+		s++;
+	if (*s == (char) c)
+		return ((char *) s);
+	return (0);
+}

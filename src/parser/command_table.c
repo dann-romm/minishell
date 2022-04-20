@@ -42,7 +42,7 @@ static t_command_table	*init_command_table(t_token *list)
 	return (table);
 }
 
-static int	delete_simple_cmd(t_simple_cmd **cmd)
+int	delete_simple_cmd(t_simple_cmd **cmd)
 {
 	if (!cmd || !(*cmd))
 		return (1);
@@ -98,15 +98,16 @@ t_command_table	*create_command_table(t_token **list)
 		return (NULL);
 	if (handle_redirect(table, list) || handle_parse_error(table, list))
 	{
-		errno = 258;
-		delete_command_table(&table);
+		errno = 258 + delete_command_table(&table);
 		return (NULL);
 	}
 	i = 0;
 	tmp = *list;
 	while (tmp)
 	{
-		table->commands[i++] = get_simple_cmd(tmp);
+		table->commands[i] = get_simple_cmd(tmp);
+		if (!table->commands[i++] && !delete_command_table(&table))
+			return (NULL);
 		while (tmp && tmp->type != T_PIPE)
 			tmp = tmp->next;
 		if (tmp)

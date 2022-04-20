@@ -2,7 +2,7 @@
 #include "libft_funcs.h"
 #include "shell.h"
 
-// skip all spaces and comments
+// skip all spaces and comments in t_source
 void	skip_comments(t_source *src)
 {
 	while (is_space(peek(src)) && peek(src) != '\n')
@@ -54,6 +54,9 @@ int	tokenize_pipe(t_source *src, t_token *token)
 	return (0);
 }
 
+// if '~' found, substitude HOME variable,
+//     initialize token with T_ID type and return 1
+// return 0 otherwise
 int	tokenize_tilde(t_source *src, t_token *token)
 {
 	char	*home;
@@ -71,6 +74,7 @@ int	tokenize_tilde(t_source *src, t_token *token)
 	return (0);
 }
 
+// initialize next token from t_source
 t_token	*get_next_token(t_source *src)
 {
 	t_token		*token;
