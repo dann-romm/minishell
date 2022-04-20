@@ -20,7 +20,7 @@ int	error_manager(t_error_type type, const char *msg, int error_code)
 	{
 		printf("`%s': Is not supported in this version of minishell\n", msg);
 	}
-	else if (type == ERRT_CMD_NOT_FOUND)
+	else if (type == ERRT_NOT_FOUND)
 	{
 		printf("%s: Command not found\n", msg);
 	}

@@ -98,7 +98,7 @@ typedef struct s_cmd_block
 typedef enum e_error_type
 {
 	ERRT_SYNTAX,
-	ERRT_CMD_NOT_FOUND,
+	ERRT_NOT_FOUND,
 	ERRT_PWD_ERR,
 	ERRT_CD_ERR,
 	ERRT_UNSUPPORTED
