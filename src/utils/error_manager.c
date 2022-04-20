@@ -1,4 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error_manager.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 23:13:42 by mgwyness          #+#    #+#             */
+/*   Updated: 2022/04/20 23:13:43 by mgwyness         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
+
+void	perror_exit(char *message)
+{
+	perror(message);
+	exit(1);
+}
 
 int	error_manager(t_error_type type, const char *msg, int error_code)
 {
