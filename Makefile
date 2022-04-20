@@ -44,9 +44,10 @@ EXECUTOR_SRC			=	$(EXECUTOR_SRCDIR)/executor.c \
 							$(EXECUTOR_SRCDIR)/executor_utils.c
 
 HASHTABLE_SRC			=	$(HASHTABLE_SRCDIR)/hashtable.c \
+							$(HASHTABLE_SRCDIR)/hashtable2.c \
+							$(HASHTABLE_SRCDIR)/hashtable_utils.c \
 							$(HASHTABLE_SRCDIR)/pair.c \
 							$(HASHTABLE_SRCDIR)/hash.c \
-							$(HASHTABLE_SRCDIR)/fill_hashtable.c \
 							$(HASHTABLE_SRCDIR)/sort_hashtable.c
 
 LEXER_SRC				=	$(LEXER_SRCDIR)/lexer.c \

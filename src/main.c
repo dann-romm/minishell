@@ -23,17 +23,29 @@ static void	update_shlvl(void)
 	insert_hashtable(g_shell->env_global, "SHLVL", shlvl);
 }
 
+static void	fill_env_global(char **env)
+{
+	int		i;
+	char	*eq;
+
+	i = -1;
+	while (env[++i])
+	{
+		eq = ft_strchr(env[i], '=');
+		env[i][eq++ - env[i]] = 0;
+		insert_hashtable(g_shell->env_global, env[i], eq);
+		*(eq - 1) = '=';
+	}
+}
+
 static void	init_shell(char **env)
 {
 	g_shell = (t_shell *)malloc(sizeof(t_shell));
 	if (!g_shell)
-	{
-		errno = ENOMEM;
 		exit(errno);
-	}
 	g_shell->env_global = init_hashtable(10);
 	g_shell->env_local = init_hashtable(10);
-	fill_hashtable(env);
+	fill_env_global(env);
 	insert_hashtable(g_shell->env_local, "PS1", "minishell > ");
 	insert_hashtable(g_shell->env_local, "PS2", "> ");
 	insert_hashtable(g_shell->env_global, "_", "/usr/bin/env");

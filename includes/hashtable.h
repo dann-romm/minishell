@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:25:31 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 00:01:32 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 00:38:02 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,25 +33,27 @@ typedef struct s_hashtable
 	unsigned int	(*hash)(char *key, uint32_t size);
 }	t_hashtable;
 
-void		fill_hashtable(char **env);
-void		print_hashtable(t_hashtable *ht);
+// hash.c
+uint32_t	djb2_hash(char *key, uint32_t size);
 
+// pair.c
 t_pair		*init_pair(char *key, char *value);
 int			push_front_pair(t_pair **head, t_pair *pair);
 int			remove_pair(t_pair **head, char *key);
 t_pair		*find_pair(t_pair *head, char *key);
 
 t_hashtable	*init_hashtable(uint32_t size);
-int32_t		insert_hashtable(t_hashtable *ht, char *key, char *value);
 int32_t		remove_hashtable(t_hashtable *ht, char *key);
 char		*find_hashtable(t_hashtable *ht, char *key);
 void		clear_hashtable(t_hashtable *ht);
 void		delete_hashtable(t_hashtable **ht);
 int32_t		length_hashtable(t_hashtable *ht);
 
+// hashtable2.c
+int32_t		insert_hashtable(t_hashtable *ht, char *key, char *value);
+
 // sort_hashtable.c
 char		**sort_hashtable(t_hashtable *ht);
 
-uint32_t	djb2_hash(char *key, uint32_t size);
 
 #endif
