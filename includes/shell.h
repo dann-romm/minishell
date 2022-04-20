@@ -103,6 +103,8 @@ typedef enum e_error_type
 	ERRT_UNSET_ERR,
 	ERRT_PWD_ERR,
 	ERRT_CD_ERR,
+	ERRT_NUM_ARG,
+	ERRT_MANY_ARG,
 	ERRT_UNSUPPORTED
 }	t_error_type;
 
