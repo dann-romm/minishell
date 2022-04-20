@@ -348,24 +348,20 @@ int	is_str_numeric(char *str)
 	return (1);
 }
 
+//A  word  consisting  only  of alphanumeric characters and under‐
+//scores, and beginning with an alphabetic character or an  under‐
+//score.  Also referred to as an identifier.
+// 1 - валидно
+// 0 - невалидно
 int	check_input(char *str)
 {
-	int	i;
-	int	count1;
-
-	count1 = 0;
-	if (is_alpha(str[0]))
-		return (0);
-	i = -1;
-	while (str[++i])
-	{
-		if (str[0] != '_' && ((!is_numeric(str[i]) && !is_alpha(str[i])) || is_numeric(str[0])))
-			return (1);
-		else if (is_numeric(str[i]))
-			count1++;
-	}
-	if (str[0] == '\0' || count1 == i - 1)
+	if (!is_alpha(*str) && *str != '_')
 		return (1);
+	while (*(++str))
+	{
+		if (!is_alnum(*str) && *str != '_')
+			return (1);
+	}
 	return (0);
 }
 
