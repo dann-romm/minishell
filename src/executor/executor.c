@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:40:55 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/20 23:40:56 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 00:26:28 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "hashtable.h"
 #include "libft_funcs.h"
 #include "builtin.h"
+#include "signals.h"
 #include "executor.h"
 
 void	exec_bin(t_command_table *table, t_pipex_data *data, int index)
@@ -119,6 +120,7 @@ int	execute(t_cmd_block *cmd_block)
 	int	status;
 
 	i = 0;
+	setting_signal();
 	status = run_cmd_block(cmd_block[i].table);
 	while (cmd_block[i].delimiter != CMDBL_END)
 	{

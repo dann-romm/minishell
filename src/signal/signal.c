@@ -6,7 +6,7 @@
 /*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:57:42 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/20 23:57:43 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/21 00:26:33 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,5 @@ void	setting_signal(void)
 	signal(SIGINT, signal_handler);
 	signal(SIGTERM, signal_handler);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
 }
