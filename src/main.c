@@ -9,7 +9,7 @@
 #include "history.h"
 #include "debug.h"
 
-void	update_shlvl(void)
+static void	update_shlvl(void)
 {
 	char	*shlvl;
 
@@ -23,7 +23,7 @@ void	update_shlvl(void)
 	insert_hashtable(g_shell->env_global, "SHLVL", shlvl);
 }
 
-void	init_shell(char **env)
+static void	init_shell(char **env)
 {
 	g_shell = (t_shell *)malloc(sizeof(t_shell));
 	if (!g_shell)

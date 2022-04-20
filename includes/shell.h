@@ -126,7 +126,5 @@ int		set_fork_builtin(t_command_table *table, t_pipex_data *data, int index);
 // heredoc.c
 void	handle_heredoc(t_command_table *table);
 
-// init_g_shell.c
-void	init_shell();
 
 #endif
