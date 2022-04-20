@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:25:31 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/20 22:25:32 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/21 00:01:32 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,5 @@ int32_t		length_hashtable(t_hashtable *ht);
 char		**sort_hashtable(t_hashtable *ht);
 
 uint32_t	djb2_hash(char *key, uint32_t size);
-uint32_t	rehashing(t_hashtable *ht);
 
 #endif

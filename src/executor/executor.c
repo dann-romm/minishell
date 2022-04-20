@@ -6,7 +6,7 @@
 /*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:40:55 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 00:26:28 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/21 00:29:12 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,12 @@ int	run_cmd_block(t_command_table *table)
 		|| (table->commands_num == 1 && exec_builtin(table, data, 0) != -1))
 		return (errno);
 	if (pipe(data->tube1))
-		perror_exit("pipe tube1");
+		return (error_manager(ERRT_ERRNO_ERR, "pipe", -42));
 	i = -1;
 	while (++i < table->commands_num)
 	{
 		if (pipe(data->tube2) < 0)
-			perror_exit("pipe tube2");
+			return (error_manager(ERRT_ERRNO_ERR, "pipe", -42));
 		exec_cmd(table, data, i);
 		close(data->tube1[0]);
 		close(data->tube1[1]);

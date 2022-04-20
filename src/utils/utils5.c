@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils5.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:13:20 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/20 23:13:21 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/20 23:47:42 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft_funcs.h"
 
 char	*ft_strndup(char *str, size_t length)
@@ -40,8 +41,9 @@ char	*ft_strchr(const char *s, int c)
 int32_t	int32_abs(int32_t n)
 {
 	if (n < 0)
-		n *= -1;
-	return (n);
+		return (-n);
+	else
+		return (n);
 }
 
 int	is_str_numeric(char *str)
