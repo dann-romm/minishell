@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:24:44 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/20 22:36:07 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/20 23:38:11 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 
 # include "shell.h"
 
-int	execute(t_cmd_block *cmd_block);
+// executor.c
+int				execute(t_cmd_block *cmd_block);
+
+// executor_data.c
+t_pipex_data	*init_pipex_data(t_command_table *table);
+
+// executor_utils.c
+int				ft_dup2(t_command_table *table, t_pipex_data *data, int index);
+int				ft_wait(t_pipex_data *data);
 
 #endif

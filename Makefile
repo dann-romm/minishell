@@ -16,7 +16,6 @@ PROMPT_SRCDIR			= $(SRCDIR)/prompt
 UTILS_SRCDIR			= $(SRCDIR)/utils
 HISTORY_SRCDIR			= $(SRCDIR)/history
 SIGNAL_SRCDIR			= $(SRCDIR)/signal
-PIPE_SRCDIR				= $(SRCDIR)/pipe
 
 OBJDIR					= ./build
 BUILTIN_OBJDIR			= $(OBJDIR)/builtin
@@ -28,7 +27,6 @@ PROMPT_OBJDIR			= $(OBJDIR)/prompt
 UTILS_OBJDIR			= $(OBJDIR)/utils
 HISTORY_OBJDIR			= $(OBJDIR)/history
 SIGNAL_OBJDIR			= $(OBJDIR)/signal
-PIPE_OBJDIR				= $(OBJDIR)/pipe
 
 INCDIR					= ./includes
 
@@ -41,7 +39,9 @@ BUILTIN_SRC				=	$(BUILTIN_SRCDIR)/assignment.c \
 							$(BUILTIN_SRCDIR)/pwd.c \
 							$(BUILTIN_SRCDIR)/unset.c
 
-EXECUTOR_SRC			=	$(EXECUTOR_SRCDIR)/executor.c
+EXECUTOR_SRC			=	$(EXECUTOR_SRCDIR)/executor.c \
+							$(EXECUTOR_SRCDIR)/executor_data.c \
+							$(EXECUTOR_SRCDIR)/executor_utils.c
 
 HASHTABLE_SRC			=	$(HASHTABLE_SRCDIR)/hashtable.c \
 							$(HASHTABLE_SRCDIR)/pair.c \
@@ -61,7 +61,6 @@ LEXER_SRC				=	$(LEXER_SRCDIR)/lexer.c \
 
 PARSER_SRC				=	$(PARSER_SRCDIR)/parser.c \
 							$(PARSER_SRCDIR)/command_table.c \
-							$(PARSER_SRCDIR)/heredoc.c \
 							$(PARSER_SRCDIR)/parser_utils.c \
 							$(PARSER_SRCDIR)/simple_cmd.c
 
@@ -75,11 +74,8 @@ HISTORY_SRC				=	$(HISTORY_SRCDIR)/history.c
 
 SIGNAL_SRC				=	$(SIGNAL_SRCDIR)/signal.c
 
-PIPE_SRC				=	$(PIPE_SRCDIR)/pipe.c
-
 SRC						=	$(BUILTIN_SRC) \
 							$(EXECUTOR_SRC) \
-							$(PIPE_SRC) \
 							$(HASHTABLE_SRC) \
 							$(LEXER_SRC) \
 							$(PARSER_SRC) \

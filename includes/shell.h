@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:37:10 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/20 22:37:11 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/20 23:32:12 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ typedef enum e_error_type
 	ERRT_CD_ERR,
 	ERRT_NUM_ARG,
 	ERRT_MANY_ARG,
+	ERRT_ERRNO_ERR,
 	ERRT_UNSUPPORTED
 }	t_error_type;
 
@@ -131,24 +132,12 @@ typedef struct s_pipex_data
 	int		tube1[2];
 	int		tube2[2];
 	int		count_running_cmds;
+	int		is_heredoc;
 }		t_pipex_data;
 
 t_shell	*g_shell;
 
 // error_managment.c
 int		error_manager(t_error_type type, const char *msg, int error_code);
-
-// prompt.c
-char	*read_input(char *prompt);
-
-// pipe.c
-int		ft_wait(t_pipex_data *data);
-void	ft_dup2(t_command_table *table, t_pipex_data *data, int index);
-
-// fork.c
-int		set_fork_builtin(t_command_table *table, t_pipex_data *data, int index);
-
-// heredoc.c
-void	handle_heredoc(t_command_table *table);
 
 #endif

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 23:40:55 by doalbaco          #+#    #+#             */
+/*   Updated: 2022/04/20 23:40:56 by doalbaco         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "hashtable.h"
 #include "libft_funcs.h"
@@ -20,6 +32,7 @@ void	exec_bin(t_command_table *table, t_pipex_data *data, int index)
 	args = adapt_cmd_args(table->commands[index]);
 	env = ht_to_array(g_shell->env_global);
 	execve(path, args, env);
+	exit(errno);
 }
 
 int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
@@ -31,100 +44,46 @@ int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
 	else if (table->commands[index]->type == CMD_UNSET)
 		return (ft_unset(table->commands[index]));
 	else if (table->commands[index]->type == CMD_EXIT)
-	{
-		ft_exit(table->commands[index]->cmd_args, table->commands[index]->args_num);
-		return (0);
-	}
+		return (ft_exit(table->commands[index]->cmd_args,
+				table->commands[index]->args_num));
 	else if (table->commands[index]->type == CMD_ASSIGNMENT)
 		return (ft_assignment(table->commands[index]));
-
 	else if (table->commands_num == 1)
 		return (-1);
-
 	if (table->commands[index]->type == CMD_PWD)
 		return (ft_pwd());
 	else if (table->commands[index]->type == CMD_ECHO)
 		return (ft_echo(table->commands[index]));
 	else if (table->commands[index]->type == CMD_ENV)
 		return (ft_env());
-
 	return (-1);
-}
-
-void	open_files(t_command_table *table, t_pipex_data *data)
-{
-	if (table->redirect._stdin != 0)
-		data->fd1 = open(table->redirect._stdin, O_RDONLY);
-	else
-		data->fd1 = STDIN_FILENO;
-	if (table->redirect._stdout != 0)
-	{
-		if (table->redirect.is_stdout_append)
-			data->fd2 = open(table->redirect._stdout, O_CREAT | O_RDWR | O_APPEND, 0644);
-		else
-			data->fd2 = open(table->redirect._stdout, O_CREAT | O_RDWR | O_TRUNC, 0644);
-	}
-	else
-		data->fd2 = STDOUT_FILENO;
-	if (data->fd1 < 0)
-		printf("minishell: %s: %s\n", table->redirect._stdin, strerror(errno));
-	if (data->fd2 < 0)
-		printf("minishell: %s: %s\n", table->redirect._stdout, strerror(errno));
-}
-
-t_pipex_data	*init_data(t_command_table *table)
-{
-	t_pipex_data	*data;
-
-	data = (t_pipex_data *)malloc(sizeof(t_pipex_data));
-	if (!data)
-		return (0);
-	data->count_running_cmds = 0;
-	data->_saved_stdin = -1;
-	data->_saved_stdout = -1;
-	data->tube1[0] = -1;
-	data->tube1[1] = -1;
-	data->tube2[0] = -1;
-	data->tube2[1] = -1;
-	handle_heredoc(table);
-	data->count_running_cmds = 0;
-	open_files(table, data);
-	if (errno)
-	{
-		free(data);
-		return (0);
-	}
-	return (data);
-}
-
-void	restore_saved_iostream(t_pipex_data *data)
-{
-	dup2(data->_saved_stdin, STDIN_FILENO);
-	dup2(data->_saved_stdout, STDOUT_FILENO);
-	close(data->_saved_stdin);
-	close(data->_saved_stdout);
 }
 
 int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
 {
 	pid_t	pid;
 
-	ft_dup2(table, data, index);
+	if (ft_dup2(table, data, index))
+		return (errno);
 	data->count_running_cmds++;
 	pid = fork();
-	if (pid == -1) // error
-		return (1);
+	if (pid == -1)
+		return (error_manager(ERRT_ERRNO_ERR, "fork", errno));
 	else if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
 		if (exec_builtin(table, data, index) == -1)
 			exec_bin(table, data, index);
-		exit(0);
 	}
 	else
-		restore_saved_iostream(data);
-	return (0);
+	{
+		dup2(data->_saved_stdin, STDIN_FILENO);
+		dup2(data->_saved_stdout, STDOUT_FILENO);
+		close(data->_saved_stdin);
+		close(data->_saved_stdout);
+	}
+	return (errno);
 }
 
 int	run_cmd_block(t_command_table *table)
@@ -132,7 +91,7 @@ int	run_cmd_block(t_command_table *table)
 	t_pipex_data	*data;
 	int				i;
 
-	data = init_data(table);
+	data = init_pipex_data(table);
 	if (!data || table->commands_num == 0
 		|| (table->commands_num == 1 && exec_builtin(table, data, 0) != -1))
 		return (errno);

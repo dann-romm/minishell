@@ -40,5 +40,9 @@ int	error_manager(t_error_type type, const char *msg, int error_code)
 	{
 		printf("exit: Too many arguments\n");
 	}
+	else if (type == ERRT_ERRNO_ERR)
+	{
+		printf("%s: %s\n", msg, strerror(errno));
+	}
 	return (error_code);
 }
