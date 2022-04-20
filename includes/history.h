@@ -3,6 +3,6 @@
 
 # include "shell.h"
 
-void	save_history(char *str);
+void	ft_add_history(char *str);
 
 #endif

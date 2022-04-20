@@ -1,7 +1,17 @@
 #include "shell.h"
+#include "libft_funcs.h"
 
-void	save_history(char *str)
+void	ft_add_history(char *str)
 {
-	if (str)
-		add_history((const char *)str);
+	char	*tmp;
+
+	if (!str || !(*str))
+		return ;
+	tmp = str;
+	while (*tmp)
+	{
+		if (is_space(*tmp++))
+			return ;
+	}
+	add_history((const char *)str);
 }
