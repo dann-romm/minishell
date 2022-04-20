@@ -30,6 +30,8 @@ void	print_export_ht(t_hashtable *ht)
 // перенести (если есть) все переменные args из local_env (если они там есть) в global_env
 // на каждую невалидную переменную вывести ошибку
 
+
+
 int	ft_export(t_simple_cmd *cmd)
 {
 	int		i;
@@ -39,15 +41,31 @@ int	ft_export(t_simple_cmd *cmd)
 		print_export_ht(g_shell->env_global);
 	else
 	{
-		if (cmd->cmd_args[0][0] == '_' && cmd->cmd_args[0][1] == 0)
-			return (0);
-		if (check_input(cmd->cmd_args[0])) // если имя переменной состоит только из чисел или в нем есть символ типа !@#', оно невалидно
+		while (i < cmd->args_num)
 		{
-			printf("minishell: export: `%s': not a valid identifier\n", cmd->cmd_args[0]);
-			errno = 1;
-			return (errno);
+			int j;
+
+			j = 0;
+			if (cmd->cmd_args[0][0] == '_' && cmd->cmd_args[0][1] == 0)
+				return (0);
+			char *name;
+			char *value;
+			while (cmd->cmd_args[i][j] != '=')
+				j++;
+			name = ft_strndup(cmd->cmd_args[i], j);
+			value = ft_strchr(cmd->cmd_args[i], '=');
+			if (check_input(name)) // если имя переменной состоит только из чисел или в нем есть символ типа !@#', оно невалидно
+			{
+				printf("minishell: export: `%s': not a valid identifier\n", cmd->cmd_args[i]);
+				errno = 1;
+			}
+			else
+				insert_hashtable(g_shell->env_global, name, value); // this value must be replaced with local_env value
+			//printf("name = %s value = %s\n", name, value);
+			//print_hashtable(g_shell->env_local);
+			free(name);
+			i++;
 		}
-		insert_hashtable(g_shell->env_global, cmd->cmd_args[0], find_hashtable(g_shell->env_local, cmd->cmd_args[0]));
 	}
-	return (0);
+	return (errno);
 }

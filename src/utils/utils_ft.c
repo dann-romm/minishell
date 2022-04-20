@@ -371,6 +371,21 @@ int	check_input(char *str)
 	return (0);
 }
 
+char	*ft_strndup(char *str, size_t length)
+{
+	char	*p;
+	int		i;
+
+	i = ft_strlen(str);
+	p = (char *)malloc(sizeof(char) * (i + 1));
+	if (!p)
+		return (NULL);
+	i = -1;
+	while (str[++i] && i < length)
+		p[i] = str[i];
+	p[i] = '\0';
+	return (p);
+}
 
 char	*ft_strchr(const char *s, int c)
 {
