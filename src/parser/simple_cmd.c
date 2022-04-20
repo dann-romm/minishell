@@ -57,11 +57,12 @@ int	handle_assignment(t_simple_cmd **cmd, t_token *list)
 		*cmd = NULL;
 		return (1);
 	}
+	ft_memset((*cmd)->cmd_args, 0, sizeof(char *) * (*cmd)->args_num);
 	i = 0;
 	while (list)
 	{
 		if (!ft_strchr(list->value, '=') && !delete_simple_cmd(cmd))
-			return (0);
+			return (1);
 		(*cmd)->cmd_args[i++] = ft_strdup(list->value);
 		list = list->next;
 	}
