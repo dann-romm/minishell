@@ -130,7 +130,6 @@ int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
 int	run_cmd_block(t_command_table *table)
 {
 	t_pipex_data	*data;
-	int				child_proc;
 	int				i;
 
 	data = init_data(table);
