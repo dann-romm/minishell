@@ -10,8 +10,10 @@ void	ft_add_history(char *str)
 	tmp = str;
 	while (*tmp)
 	{
-		if (is_space(*tmp++))
+		if (!is_space(*tmp++))
+		{
+			add_history((const char *)str);
 			return ;
+		}
 	}
-	add_history((const char *)str);
 }

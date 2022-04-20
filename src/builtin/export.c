@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 22:01:49 by doalbaco          #+#    #+#             */
+/*   Updated: 2022/04/20 22:12:21 by doalbaco         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "hashtable.h"
 #include "libft_funcs.h"
@@ -23,10 +35,14 @@ static int	print_export_ht(t_simple_cmd *cmd)
 	return (1);
 }
 
+#include "debug.h"
+
 int	ft_export(t_simple_cmd *cmd)
 {
 	int		i;
 	char	*eq;
+
+	_DEBUG_print_simple_cmd(cmd);
 
 	if (print_export_ht(cmd))
 		return (errno);
