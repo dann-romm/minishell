@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shell.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 22:37:10 by mgwyness          #+#    #+#             */
+/*   Updated: 2022/04/20 22:37:11 by mgwyness         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef SHELL_H
 # define SHELL_H
 
@@ -10,12 +22,14 @@
 # include <errno.h>
 // printf
 # include <stdio.h>
-// readline rl_clear_history rl_on_new_line rl_replace_line rl_redisplay add_history
+// readline rl_clear_history, rl_on_new_line,
+// rl_replace_line, rl_redisplay, add_history
 # include "readline/readline.h"
 # include "readline/history.h"
 // malloc, free, exit, getenv
 # include <stdlib.h>
-// write, access, read, close, fork, getcwd, chdir, unlink, execve, dup, dup2, pipe, isatty, ttyname, ttyslot, 
+// write, access, read, close, fork, getcwd, chdir, unlink, 
+// execve, dup, dup2, pipe, isatty, ttyname, ttyslot, 
 # include <unistd.h>
 // open
 # include <fcntl.h>
@@ -73,7 +87,7 @@ typedef struct s_command_table
 	t_simple_cmd	**commands;
 	t_redirect		redirect;
 }	t_command_table;
- 
+
 typedef struct s_shell
 {
 	t_hashtable	*env_global;
@@ -91,7 +105,7 @@ typedef enum e_cmd_block_delimiter
 
 typedef struct s_cmd_block
 {
-	t_command_table			*table; // array of t_command_table structures
+	t_command_table			*table;
 	t_cmd_block_delimiter	delimiter;
 }	t_cmd_block;
 
@@ -106,7 +120,16 @@ typedef enum e_error_type
 	ERRT_UNSUPPORTED
 }	t_error_type;
 
-# include "executor.h"
+typedef struct s_pipex_data
+{
+	int		fd1;
+	int		fd2;
+	int		_saved_stdin;
+	int		_saved_stdout;
+	int		tube1[2];
+	int		tube2[2];
+	int		count_running_cmds;
+}		t_pipex_data;
 
 t_shell	*g_shell;
 
@@ -125,6 +148,5 @@ int		set_fork_builtin(t_command_table *table, t_pipex_data *data, int index);
 
 // heredoc.c
 void	handle_heredoc(t_command_table *table);
-
 
 #endif

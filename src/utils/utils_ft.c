@@ -56,6 +56,13 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
+int32_t	int32_abs(int32_t n)
+{
+	if (n < 0)
+		n *= -1;
+	return (n);
+}
+
 char	*ft_strcat(char *dst, char *src)
 {
 	int	i;
@@ -224,7 +231,7 @@ char	*ft_itoa(int n)
 	str[0] = '-';
 	if (n == 0)
 		str[0] = '0';
-	n = ABS(n);
+	n = int32_abs(n);
 	while (n > 0)
 	{
 		str[len--] = '0' + (n % 10);

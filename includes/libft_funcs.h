@@ -1,7 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft_funcs.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 22:33:28 by mgwyness          #+#    #+#             */
+/*   Updated: 2022/04/20 22:33:29 by mgwyness         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LIBFT_FUNCS_H
 # define LIBFT_FUNCS_H
-
-# define ABS(x) ((x) > 0 ? (x) : -(x))
 
 # include <stdlib.h>
 # include "shell.h"
@@ -31,6 +41,7 @@ void		ft_putstr(char *s);
 void		ft_putendl(char *s);
 int			is_str_numeric(char *str);
 int			check_input(char *str);
+int32_t		int32_abs(int32_t n);
 
 // in fact, just utils
 int			free_2d_array(char **arr);

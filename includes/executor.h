@@ -1,18 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 22:24:44 by mgwyness          #+#    #+#             */
+/*   Updated: 2022/04/20 22:36:07 by mgwyness         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef EXECUTOR_H
 # define EXECUTOR_H
 
 # include "shell.h"
-
-typedef struct s_pipex_data
-{
-	int		fd1;
-	int		fd2;
-	int		_saved_stdin;
-	int		_saved_stdout;
-	int		tube1[2];
-	int		tube2[2];
-	int		count_running_cmds;
-}		t_pipex_data;
 
 int	execute(t_cmd_block *cmd_block);
 

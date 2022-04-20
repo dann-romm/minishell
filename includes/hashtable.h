@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hashtable.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 22:25:31 by mgwyness          #+#    #+#             */
+/*   Updated: 2022/04/20 22:25:32 by mgwyness         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef HASHTABLE_H
 # define HASHTABLE_H
 
@@ -15,10 +27,10 @@ typedef struct s_pair
 
 typedef struct s_hashtable
 {
-	t_pair		**table;
-	uint32_t	size;
-	uint32_t	count;
-	uint32_t	(*hash)(char *key, uint32_t size);
+	t_pair			**table;
+	uint32_t		size;
+	uint32_t		count;
+	unsigned int	(*hash)(char *key, uint32_t size);
 }	t_hashtable;
 
 void		fill_hashtable(char **env);

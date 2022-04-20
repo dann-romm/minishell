@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 22:27:52 by mgwyness          #+#    #+#             */
+/*   Updated: 2022/04/20 22:27:53 by mgwyness         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef LEXER_H
 # define LEXER_H
 
@@ -25,7 +37,7 @@ typedef enum e_token_type
 	T_BUILTIN,
 	T_ID,
 	T_DOLLAR,
-	T_EXITSTATUS, // $?
+	T_EXITSTATUS,
 	T_IF = 20,
 	T_THEN,
 	T_ELSE,
@@ -38,23 +50,23 @@ typedef enum e_token_type
 	T_WHILE,
 	T_DO,
 	T_DONE,
-	T_AND = 40, // &
-	T_ANDAND, // &&
-	T_PIPE, // |
-	T_OROR, // ||
-	T_LESS, // <
-	T_GREAT, // >
-	T_DGREAT, // >>
-	T_DLESS, // <<
-	T_LESSAND, // <&
-	T_GREATAND, // >&
-	T_LESSGREAT, // <>
-	T_DLESSDASH, // <<-
-	T_CLOBBER, // >|
-	T_SEMI, // ;
-	T_DSEMI, // ;;
-	T_BACKTICK, // `
-	T_NEWLINE // \n
+	T_AND = 40,
+	T_ANDAND,
+	T_PIPE,
+	T_OROR,
+	T_LESS,
+	T_GREAT,
+	T_DGREAT,
+	T_DLESS,
+	T_LESSAND,
+	T_GREATAND,
+	T_LESSGREAT,
+	T_DLESSDASH,
+	T_CLOBBER,
+	T_SEMI,
+	T_DSEMI,
+	T_BACKTICK,
+	T_NEWLINE
 }	t_token_type;
 
 typedef struct s_token
