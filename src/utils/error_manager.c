@@ -26,11 +26,11 @@ int	error_manager(t_error_type type, const char *msg, int error_code)
 	}
 	else if (type == ERRT_EXPORT_ERR)
 	{
-		printf("export: `%s': not a valid identifier", msg);
+		printf("export: `%s': not a valid identifier\n", msg);
 	}
 	else if (type == ERRT_UNSET_ERR)
 	{
-		printf("unset: `%s': not a valid identifier", msg);
+		printf("unset: `%s': not a valid identifier\n", msg);
 	}
 	return (error_code);
 }
