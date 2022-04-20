@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   executor_data.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:00:43 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/20 23:38:53 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 00:08:04 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "prompt.h"
+#include "signals.h"
 #include "libft_funcs.h"
 
 // if there is a heredoc, writes input into HEREDOC_FILENAME file
@@ -22,6 +23,7 @@ static void	handle_heredoc(t_command_table *table, t_pipex_data *data)
 	int			fd;
 	char		*str;
 
+	signal(SIGINT, heredoc_signal_handler);
 	data->is_heredoc = 0;
 	if (!limiter || table->redirect.is_stdin_append == 0)
 		return ;

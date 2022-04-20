@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:41:05 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/20 23:41:05 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 00:20:03 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int	ft_wait(t_pipex_data *data)
 	signal(SIGQUIT, SIG_IGN);
 	while (data->count_running_cmds-- > 0)
 		wait(&status);
+	signal(SIGINT, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 	free(data);
 	return (extract_exit_status(status));
 }
