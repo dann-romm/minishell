@@ -1,27 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 22:42:56 by doalbaco          #+#    #+#             */
+/*   Updated: 2022/04/20 22:42:57 by doalbaco         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft_funcs.h"
 
-int	ft_exit(char **cmd_args, int args_num) //TODO: free all structures and arrays
+static void	delete_shell(void)
 {
-	// free() here
+	delete_hashtable(&(g_shell->env_global));
+	delete_hashtable(&(g_shell->env_local));
+	free(g_shell);
+}
+
+int	ft_exit(char **cmd_args, int args_num)
+{
 	printf("exit\n");
 	if (args_num == 0)
+	{
+		delete_shell();
 		exit(errno);
+	}
 	else if (args_num == 1)
 	{
+		delete_shell();
 		if (!is_str_numeric(cmd_args[0]))
 		{
-			printf("minishell: exit: %s: Numeric argument required\n", cmd_args[0]);
-			errno = 255;
+			errno = error_manager(ERRT_NUM_ARG, cmd_args[0], 255);
 			exit(errno);
 		}
 		else
 			exit(ft_atoi(cmd_args[0]));
 	}
 	else
-	{
-		printf("minishell: exit: Too many arguments\n");
-		errno = 1;
-	}
-	return (0);
+		errno = error_manager(ERRT_MANY_ARG, "-42", 1);
+	return (errno);
 }

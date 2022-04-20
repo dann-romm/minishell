@@ -32,5 +32,13 @@ int	error_manager(t_error_type type, const char *msg, int error_code)
 	{
 		printf("unset: `%s': not a valid identifier\n", msg);
 	}
+	else if (type == ERRT_NUM_ARG)
+	{
+		printf("exit: %s: Numeric argument required\n", msg);
+	}
+	else if (type == ERRT_MANY_ARG)
+	{
+		printf("exit: Too many arguments\n");
+	}
 	return (error_code);
 }
