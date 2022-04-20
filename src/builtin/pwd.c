@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pwd.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 21:17:37 by mgwyness          #+#    #+#             */
+/*   Updated: 2022/04/20 21:17:38 by mgwyness         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "hashtable.h"
 
-int ft_pwd()
+int	ft_pwd(void)
 {
-	char *cur_dir;
+	char	*cur_dir;
+
 	cur_dir = (char *)malloc(sizeof(char) * 999);
 	if (!cur_dir)
 		return (1);
@@ -12,4 +25,3 @@ int ft_pwd()
 	free(cur_dir);
 	return (0);
 }
-
