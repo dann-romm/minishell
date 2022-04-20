@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft_funcs.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:33:28 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/20 22:33:29 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/20 23:50:28 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int			free_2d_array(char **arr);
 char		*three_str_cat(char *s1, char *s2, char *s3);
 char		**adapt_cmd_args(t_simple_cmd *command);
 char		*find_path(t_simple_cmd *command);
-void		perror_exit(char *message);
 char		**ht_to_array(t_hashtable *ht);
 
 #endif

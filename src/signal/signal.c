@@ -25,7 +25,9 @@ void	heredoc_signal_handler(int signum)
 	exit(1);
 }
 
-void	setting_signal() //  signal() дает указание Borland С++ выполнить функцию, переданную вторым параметром, в случае получения сигнала 
+// signal() дает указание Borland С++ выполнить функцию,
+// переданную вторым параметром, в случае получения сигнала 
+void	setting_signal()
 {
 	signal(SIGINT, signal_handler);  // CTRL + C - завершение процесса
 	signal(SIGTERM, signal_handler); // CTRL + D - завершение всей программы

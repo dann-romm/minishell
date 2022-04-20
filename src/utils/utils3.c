@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:13:30 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/20 23:13:31 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/20 23:46:47 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "libft_funcs.h"
 
 char	*ft_strcpy(char *dest, char *src)

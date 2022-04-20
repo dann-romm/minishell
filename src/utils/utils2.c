@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:13:33 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/20 23:38:03 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/20 23:49:46 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_funcs.h"
+#include <stdlib.h>
 
 int	is_alpha(char c)
 {

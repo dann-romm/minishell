@@ -22,6 +22,36 @@ t_hashtable	*init_hashtable(uint32_t size)
 	return (ht);
 }
 
+uint32_t	rehashing(t_hashtable *ht)
+{
+	t_hashtable	*new_ht;
+	t_pair		*pair;
+	t_pair		*next;
+
+	new_ht = init_hashtable(ht->size * 2);
+	if (!new_ht)
+		return (1);
+	ht->count = 0;
+	while (ht->size--)
+	{
+		pair = ht->table[ht->size];
+		while (pair)
+		{
+			next = pair->next;
+			if (!new_ht->table[ht->hash(pair->key, new_ht->size)])
+				ht->count++;
+			push_front_pair(&(new_ht->table[ht->hash(pair->key,
+						new_ht->size)]), pair);
+			pair = next;
+		}
+	}
+	free(ht->table);
+	ht->table = new_ht->table;
+	ht->size = new_ht->size;
+	free(new_ht);
+	return (0);
+}
+
 int32_t	insert_hashtable(t_hashtable *ht, char *key, char *value)
 {
 	uint32_t	index;
@@ -97,45 +127,6 @@ void	delete_hashtable(t_hashtable **ht)
 	free((*ht)->table);
 	free(*ht);
 	*ht = NULL;
-}
-
-uint32_t	rehashing(t_hashtable *ht)
-{
-	int32_t		i;
-	t_pair		*pair;
-	t_pair		*next;
-	t_pair		**new_table;
-	uint32_t	new_index;
-	uint32_t	new_count;
-
-	new_table = malloc(sizeof(t_pair *) * (ht->size << 1));
-	i = -1;
-	while (++i < (ht->size << 1))
-		new_table[i] = NULL;
-	new_count = 0;
-	i = -1;
-	while (++i < ht->size)
-	{
-		pair = ht->table[i];
-		while (pair)
-		{
-			next = pair->next;
-			new_index = ht->hash(pair->key, (ht->size << 1));
-			if (!new_table[new_index])
-				new_count++;
-			if (push_front_pair(&(new_table[new_index]), pair))
-			{
-				free(new_table);
-				return (1);
-			}
-			pair = next;
-		}
-	}
-	free(ht->table);
-	ht->table = new_table;
-	ht->count = new_count;
-	ht->size <<= 1;
-	return (0);
 }
 
 int32_t	length_hashtable(t_hashtable *ht)
