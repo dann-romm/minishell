@@ -69,7 +69,11 @@ PROMPT_SRC				=	$(PROMPT_SRCDIR)/prompt.c
 
 UTILS_SRC				=	$(UTILS_SRCDIR)/ft_split.c \
 							$(UTILS_SRCDIR)/error_manager.c \
-							$(UTILS_SRCDIR)/utils_ft.c
+							$(UTILS_SRCDIR)/utils.c \
+							$(UTILS_SRCDIR)/utils2.c \
+							$(UTILS_SRCDIR)/utils3.c \
+							$(UTILS_SRCDIR)/utils4.c \
+							$(UTILS_SRCDIR)/utils5.c
 
 HISTORY_SRC				=	$(HISTORY_SRCDIR)/history.c
 
