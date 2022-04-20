@@ -1,14 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/20 23:57:42 by mgwyness          #+#    #+#             */
+/*   Updated: 2022/04/21 00:27:05 by doalbaco         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 
 void	signal_handler(int signum)
 {
-	if (signum == SIGINT) // если пользователь нажал клавишу CTRL-C, на экран выводится пустая строка
+	if (signum == SIGINT)
 	{
 		write(1, "\n", 1);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_clear_visible_line();
-		// rl_redisplay();
 		signal(SIGINT, signal_handler);
 	}
 	else if (signum == SIGTERM)
@@ -25,11 +36,9 @@ void	heredoc_signal_handler(int signum)
 	exit(1);
 }
 
-// signal() дает указание Borland С++ выполнить функцию,
-// переданную вторым параметром, в случае получения сигнала 
-void	setting_signal()
+void	setting_signal(void)
 {
-	signal(SIGINT, signal_handler);  // CTRL + C - завершение процесса
-	signal(SIGTERM, signal_handler); // CTRL + D - завершение всей программы
-	signal(SIGQUIT, SIG_IGN); // CTRL + / - this signal must be ignored
+	signal(SIGINT, signal_handler);
+	signal(SIGTERM, signal_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
