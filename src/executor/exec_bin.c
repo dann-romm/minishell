@@ -1,30 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_bin.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/21 11:47:27 by doalbaco          #+#    #+#             */
+/*   Updated: 2022/04/21 11:52:26 by doalbaco         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "shell.h"
 #include "libft_funcs.h"
-
-static char	*three_str_cat(char *s1, char *s2, char *s3)
-{
-	int		len;
-	int		i;
-	int		j;
-	char	*dest;
-
-	i = 0;
-	j = 0;
-	len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3);
-	dest = (char *)malloc(sizeof(char) * (len + 1));
-	while (s1[i] && i < (len + 1))
-	{
-		dest[i] = s1[i];
-		i++;
-	}
-	while (s2[j] && i < (len + 1))
-		dest[i++] = s2[j++];
-	j = 0;
-	while (s3[j] && i < (len + 1))
-		dest[i++] = s3[j++];
-	dest[i] = '\0';
-	return (dest);
-}
 
 static char	**adapt_cmd_args(t_simple_cmd *command)
 {
@@ -47,7 +34,6 @@ static char	**adapt_cmd_args(t_simple_cmd *command)
 static char	*find_path(t_simple_cmd *command)
 {
 	int		i;
-	int		all;
 	char	*cur_dir;
 	char	**paths;
 

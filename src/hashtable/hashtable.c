@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 02:30:16 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 02:30:17 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 11:54:38 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	clear_hashtable(t_hashtable *ht)
 	int32_t	i;
 
 	i = -1;
-	while (++i < ht->size)
+	while (++i < (int32_t) ht->size)
 	{
 		while (ht->table[i])
 			remove_pair(&(ht->table[i]), ht->table[i]->key);

@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 02:29:28 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 02:29:50 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 11:55:27 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	main(int argc, char **argv, char **env)
 	t_token			*list;
 	t_cmd_block		*cmd_block;
 
+	(void) argc;
+	(void) argv;
 	init_shell(env);
 	while (1)
 	{

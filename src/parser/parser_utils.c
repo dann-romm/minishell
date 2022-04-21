@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:00:45 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/20 22:00:46 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 11:52:47 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	handle_parse_error(t_command_table *table, t_token **list)
 	t_token	*tmp;
 	int32_t	is_cmd;
 
+	(void) table;
 	is_cmd = 0;
 	tmp = *list;
 	while (tmp)

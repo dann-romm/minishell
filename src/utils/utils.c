@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:13:36 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 02:46:02 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 11:54:48 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	**hashtable_to_array(t_hashtable *ht)
 	i = -1;
 	j = 0;
 	env_array = (char **)malloc(sizeof(char *) * (length_hashtable(ht) + 1));
-	while (++i < ht->size)
+	while (++i < (int) ht->size)
 	{
 		pair = ht->table[i];
 		while (pair)
@@ -44,7 +44,7 @@ int	length_hashtable(t_hashtable *ht)
 
 	len = 0;
 	i = -1;
-	while (++i < ht->size)
+	while (++i < (int) ht->size)
 	{
 		pair = ht->table[i];
 		while (pair)
@@ -54,6 +54,31 @@ int	length_hashtable(t_hashtable *ht)
 		}
 	}
 	return (len);
+}
+
+char	*three_str_cat(char *s1, char *s2, char *s3)
+{
+	int		len;
+	int		i;
+	int		j;
+	char	*dest;
+
+	i = 0;
+	j = 0;
+	len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3);
+	dest = (char *)malloc(sizeof(char) * (len + 1));
+	while (s1[i] && i < (len + 1))
+	{
+		dest[i] = s1[i];
+		i++;
+	}
+	while (s2[j] && i < (len + 1))
+		dest[i++] = s2[j++];
+	j = 0;
+	while (s3[j] && i < (len + 1))
+		dest[i++] = s3[j++];
+	dest[i] = '\0';
+	return (dest);
 }
 
 // A  word  consisting  only  of alphanumeric characters and under‐

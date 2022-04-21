@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:33:28 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 02:45:38 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 11:53:32 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int		free_2d_array(char **arr);
 // utils.c
 char	**hashtable_to_array(t_hashtable *ht);
 int		length_hashtable(t_hashtable *ht);
+char	*three_str_cat(char *s1, char *s2, char *s3);
 int		is_variable_valid(char *str);
 
 #endif

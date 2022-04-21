@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:40:55 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 02:43:47 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 11:49:40 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 
 static int	exec_builtin(t_command_table *table, t_pipex_data *data, int index)
 {
+	(void) data;
 	if (table->commands[index]->type == CMD_CD)
 		return (ft_cd(table->commands[index]));
 	else if (table->commands[index]->type == CMD_EXPORT)
