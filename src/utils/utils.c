@@ -6,10 +6,11 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:13:36 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 11:54:48 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:58:32 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gshell.h"
 #include "libft_funcs.h"
 
 char	**hashtable_to_array(t_hashtable *ht)
@@ -96,4 +97,14 @@ int	is_variable_valid(char *str)
 			return (0);
 	}
 	return (1);
+}
+
+void	delete_shell(void)
+{
+	delete_hashtable(&(g_shell->env_global));
+	delete_hashtable(&(g_shell->env_local));
+	delete_cmd_blocks(&(g_shell->cmd_blocks));
+	delete_token_list(&(g_shell->list));
+	free(g_shell);
+	g_shell = NULL;
 }

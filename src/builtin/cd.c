@@ -6,10 +6,11 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:34:31 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/20 22:34:45 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:48:34 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gshell.h"
 #include "shell.h"
 #include "hashtable.h"
 #include "builtin.h"

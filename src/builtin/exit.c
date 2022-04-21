@@ -6,19 +6,13 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:42:56 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 01:51:42 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:58:07 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gshell.h"
 #include "shell.h"
 #include "libft_funcs.h"
-
-static void	delete_shell(void)
-{
-	delete_hashtable(&(g_shell->env_global));
-	delete_hashtable(&(g_shell->env_local));
-	free(g_shell);
-}
 
 static int	is_str_numeric(char *str)
 {

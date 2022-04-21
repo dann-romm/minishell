@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:33:28 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 11:53:32 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:53:24 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdlib.h>
 # include "shell.h"
+# include "hashtable.h"
 
 // utils2.c
 int		is_alpha(char c);

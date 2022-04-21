@@ -6,10 +6,11 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:01:04 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/20 22:01:05 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:49:26 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gshell.h"
 #include "shell.h"
 #include "lexer.h"
 #include "libft_funcs.h"

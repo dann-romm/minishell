@@ -6,10 +6,11 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:13:42 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 02:28:42 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:50:05 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gshell.h"
 #include "shell.h"
 
 int	error_manager(t_error_type type, const char *msg, int error_code)

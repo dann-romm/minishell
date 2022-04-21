@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:37:10 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/20 23:32:12 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:45:07 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@
 // tgetent, tgetflag, tgetnum, tgetstr, tgoto, tputs
 # include <term.h>
 
-# include "hashtable.h"
-
 typedef enum e_cmd_type
 {
 	CMD_NONE = -1,
@@ -87,13 +85,6 @@ typedef struct s_command_table
 	t_simple_cmd	**commands;
 	t_redirect		redirect;
 }	t_command_table;
-
-typedef struct s_shell
-{
-	t_hashtable	*env_global;
-	t_hashtable	*env_local;
-	int32_t		exit_status;
-}	t_shell;
 
 typedef enum e_cmd_block_delimiter
 {
@@ -134,8 +125,6 @@ typedef struct s_pipex_data
 	int		count_running_cmds;
 	int		is_heredoc;
 }		t_pipex_data;
-
-t_shell	*g_shell;
 
 // error_managment.c
 int		error_manager(t_error_type type, const char *msg, int error_code);

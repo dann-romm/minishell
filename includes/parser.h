@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:33:47 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 16:34:08 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:41:20 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSER_H
 
 # include "shell.h"
+# include "lexer.h"
 
 // parser.c
 
