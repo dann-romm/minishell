@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:00:53 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 16:49:21 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:41:06 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	tokenize_tilde(t_source *src, t_token *token)
 	{
 		token->type = T_ID;
 		next_char(src);
-		home = find_hashtable(g_shell->env_global, "HOME");
+		home = find_hashtable(g_shell.env_global, "HOME");
 		while (*home)
 			save_char(src, *home++);
 		return (1);

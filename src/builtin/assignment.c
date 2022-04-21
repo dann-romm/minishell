@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:00:23 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 16:48:29 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:41:06 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_assignment(t_simple_cmd *cmd)
 		cmd->cmd_args[i][eq++ - cmd->cmd_args[i]] = 0;
 		if (!is_variable_valid(cmd->cmd_args[i]))
 			errno = error_manager(ERRT_NOT_FOUND, cmd->cmd_args[i], 127);
-		insert_hashtable(g_shell->env_local, cmd->cmd_args[i], eq);
+		insert_hashtable(g_shell.env_local, cmd->cmd_args[i], eq);
 	}
 	return (errno);
 }

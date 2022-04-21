@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 11:47:27 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 16:49:12 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:41:06 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ static char	*find_path(t_simple_cmd *command)
 	char	*cur_dir;
 	char	**paths;
 
-	cur_dir = find_hashtable(g_shell->env_global, "PWD");
+	cur_dir = find_hashtable(g_shell.env_global, "PWD");
 	cur_dir = three_str_cat(cur_dir, "/", command->cmd);
 	if (!access(cur_dir, F_OK))
 		return (cur_dir);
 	free(cur_dir);
-	paths = ft_split(find_hashtable(g_shell->env_global, "PATH"), ':');
+	paths = ft_split(find_hashtable(g_shell.env_global, "PATH"), ':');
 	i = -1;
 	while (paths[++i])
 	{
@@ -74,7 +74,7 @@ void	exec_bin(t_command_table *table, t_pipex_data *data, int index)
 	if (!path)
 		exit(127);
 	args = adapt_cmd_args(table->commands[index]);
-	env = hashtable_to_array(g_shell->env_global);
+	env = hashtable_to_array(g_shell.env_global);
 	execve(path, args, env);
 	exit(errno);
 }

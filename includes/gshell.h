@@ -14,7 +14,7 @@ typedef struct s_shell
 	t_token		*list;
 }	t_shell;
 
-t_shell	*g_shell;
+t_shell	g_shell;
 
 void	delete_shell(void);
 

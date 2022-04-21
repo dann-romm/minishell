@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:01:04 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 16:49:26 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:41:06 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 static void	put_exit_status_into_src(t_source *src)
 {
-	const char	*exit_status = ft_itoa(g_shell->exit_status);
+	const char	*exit_status = ft_itoa(g_shell.exit_status);
 	int			i;
 
 	if (!exit_status)
@@ -42,7 +42,7 @@ static void	put_env_into_src(t_source *src)
 			save_char(tmp, next_char(src));
 	}
 	key = ft_strdup(tmp->str);
-	value = find_hashtable(g_shell->env_global, key);
+	value = find_hashtable(g_shell.env_global, key);
 	clear_str(tmp);
 	while (value && *value)
 		save_char(src, *value++);

@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:13:36 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 16:58:32 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:41:55 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,8 @@ int	is_variable_valid(char *str)
 
 void	delete_shell(void)
 {
-	delete_hashtable(&(g_shell->env_global));
-	delete_hashtable(&(g_shell->env_local));
-	delete_cmd_blocks(&(g_shell->cmd_blocks));
-	delete_token_list(&(g_shell->list));
-	free(g_shell);
-	g_shell = NULL;
+	delete_hashtable(&(g_shell.env_global));
+	delete_hashtable(&(g_shell.env_local));
+	delete_cmd_blocks(&(g_shell.cmd_blocks));
+	delete_token_list(&(g_shell.list));
 }

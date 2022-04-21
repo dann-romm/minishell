@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:01:10 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 16:49:46 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:41:06 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	handle_wildcard(t_source *src, t_token **token)
 
 	pattern = ft_strdup(src->str);
 	clear_str(src);
-	dir = opendir(find_hashtable(g_shell->env_global, "PWD"));
+	dir = opendir(find_hashtable(g_shell.env_global, "PWD"));
 	if (!dir)
 	{
 		free(pattern);

@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:01:49 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 16:48:49 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:41:06 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	print_export_ht(t_simple_cmd *cmd)
 
 	if (cmd->args_num != 0)
 		return (0);
-	array_env = sort_hashtable(g_shell->env_global);
+	array_env = sort_hashtable(g_shell.env_global);
 	i = 0;
 	while (array_env[i])
 	{
@@ -50,14 +50,14 @@ int	ft_export(t_simple_cmd *cmd)
 		if (eq)
 			cmd->cmd_args[i][eq++ - cmd->cmd_args[i]] = 0;
 		else
-			eq = find_hashtable(g_shell->env_local, cmd->cmd_args[i]);
+			eq = find_hashtable(g_shell.env_local, cmd->cmd_args[i]);
 		if (!is_variable_valid(cmd->cmd_args[i]))
 		{
 			errno = error_manager(ERRT_EXPORT_ERR, cmd->cmd_args[i], 1);
 			continue ;
 		}
 		if (eq)
-			insert_hashtable(g_shell->env_global, cmd->cmd_args[i], eq);
+			insert_hashtable(g_shell.env_global, cmd->cmd_args[i], eq);
 	}
 	return (errno);
 }

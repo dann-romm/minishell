@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:13:42 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 16:50:05 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:41:06 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	error_manager(t_error_type type, const char *msg, int error_code)
 	if (type == ERRT_SYNTAX)
 		printf("Syntax error near unexpected token `%s'\n", msg);
 	else if (type == ERRT_PWD_ERR)
-		printf("%s: %s\n", find_hashtable(g_shell->env_global, "PWD"),
+		printf("%s: %s\n", find_hashtable(g_shell.env_global, "PWD"),
 			strerror(errno));
 	else if (type == ERRT_CD_ERR)
 		printf("cd: %s: %s\n", msg, strerror(errno));

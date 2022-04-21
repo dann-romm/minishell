@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 02:29:28 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 17:00:17 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:41:30 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,14 @@ static void	update_shlvl(void)
 {
 	char	*shlvl;
 
-	shlvl = find_hashtable(g_shell->env_global, "SHLVL");
+	shlvl = find_hashtable(g_shell.env_global, "SHLVL");
 	if (!shlvl)
 	{
 		errno = 1;
 		return ;
 	}
 	shlvl = ft_itoa(ft_atoi(shlvl) + 1);
-	insert_hashtable(g_shell->env_global, "SHLVL", shlvl);
+	insert_hashtable(g_shell.env_global, "SHLVL", shlvl);
 }
 
 static void	fill_env_global(char **env)
@@ -50,25 +50,22 @@ static void	fill_env_global(char **env)
 	{
 		eq = ft_strchr(env[i], '=');
 		env[i][eq++ - env[i]] = 0;
-		insert_hashtable(g_shell->env_global, env[i], eq);
+		insert_hashtable(g_shell.env_global, env[i], eq);
 		*(eq - 1) = '=';
 	}
 }
 
 static void	init_shell(char **env)
 {
-	g_shell = (t_shell *)malloc(sizeof(t_shell));
-	if (!g_shell)
-		exit(errno);
-	g_shell->env_global = init_hashtable(10);
-	g_shell->env_local = init_hashtable(10);
+	g_shell.env_global = init_hashtable(10);
+	g_shell.env_local = init_hashtable(10);
 	fill_env_global(env);
-	insert_hashtable(g_shell->env_local, "PS1", "minishell > ");
-	insert_hashtable(g_shell->env_local, "PS2", "> ");
-	insert_hashtable(g_shell->env_global, "_", "/usr/bin/env");
-	g_shell->exit_status = 0;
-	g_shell->list = NULL;
-	g_shell->cmd_blocks = NULL;
+	insert_hashtable(g_shell.env_local, "PS1", "minishell > ");
+	insert_hashtable(g_shell.env_local, "PS2", "> ");
+	insert_hashtable(g_shell.env_global, "_", "/usr/bin/env");
+	g_shell.exit_status = 0;
+	g_shell.list = NULL;
+	g_shell.cmd_blocks = NULL;
 	update_shlvl();
 }
 
@@ -85,15 +82,15 @@ int	main(int argc, char **argv, char **env)
 		signal(SIGTERM, signal_handler);
 		input = prompt1();
 		ft_add_history(input);
-		g_shell->list = lexer(input);
+		g_shell.list = lexer(input);
 		signal(SIGINT, SIG_IGN);
-		g_shell->cmd_blocks = parser(&(g_shell->list));
-		if (!g_shell->cmd_blocks)
-			g_shell->exit_status = errno;
+		g_shell.cmd_blocks = parser(&(g_shell.list));
+		if (!g_shell.cmd_blocks)
+			g_shell.exit_status = errno;
 		else
-			g_shell->exit_status = execute(g_shell->cmd_blocks);
-		delete_token_list(&(g_shell->list));
-		delete_cmd_blocks(&(g_shell->cmd_blocks));
+			g_shell.exit_status = execute(g_shell.cmd_blocks);
+		delete_token_list(&(g_shell.list));
+		delete_cmd_blocks(&(g_shell.cmd_blocks));
 		free(input);
 	}
 }

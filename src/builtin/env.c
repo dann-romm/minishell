@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:01:54 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 16:48:39 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:41:06 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ static void	print_hashtable(t_hashtable *ht)
 
 int	ft_env(void)
 {
-	print_hashtable(g_shell->env_global);
+	print_hashtable(g_shell.env_global);
 	return (0);
 }

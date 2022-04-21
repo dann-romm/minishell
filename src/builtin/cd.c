@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:34:31 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 16:48:34 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 18:41:06 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 
 void	upd_pwd(char *path)
 {
-	insert_hashtable(g_shell->env_global, "OLDPWD",
-		find_hashtable(g_shell->env_global, "PWD"));
-	insert_hashtable(g_shell->env_global, "PWD", path);
+	insert_hashtable(g_shell.env_global, "OLDPWD",
+		find_hashtable(g_shell.env_global, "PWD"));
+	insert_hashtable(g_shell.env_global, "PWD", path);
 }
 
 void	change_dir(t_simple_cmd *cd)
