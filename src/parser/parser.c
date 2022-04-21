@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:00:47 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/20 22:00:48 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 14:16:11 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,10 @@ static t_cmd_block	*declare_cmd_blocks(t_token **list)
 	int			count_cmdbl;
 
 	count_cmdbl = count_cmd_blocks(*list);
-	if (count_cmdbl < 1)
-	{
+	if (count_cmdbl < 0)
 		errno = 258;
+	if (count_cmdbl < 1)
 		return (NULL);
-	}
 	cmd_blocks = (t_cmd_block *)malloc(sizeof(t_cmd_block) * count_cmdbl);
 	if (!cmd_blocks)
 		return (NULL);
