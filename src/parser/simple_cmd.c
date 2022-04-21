@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:00:49 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/20 22:00:50 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:23:37 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 // calculate argument number before pipe
 // e.g. <echo> <1> <|> <ls> -> 2 (echo and 1)
 // e.g. <make> <re> -> 2 (make and re)
-int32_t	count_cmd_args(t_token *list)
+static int32_t	count_cmd_args(t_token *list)
 {
 	int32_t	i;
 
@@ -32,7 +32,7 @@ int32_t	count_cmd_args(t_token *list)
 }
 
 // calculate space for t_simple_cmd struct and initialize it
-t_simple_cmd	*init_simple_cmd(t_token *list)
+static t_simple_cmd	*init_simple_cmd(t_token *list)
 {
 	t_simple_cmd	*cmd;
 
@@ -52,7 +52,7 @@ t_simple_cmd	*init_simple_cmd(t_token *list)
 // 0 - no assignment found
 // 1 - assignment handled successfully
 // if there is an assignment, initialize cmd
-int	handle_assignment(t_simple_cmd **cmd, t_token *list)
+static int	handle_assignment(t_simple_cmd **cmd, t_token *list)
 {
 	int	i;
 
@@ -83,7 +83,7 @@ int	handle_assignment(t_simple_cmd **cmd, t_token *list)
 
 // defines t_simple_cmd type according to it's command name
 // e.g. if command->cmd == "pwd" then cmd_type == CMD_PWD
-int	define_cmd_type(t_simple_cmd *cmd)
+static int	define_cmd_type(t_simple_cmd *cmd)
 {
 	if (!cmd)
 		return (1);
@@ -112,7 +112,7 @@ int	define_cmd_type(t_simple_cmd *cmd)
 }
 
 // create t_simple_cmd from token list
-t_simple_cmd	*get_simple_cmd(t_token *list)
+t_simple_cmd	*create_simple_cmd(t_token *list)
 {
 	t_simple_cmd	*cmd;
 	int32_t			i;

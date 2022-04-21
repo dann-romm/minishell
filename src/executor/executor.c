@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:40:55 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 11:49:40 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:34:44 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
 		signal(SIGINT, SIG_DFL);
 		if (exec_builtin(table, data, index) == -1)
 			exec_bin(table, data, index);
+		exit(errno);
 	}
 	else
 	{
@@ -96,30 +97,30 @@ static int	run_cmd_block(t_command_table *table)
 	return (ft_wait(data));
 }
 
-int	execute(t_cmd_block *cmd_block)
+int	execute(t_cmd_block *cmd_blocks)
 {
 	int	i;
 	int	status;
 
 	i = 0;
 	setting_signal();
-	status = run_cmd_block(cmd_block[i].table);
-	while (cmd_block[i].delimiter != CMDBL_END)
+	status = run_cmd_block(cmd_blocks[i].table);
+	while (cmd_blocks[i].delimiter != CMDBL_END)
 	{
-		if (cmd_block[i].delimiter == CMDBL_AND)
+		if (cmd_blocks[i].delimiter == CMDBL_AND)
 		{
 			++i;
 			if (!status)
-				status = run_cmd_block(cmd_block[i].table);
+				status = run_cmd_block(cmd_blocks[i].table);
 		}
-		else if (cmd_block[i].delimiter == CMDBL_OR)
+		else if (cmd_blocks[i].delimiter == CMDBL_OR)
 		{
 			++i;
 			if (status)
-				status = run_cmd_block(cmd_block[i].table);
+				status = run_cmd_block(cmd_blocks[i].table);
 		}
 		else
-			status = run_cmd_block(cmd_block[++i].table);
+			status = run_cmd_block(cmd_blocks[++i].table);
 	}
 	return (status);
 }

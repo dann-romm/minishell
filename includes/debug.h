@@ -212,7 +212,7 @@ __attribute__((weak)) void	_DEBUG_print_hashtable(t_hashtable *ht)
 
 	i = -1;
 	dprintf(2, "HASHTABLE: size=%d, count=%d, load_ratio=%.3f\n", ht->size, ht->count, (float)ht->count / ht->size);
-	while (++i < ht->size)
+	while (++i < (int) ht->size)
 	{
 		pair = ht->table[i];
 		dprintf(2, "table[%d]", i);

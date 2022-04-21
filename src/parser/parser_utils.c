@@ -6,13 +6,52 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:00:45 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 11:52:47 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:34:08 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "shell.h"
 #include "lexer.h"
 #include "libft_funcs.h"
+
+int	delete_command_table(t_command_table **table)
+{
+	if (*table)
+	{
+		if ((*table)->redirect._stdin)
+			free((*table)->redirect._stdin);
+		if ((*table)->redirect._stdout)
+			free((*table)->redirect._stdout);
+		while ((*table)->commands_num--)
+		{
+			if ((*table)->commands[(*table)->commands_num])
+				delete_simple_cmd(&((*table)->commands
+					[(*table)->commands_num]));
+		}
+		free((*table)->commands);
+		free((*table));
+	}
+	*table = NULL;
+	return (0);
+}
+
+int	delete_cmd_blocks(t_cmd_block **cmd_blocks)
+{
+	int	i;
+
+	if (!cmd_blocks || !(*cmd_blocks))
+		return (1);
+	i = 0;
+	while ((*cmd_blocks)[i].delimiter != CMDBL_END)
+	{
+		delete_command_table(&((*cmd_blocks)[i].table));
+		i++;
+	}
+	delete_command_table(&((*cmd_blocks)[i].table));
+	free(*cmd_blocks);
+	*cmd_blocks = NULL;
+	return (0);
+}
 
 // if there is a redirect, fills t_command_table fields
 // 0 -> success handling

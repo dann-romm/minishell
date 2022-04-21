@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:24:44 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 02:42:40 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:34:44 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "shell.h"
 
 // executor.c
-int				execute(t_cmd_block *cmd_block);
+int				execute(t_cmd_block *cmd_blocks);
 
 // executor_data.c
 t_pipex_data	*init_pipex_data(t_command_table *table);

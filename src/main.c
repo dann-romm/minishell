@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 02:29:28 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 14:15:00 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:34:44 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@
 #include "prompt.h"
 #include "signals.h"
 #include "history.h"
+
+#include "debug.h"
+
+// echo qwe | << st | cat
+// echo qwe | << st << st2 | cat
 
 static void	update_shlvl(void)
 {
@@ -68,7 +73,7 @@ int	main(int argc, char **argv, char **env)
 {
 	char			*input;
 	t_token			*list;
-	t_cmd_block		*cmd_block;
+	t_cmd_block		*cmd_blocks;
 
 	(void) argc;
 	(void) argv;
@@ -81,12 +86,13 @@ int	main(int argc, char **argv, char **env)
 		ft_add_history(input);
 		list = lexer(input);
 		signal(SIGINT, SIG_IGN);
-		cmd_block = parser(&list);
-		if (!cmd_block)
+		cmd_blocks = parser(&list);
+		if (!cmd_blocks)
 			g_shell->exit_status = errno;
 		else
-			g_shell->exit_status = execute(cmd_block);
+			g_shell->exit_status = execute(cmd_blocks);
 		delete_token_list(&list);
+		delete_cmd_blocks(&cmd_blocks);
 		free(input);
 	}
 }

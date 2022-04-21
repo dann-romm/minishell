@@ -6,7 +6,7 @@
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:00:40 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/20 22:00:41 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:27:37 by doalbaco         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,27 +78,6 @@ int	delete_simple_cmd(t_simple_cmd **cmd)
 	return (0);
 }
 
-static int	delete_command_table(t_command_table **table)
-{
-	if (*table)
-	{
-		if ((*table)->redirect._stdin)
-			free((*table)->redirect._stdin);
-		if ((*table)->redirect._stdout)
-			free((*table)->redirect._stdout);
-		while ((*table)->commands_num--)
-		{
-			if ((*table)->commands[(*table)->commands_num])
-				delete_simple_cmd(&((*table)->commands
-					[(*table)->commands_num]));
-		}
-		free((*table)->commands);
-		free((*table));
-	}
-	*table = NULL;
-	return (0);
-}
-
 t_command_table	*create_command_table(t_token **list)
 {
 	t_command_table	*table;
@@ -117,7 +96,7 @@ t_command_table	*create_command_table(t_token **list)
 	tmp = *list;
 	while (tmp)
 	{
-		table->commands[i] = get_simple_cmd(tmp);
+		table->commands[i] = create_simple_cmd(tmp);
 		if (!table->commands[i++] && !delete_command_table(&table))
 			return (NULL);
 		while (tmp && tmp->type != T_PIPE)
