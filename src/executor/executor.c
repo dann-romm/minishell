@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:40:55 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 16:34:44 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 22:07:36 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "gshell.h"
 #include "shell.h"
 #include "hashtable.h"
 #include "libft_funcs.h"
@@ -58,6 +59,8 @@ static int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
 		signal(SIGINT, SIG_DFL);
 		if (exec_builtin(table, data, index) == -1)
 			exec_bin(table, data, index);
+		free(data);
+		delete_shell();
 		exit(errno);
 	}
 	else
@@ -80,12 +83,12 @@ static int	run_cmd_block(t_command_table *table)
 		|| (table->commands_num == 1 && exec_builtin(table, data, 0) != -1))
 		return (errno);
 	if (pipe(data->tube1))
-		return (error_manager(ERRT_ERRNO_ERR, "pipe", -42));
+		return (error_manager(ERRT_ERRNO_ERR, "pipe", 1));
 	i = -1;
 	while (++i < table->commands_num)
 	{
 		if (pipe(data->tube2) < 0)
-			return (error_manager(ERRT_ERRNO_ERR, "pipe", -42));
+			return (error_manager(ERRT_ERRNO_ERR, "pipe", 1));
 		exec_cmd(table, data, i);
 		close(data->tube1[0]);
 		close(data->tube1[1]);

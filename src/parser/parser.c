@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:00:47 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 14:16:11 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 19:11:32 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static int	init_cmd_block(t_token **list, t_cmd_block *cmd_blocks,
 	else
 	{
 		errno = 1;
+		delete_command_table(&table);
 		free(cmd_blocks);
 		return (1);
 	}

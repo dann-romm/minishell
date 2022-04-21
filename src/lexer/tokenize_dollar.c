@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_dollar.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:01:04 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 18:41:06 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 21:59:56 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	put_exit_status_into_src(t_source *src)
 	i = 0;
 	while (exit_status[i])
 		save_char(src, exit_status[i++]);
+	free((void *) exit_status);
 }
 
 static void	put_env_into_src(t_source *src)

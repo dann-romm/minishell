@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   source_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:00:58 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/20 22:00:59 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 19:02:33 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ t_source	*init_source(char *str)
 	}
 	source->strsize = 10;
 	source->strlen = 0;
-	source->str = (char *)malloc(sizeof(char) * 10);
+	source->str = (char *)malloc(sizeof(char) * 11);
 	if (!source->str)
 	{
 		free(source->buffer);

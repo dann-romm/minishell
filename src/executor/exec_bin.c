@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_bin.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 11:47:27 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 18:41:06 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 22:06:22 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,18 @@ void	exec_bin(t_command_table *table, t_pipex_data *data, int index)
 	close(data->tube2[1]);
 	path = find_path(table->commands[index]);
 	if (!path)
+	{
+		delete_shell();
+		free(data);
 		exit(127);
+	}
 	args = adapt_cmd_args(table->commands[index]);
 	env = hashtable_to_array(g_shell.env_global);
 	execve(path, args, env);
+	free(path);
+	delete_shell();
+	free_2d_array(args);
+	free_2d_array(env);
+	free(data);
 	exit(errno);
 }

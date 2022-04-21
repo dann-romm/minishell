@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_token.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:00:53 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 18:41:06 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 22:07:51 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	tokenize_tilde(t_source *src, t_token *token)
 t_token	*get_next_token(t_source *src)
 {
 	t_token		*token;
-
+ 
 	token = init_token(T_ERROR, NULL);
 	if (!token)
 		return (NULL);
@@ -106,3 +106,13 @@ t_token	*get_next_token(t_source *src)
 	clear_str(src);
 	return (token);
 }
+
+
+
+// ==84726== 58 (24 direct, 34 indirect) bytes in 1 blocks are definitely lost in loss record 48 of 122
+// ==84726==    at 0x100116995: malloc (in /Users/mgwyness/.brew/Cellar/valgrind/HEAD-6ff08b6/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
+// ==84726==    by 0x100002F89: init_token (in ./minishell)
+// ==84726==    by 0x100002B32: get_next_token (in ./minishell)
+// ==84726==    by 0x100001F54: lexer (in ./minishell)
+// ==84726==    by 0x100005905: main (in ./minishell)
+// ==84726== 

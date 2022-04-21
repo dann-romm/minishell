@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 02:29:28 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 18:41:30 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 22:07:04 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@
 
 #include "debug.h"
 
-// echo qwe | << st | cat
-// echo qwe | << st << st2 | cat
-
 static void	update_shlvl(void)
 {
 	char	*shlvl;
@@ -38,6 +35,7 @@ static void	update_shlvl(void)
 	}
 	shlvl = ft_itoa(ft_atoi(shlvl) + 1);
 	insert_hashtable(g_shell.env_global, "SHLVL", shlvl);
+	free(shlvl);
 }
 
 static void	fill_env_global(char **env)
@@ -83,6 +81,7 @@ int	main(int argc, char **argv, char **env)
 		input = prompt1();
 		ft_add_history(input);
 		g_shell.list = lexer(input);
+		free(input);
 		signal(SIGINT, SIG_IGN);
 		g_shell.cmd_blocks = parser(&(g_shell.list));
 		if (!g_shell.cmd_blocks)
@@ -91,6 +90,5 @@ int	main(int argc, char **argv, char **env)
 			g_shell.exit_status = execute(g_shell.cmd_blocks);
 		delete_token_list(&(g_shell.list));
 		delete_cmd_blocks(&(g_shell.cmd_blocks));
-		free(input);
 	}
 }

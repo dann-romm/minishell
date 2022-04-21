@@ -1,7 +1,7 @@
-CC						= gcc
+CC						= cc
 RM						= rm -rf
 # CFLAGS					= -MMD
-CFLAGS					= -Wall -Wextra -Werror -MMD
+CFLAGS					= -Wall -Wextra -Werror -MMD -O2
 
 NAME					= minishell
 READLINE				= ./lib/libhistory.a ./lib/libreadline.a

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:37:10 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 16:45:07 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/21 22:05:29 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ typedef struct s_pipex_data
 	int		tube2[2];
 	int		count_running_cmds;
 	int		is_heredoc;
-}		t_pipex_data;
+}			t_pipex_data;
 
 // error_managment.c
 int		error_manager(t_error_type type, const char *msg, int error_code);
