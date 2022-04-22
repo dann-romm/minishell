@@ -16,6 +16,6 @@ typedef struct s_shell
 
 t_shell	g_shell;
 
-void	delete_shell(void);
+int	delete_shell(void);
 
 #endif

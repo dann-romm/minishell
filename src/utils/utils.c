@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:13:36 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 18:41:55 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/22 20:28:57 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,11 @@ int	is_variable_valid(char *str)
 	return (1);
 }
 
-void	delete_shell(void)
+int	delete_shell(void)
 {
 	delete_hashtable(&(g_shell.env_global));
 	delete_hashtable(&(g_shell.env_local));
 	delete_cmd_blocks(&(g_shell.cmd_blocks));
 	delete_token_list(&(g_shell.list));
+	return (0);
 }

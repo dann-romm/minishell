@@ -6,7 +6,7 @@
 /*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:40:55 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 22:07:36 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/22 20:29:19 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,7 @@ static int	exec_cmd(t_command_table *table, t_pipex_data *data, int index)
 		if (exec_builtin(table, data, index) == -1)
 			exec_bin(table, data, index);
 		free(data);
-		delete_shell();
-		exit(errno);
+		exit(errno + delete_shell());
 	}
 	else
 	{
@@ -81,8 +80,11 @@ static int	run_cmd_block(t_command_table *table)
 	data = init_pipex_data(table);
 	if (!data || table->commands_num == 0
 		|| (table->commands_num == 1 && exec_builtin(table, data, 0) != -1))
+	{
+		free(data);
 		return (errno);
-	if (pipe(data->tube1))
+	}
+	if (pipe(data->tube1) < 0)
 		return (error_manager(ERRT_ERRNO_ERR, "pipe", 1));
 	i = -1;
 	while (++i < table->commands_num)
@@ -95,8 +97,7 @@ static int	run_cmd_block(t_command_table *table)
 		data->tube1[0] = data->tube2[0];
 		data->tube1[1] = data->tube2[1];
 	}
-	close(data->tube2[0]);
-	close(data->tube2[1]);
+	close(data->tube2[0] + (close(data->tube2[1]) == -42));
 	return (ft_wait(data));
 }
 

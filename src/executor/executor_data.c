@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_data.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mgwyness <mgwyness@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:00:43 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 00:08:04 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/22 20:32:00 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static void	handle_heredoc(t_command_table *table, t_pipex_data *data)
 	fd = open(HEREDOC_FILENAME, O_CREAT | O_TRUNC | O_WRONLY, 0644);
 	if (fd < 0)
 		return ;
+	free(table->redirect._stdin);
 	table->redirect._stdin = ft_strdup(HEREDOC_FILENAME);
 	str = prompt2();
 	while (str && ft_strcmp(str, (char *)limiter))

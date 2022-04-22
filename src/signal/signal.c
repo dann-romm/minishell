@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 23:57:42 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 17:01:47 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/22 20:30:49 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	signal_handler(int signum)
 void	heredoc_signal_handler(int signum)
 {
 	(void) signum;
+	delete_shell();
 	write(1, "\n", 1);
 	exit(1);
 }

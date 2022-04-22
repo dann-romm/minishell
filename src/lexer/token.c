@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:01:02 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/20 22:01:03 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/22 20:27:17 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int	remove_token_list(t_token **head, t_token **node)
 	(*node)->type = (*node)->next->type;
 	free((*node)->value);
 	(*node)->value = (*node)->next->value;
+	(*node)->next->value = NULL;
 	head = &((*node)->next->next);
 	free((*node)->next);
 	(*node)->next = *head;

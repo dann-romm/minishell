@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:01:49 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 18:41:06 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/22 19:38:07 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,23 +40,26 @@ int	ft_export(t_simple_cmd *cmd)
 {
 	int		i;
 	char	*eq;
+	int		is_eq;
 
 	if (print_export_ht(cmd))
 		return (errno);
 	i = -1;
 	while (++i < cmd->args_num)
 	{
+		is_eq = 0;
 		eq = ft_strchr(cmd->cmd_args[i], '=');
 		if (eq)
-			cmd->cmd_args[i][eq++ - cmd->cmd_args[i]] = 0;
+			cmd->cmd_args[i][eq++ - cmd->cmd_args[i]] = is_eq++;
 		else
 			eq = find_hashtable(g_shell.env_local, cmd->cmd_args[i]);
 		if (!is_variable_valid(cmd->cmd_args[i]))
 		{
+			if (is_eq)
+				*(--eq) = '=';
 			errno = error_manager(ERRT_EXPORT_ERR, cmd->cmd_args[i], 1);
-			continue ;
 		}
-		if (eq)
+		else if (eq)
 			insert_hashtable(g_shell.env_global, cmd->cmd_args[i], eq);
 	}
 	return (errno);
