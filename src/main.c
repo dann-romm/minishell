@@ -6,7 +6,7 @@
 /*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 02:29:28 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 22:07:04 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/22 21:59:54 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@
 #include "prompt.h"
 #include "signals.h"
 #include "history.h"
-
-#include "debug.h"
 
 static void	update_shlvl(void)
 {

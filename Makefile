@@ -1,7 +1,8 @@
 CC						= cc
 RM						= rm -rf
 # CFLAGS					= -MMD
-CFLAGS					= -Wall -Wextra -Werror -MMD -O2
+# CFLAGS					= -Wall -Wextra -Werror -MMD -O2 -fsanitize=address
+CFLAGS					= -MMD -O2 -fsanitize=address
 
 NAME					= minishell
 READLINE				= ./lib/libhistory.a ./lib/libreadline.a
@@ -95,7 +96,7 @@ DEP						= $(OBJ:.o=.d)
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) $(READLINE) -ltermcap -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) $(READLINE) -ltermcap -o $(NAME)
 
 $(OBJDIR)/%.o : $(SRCDIR)/%.c Makefile
 	@mkdir -p $(@D)

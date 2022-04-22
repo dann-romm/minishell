@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:00:55 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/20 22:00:56 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/22 21:15:20 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,12 @@ t_token	*lexer(char *input)
 	token = get_next_token(src);
 	while (token && token->type != T_EOF)
 	{
-		if (!is_valid_token(token) && (delete_token(&token) != -1))
+		if (!is_valid_token(token))
+		{
+			errno = error_manager(ERRT_SYNTAX, token->value, 258);
+			delete_token(&token);
 			break ;
+		}
 		push_back_token_list(&head, token);
 		token = get_next_token(src);
 	}

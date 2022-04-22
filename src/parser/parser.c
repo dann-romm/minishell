@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/20 22:00:47 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/21 19:11:32 by mgwyness         ###   ########.fr       */
+/*   Created: 2022/04/22 21:59:36 by mgwyness          #+#    #+#             */
+/*   Updated: 2022/04/22 21:59:37 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_cmd_block	*parser(t_token **list)
 	t_cmd_block		*cmd_blocks;
 	int				i;
 	t_token			*tmp;
-	t_token			*tmp2;
+	t_token			*delim;
 
 	cmd_blocks = declare_cmd_blocks(list);
 	if (!cmd_blocks)
@@ -111,14 +111,14 @@ t_cmd_block	*parser(t_token **list)
 		tmp = *list;
 		while (tmp->next && !is_token_delimiter(tmp->next))
 			tmp = tmp->next;
-		tmp2 = tmp->next;
+		delim = tmp->next;
 		tmp->next = NULL;
-		if (init_cmd_block(list, cmd_blocks, ++i, tmp2))
+		if (init_cmd_block(list, cmd_blocks, ++i, delim))
 			return (NULL);
-		tmp->next = tmp2;
-		list = &(tmp2);
-		if (tmp2)
-			list = &(tmp2->next);
+		push_back_token_list(list, delim);
+		list = &(delim);
+		if (delim)
+			list = &(delim->next);
 	}
 	return (cmd_blocks);
 }

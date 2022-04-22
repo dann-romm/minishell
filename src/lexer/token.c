@@ -6,7 +6,7 @@
 /*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:01:02 by doalbaco          #+#    #+#             */
-/*   Updated: 2022/04/22 20:27:17 by mgwyness         ###   ########.fr       */
+/*   Updated: 2022/04/22 21:52:01 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	push_back_token_list(t_token **head, t_token *node)
 
 int	remove_token_list(t_token **head, t_token **node)
 {
+	t_token	*tmp;
+
 	if (!head || !(*head) || !node || !(*node))
 		return (1);
 	if (!(*node)->next)
@@ -85,9 +87,9 @@ int	remove_token_list(t_token **head, t_token **node)
 	free((*node)->value);
 	(*node)->value = (*node)->next->value;
 	(*node)->next->value = NULL;
-	head = &((*node)->next->next);
+	tmp = (*node)->next->next;
 	free((*node)->next);
-	(*node)->next = *head;
+	(*node)->next = tmp;
 	return (0);
 }
 
