@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashtable.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
+/*   By: mgwyness <mgwyness@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/20 22:25:31 by mgwyness          #+#    #+#             */
-/*   Updated: 2022/04/21 02:48:10 by doalbaco         ###   ########.fr       */
+/*   Updated: 2022/04/22 20:36:53 by mgwyness         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,5 @@ int32_t		insert_hashtable(t_hashtable *ht, char *key, char *value);
 
 // sort_hashtable.c
 char		**sort_hashtable(t_hashtable *ht);
-
 
 #endif
