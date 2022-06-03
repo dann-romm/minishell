@@ -52,7 +52,7 @@ void		delete_hashtable(t_hashtable **ht);
 // insert_hashtable.c
 int32_t		insert_hashtable(t_hashtable *ht, char *key, char *value);
 
-// sort_hashtable.c
-char		**sort_hashtable(t_hashtable *ht);
+// hashtable_to_sorted_array.c
+char		**hashtable_to_sorted_array(t_hashtable *ht);
 
 #endif

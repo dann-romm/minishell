@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_hashtable.c                                   :+:      :+:    :+:   */
+/*   hashtable_to_sorted_array.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: doalbaco <doalbaco@student.21-school.ru    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -48,7 +48,7 @@ static void	quick_sort(char **str, int l, int r)
 	}
 }
 
-char	**sort_hashtable(t_hashtable *ht)
+char	**hashtable_to_sorted_array(t_hashtable *ht)
 {
 	char	**tmp;
 	int		strlen;

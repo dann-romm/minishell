@@ -23,7 +23,7 @@ static int	print_export_ht(t_simple_cmd *cmd)
 
 	if (cmd->args_num != 0)
 		return (0);
-	array_env = sort_hashtable(g_shell.env_global);
+	array_env = hashtable_to_sorted_array(g_shell.env_global);
 	i = 0;
 	while (array_env[i])
 	{

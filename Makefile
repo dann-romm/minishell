@@ -47,7 +47,7 @@ HASHTABLE_SRC			=	$(HASHTABLE_SRCDIR)/hashtable.c \
 							$(HASHTABLE_SRCDIR)/insert_hashtable.c \
 							$(HASHTABLE_SRCDIR)/pair.c \
 							$(HASHTABLE_SRCDIR)/hash.c \
-							$(HASHTABLE_SRCDIR)/sort_hashtable.c
+							$(HASHTABLE_SRCDIR)/hashtable_to_sorted_array.c
 
 LEXER_SRC				=	$(LEXER_SRCDIR)/lexer.c \
 							$(LEXER_SRCDIR)/tokenize_dollar.c \
