@@ -111,7 +111,7 @@ int				tokenize_backtick(t_source *src, t_token *token);
 int				tokenize_dollar(t_source *src, t_token *token);
 
 // tokenize_word.c
-int				tokenize_word(t_source *src, t_token *token);
+int				tokenize_word(t_source *src, t_token **token);
 
 // token.c
 t_token			*init_token(t_token_type type, char *str);

@@ -91,6 +91,7 @@ int	tokenize_tilde(t_source *src, t_token *token)
 t_token	*get_next_token(t_source *src)
 {
 	t_token		*token;
+	int			tokenize_word_status;
 
 	token = init_token(T_ERROR, NULL);
 	if (!token)
@@ -99,10 +100,16 @@ t_token	*get_next_token(t_source *src)
 	if (!(tokenize_end_of_line(src, token) || tokenize_ampersand(src, token)
 			|| tokenize_pipe(src, token) || tokenize_less_than(src, token)
 			|| tokenize_greater_than(src, token) || tokenize_tilde(src, token)
-			|| tokenize_backtick(src, token) || tokenize_semicolon(src, token)
-			|| tokenize_word(src, token)))
-		token->type = T_ERROR;
-	token->value = ft_strdup(src->str);
+			|| tokenize_backtick(src, token) || tokenize_semicolon(src, token)))
+	{
+		tokenize_word_status = tokenize_word(src, &token);
+		if (tokenize_word_status == 1)
+			token->value = ft_strdup(src->str);
+		else if (tokenize_word_status == 0)
+			token->type = T_ERROR;
+	}
+	else
+		token->value = ft_strdup(src->str);
 	clear_str(src);
 	return (token);
 }

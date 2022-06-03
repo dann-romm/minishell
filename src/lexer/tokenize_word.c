@@ -97,27 +97,31 @@ static int	tokenize_quotes(t_source *src, t_token *token)
 	return (1);
 }
 
-int	tokenize_word(t_source *src, t_token *token)
+// return 0 if there is no word
+// return 1 if there was successfully parsed word
+// return 2 if there was successfully parsed wildcard
+int	tokenize_word(t_source *src, t_token **token)
 {
 	int	is_wildcard;
 
 	if (is_char_word(peek(src)))
 	{
 		is_wildcard = 0;
-		token->type = T_ID;
+		(*token)->type = T_ID;
 		while (is_char_word(peek(src)))
 		{
 			is_wildcard += (peek(src) == '*');
-			if (!(tokenize_dollar(src, token)
-					|| tokenize_quotes(src, token)
-					|| tokenize_double_quotes(src, token)))
+			if (!(tokenize_dollar(src, *token)
+					|| tokenize_quotes(src, *token)
+					|| tokenize_double_quotes(src, *token)))
 				save_char(src, next_char(src));
 		}
 		if (is_wildcard)
 		{
-			free(token);
-			token = 0;
-			handle_wildcard(src, &token);
+			free(*token);
+			*token = 0;
+			handle_wildcard(src, token);
+			return (2);
 		}
 		return (1);
 	}
